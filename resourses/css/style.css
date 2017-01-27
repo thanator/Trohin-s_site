@@ -1,0 +1,283 @@
+
+/*---BASIC---*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: white;
+  color: #555;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  font-size: 20px;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+.row {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+section {
+  padding: 80px 0;
+}
+
+.box {
+  padding: 1%;
+}
+
+/*---HEADING---*/
+
+h1,
+h2,
+h3 {
+  font-weight: 300;
+  text-transform: uppercase;
+  font-family: 'Roboto';
+}
+
+h1 {
+  font-weight: 400;
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #fff;
+  font-size: 250%;
+  word-spacing: 1px;
+  letter-spacing: 0.5px;
+}
+
+h2 {
+  font-size: 180%;
+  word-spacing: 2px;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+}
+
+h2::after {
+  display: block;
+  height: 2px;
+  background-color: #e67e22;
+  content: " ";
+  width: 180px;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+h3 {
+  font-size: 110%;
+  margin-bottom: 15px;
+}
+/*---HEADER---*/
+
+header {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(img/head_back.jpg);
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  background-attachment: fixed;
+}
+
+.main_nig_h {
+  position: absolute;
+  width: 1140px;
+  top: 50%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+}
+
+.logo {
+  height: 100px;
+  width: auto;
+  float: left;
+  margin-top: 20px;
+  margin-right: 20px;
+}
+
+.logo_name {
+  margin: 44px;
+  color: white;
+  font-size: 170%;
+}
+
+.logo_img {
+  margin: 100px;
+  height: 80px;
+  width: 80px;
+  width: auto;
+  float: left;
+  margin-top: 20px;
+  margin-right: 20px;
+  text-align: center;
+  border: 4px double black;
+  color: black;
+  background-color: white;
+}
+
+.heading {
+  padding: 0;
+}
+
+/*---BUTTONS---*/
+
+.btn:link,
+.btn:visited {
+  display: inline-block;
+  padding: 10px 30px;
+  font-weight: 300;
+  text-decoration: none;
+  border-radius: 200px;
+  transition: background-color 0.3s, border 0.3s, color 0.3s;
+}
+
+.btn_full:link,
+.btn_full:visited {
+  background-color: #e67e22;
+  border: 1px solid #e67e22;
+  color: #fff;
+  margin-right: 15px;
+}
+
+.btn_ghost:link,
+.btn_ghost:visited {
+  border: 1px solid #e67e22;
+  color: #e67e22;
+}
+
+.btn:hover,
+.btn:active {
+  background-color: #bf6516;
+}
+
+.btn_ghost:hover,
+.btn_ghost:active {
+  border: 1px solid #bf6516;
+  color: #fff;
+}
+
+.btn_full:hover,
+.btn_full:active {
+  border: 1px solid #bf6516;
+}
+
+/* ---- PARAGRAPHS ---- */
+
+.long_copy {
+  line-height: 145%;
+  width: 70%;
+  margin-left: 15%;
+  margin-bottom: 0;
+}
+
+.main_info {
+  padding-bottom: 0;
+}
+
+.main_info .long_copy {
+  margin-bottom: 0px;
+}
+
+.box p {
+  font-size: 80%;
+  line-height: 145%;
+}
+
+.beauty_word {
+  font-size: 130%;
+  color: #e67e22;
+}
+
+/* ---- ICONS ---- */
+
+.icon-big {
+  font-size: 300%;
+  display: block;
+  color: #e67e22;
+  margin-bottom: 10px;
+  margin-left: 36%;
+  transform: scale(1.15);
+  transition: transform 0.3s, font-size 0.3s, color 0.3s;
+}
+
+.icon-big:hover {
+  color: #bf6516;
+  transform: scale(1.23);
+}
+
+.yup {
+  cursor: pointer;
+}
+
+.icon_small {
+  display: inline-block;
+  width: 30px;
+  text-align: center;
+  color: #e67e22;
+  font: 80%;
+  /*костыли*/
+  line-height: 120%;
+  vertical-align: middle;
+  margin-right: 15px;
+}
+
+
+/* -------------------------------------------------- */
+/* --- FOOTER --- */
+/* -------------------------------------------------- */
+
+footer {
+  background-color: rgba(15%, 15%, 15%, 1);
+  padding: 40px;
+  font-size: 80%;
+}
+
+footer p {
+  color: #888;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.foot_app,
+.foot_cont {
+  position: fixed;
+  bottom: 0;
+  width: 100pc;
+  text-align: center;
+}
+
+
+/* -------------------------------------------------- */
+/* --- PAGE WITH APP --- */
+/* -------------------------------------------------- */
+
+#page02,
+#page03 {
+  padding: 0;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.header_app {
+}
+
+
+
+/* -------------------------------------------------- */
+/* --- PAGE WITH CONTACTS --- */
+/* -------------------------------------------------- */
+
+
+
+
+
+.conts p{
+  font-size: 85%;
+  font-style: italic;
+}
