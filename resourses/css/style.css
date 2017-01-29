@@ -32,6 +32,10 @@ section {
   padding: 1%;
 }
 
+.line{
+  padding-top: 0;
+}
+
 /*---HEADING---*/
 
 h1,
@@ -202,13 +206,16 @@ header {
   color: #e67e22;
   margin-bottom: 10px;
   margin-left: 36%;
-  transform: scale(1.15);
-  transition: transform 0.3s, font-size 0.3s, color 0.3s;
+  transform: scale(1);
+  padding-left: 0px;
+  transition: transform 0.3s, font-size 0.3s, color 0.3s, padding 0.3s;
 }
 
 .icon-big:hover {
   color: #bf6516;
-  transform: scale(1.23);
+  transform: scale(1.15);
+  padding-left: 11px;
+
 }
 
 .yup {
