@@ -330,8 +330,8 @@ footer p {
 
 .map_box{
 
-  background-color: rgba(255, 255, 255, 0.8);
- 
+background: linear-gradient(to top, #E0E0E0, #FFF);
+  opacity: 0.9;
   height: 500px;
   padding-top: 40px;
   width: 100%;
