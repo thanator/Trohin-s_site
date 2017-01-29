@@ -277,6 +277,10 @@ footer p {
   text-align: center;
 }
 
+.foot_cont {
+  width: 100vw;
+}
+
 
 /* -------------------------------------------------- */
 /* --- PAGE WITH APP --- */
