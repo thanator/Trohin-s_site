@@ -261,12 +261,15 @@ footer {
   background-color: rgba(15%, 15%, 15%, 1);
   padding: 40px;
   font-size: 80%;
+   word-spacing: 1px;
+  letter-spacing: 1px;
+  line-height: 125%;
 }
 
 footer p {
   color: #888;
   text-align: center;
-  margin-top: 15px;
+  margin: 10px 0;
 }
 
 .foot_app,
