@@ -28,4 +28,22 @@ $(document).ready(function () {
         $("#page02").show();
     });
 
+//GMAPS
+
+var map = new GMaps({
+        div: '.map',
+        lat: 55.7656845,
+        lng: 37.6846058,
+        zoom: 15
+    });
+
+    map.addMarker({
+        lat: 55.7656845,
+        lng: 37.6846058,
+        title: 'Moscow',
+        infoWindow: {
+  content: '<p>Our MSC</p>'
+}
+    });
+
 });
