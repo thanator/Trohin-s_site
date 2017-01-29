@@ -106,13 +106,18 @@ header {
   margin-right: 20px;
 }
 
-.logo_name {
+.logo_name, .logo_name_artim {
   margin: 44px;
   color: white;
   font-size: 170%;
 }
 
-.logo_img {
+.logo_name_artim {
+  color: inherit;
+  text-align: left;
+}
+
+.logo_img, .logo_img_artim {
   margin: 100px;
   height: 80px;
   width: 80px;
@@ -124,6 +129,10 @@ header {
   border: 4px double black;
   color: black;
   background-color: white;
+}
+
+.logo_img_artim {
+  margin-bottom: 10px;
 }
 
 .heading {
@@ -210,6 +219,14 @@ header {
   transform: scale(1);
   padding-left: 0px;
   transition: transform 0.3s, font-size 0.3s, color 0.3s, padding 0.3s;
+}
+
+.icon-big-artim {
+  font-size: 300%;
+  display: block;
+  color: #e67e22;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .icon-big:hover {
