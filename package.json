@@ -1,0 +1,15 @@
+{
+  "name": "Trohin-s_site",
+  "version": "0.0.1",
+  "scripts": {
+    "server": "browser-sync start --server --files 'resourses/**/*'",
+    "room-plan-build": "browserify resourses/js/room-plan-index.js -o resourses/js/room-plan-bundle.js",
+    "room-plan-watch": "watchify resourses/js/room-plan-index.js -o 'exorcist resourses/js/room-plan-bundle.js.map > resourses/js/room-plan-bundle.js' -d"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.18.6",
+    "browserify": "^14.0.0",
+    "exorcist": "^0.4.0",
+    "watchify": "^3.9.0"
+  }
+}
