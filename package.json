@@ -11,5 +11,8 @@
     "browserify": "^14.0.0",
     "exorcist": "^0.4.0",
     "watchify": "^3.9.0"
+  },
+  "dependencies": {
+    "pixi.js": "^4.3.4"
   }
 }
