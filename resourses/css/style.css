@@ -16,6 +16,7 @@ body {
   font-size: 20px;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  
 }
 
 .row {
@@ -35,6 +36,10 @@ section {
 .line{
   padding-top: 0;
   margin-bottom: 0;
+}
+
+ul{
+  list-style-type: none;
 }
 
 /*---HEADING---*/
@@ -163,6 +168,7 @@ header {
 .btn_ghost:visited {
   border: 1px solid #e67e22;
   color: #e67e22;
+  margin-right: 10px;
 }
 
 .btn:hover,
@@ -335,4 +341,89 @@ background: linear-gradient(to top, #E0E0E0, #FFF);
   height: 500px;
   padding-top: 40px;
   width: 100%;
+}
+
+
+
+
+/* -------------------------------------------------- */
+/* --- TREE PAGE --- */
+/* -------------------------------------------------- */
+
+.side{
+
+  position: fixed;
+  float: left;
+  width: 200px;
+  margin: 100px 50px;
+  height: 400px;
+    top: 10%;
+  left: 5%;
+}
+
+.side a{
+  margin-top: 20px;
+ 
+}
+
+.full{
+  float: right;
+  text-align: center;
+  width: 60%;
+  margin-bottom: 100px;
+  margin-right: 20%;
+  margin-left: 20%;
+  background-color: white;
+  border-radius: 5%;
+  
+}
+.tree_body{
+ position: relative;
+    min-height: 100%;
+     background-color: #F1F1F1;
+     padding:0 5%;
+
+
+}
+
+.main{
+     margin: 0 0 100px; /* bottom = footer height */
+}
+
+.tree_foot{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 140px;
+    width: 100%;
+padding-bottom: 40px;
+}
+
+.content{
+  padding: 10px 0;
+  margin-bottom: 10px;
+}
+
+.content:after{
+   display: block;
+  height: 2px;
+  background-color: #e67e22;
+  content: " ";
+  width: 180px;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+.content h3{
+  font-size: 200%;
+  word-spacing: 2px;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+}
+
+.full:last-child{
+  padding-bottom: 40px;
+  margin-bottom: 160px;
 }
