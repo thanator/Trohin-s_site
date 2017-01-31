@@ -41,6 +41,28 @@ ul {
   list-style-type: none;
 }
 
+.Call{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 150px;
+  height: 150px;
+  background-color: orange;
+  opacity: 0.85;
+  text-align: center;
+  border-top-left-radius: 15px; 
+}
+
+.Call .icon-big:visited,
+.Call .icon-big{
+  margin-left: 5px;
+  color: #FF6F00;
+}
+
+.Call .icon-big:hover{
+  color: #A64800;
+}
+
 /*---HEADING---*/
 
 h1,
@@ -123,26 +145,43 @@ header {
 }
 
 .logo_name,
-.logo_name_artim {
+.logo_name_artim,
+.logo_text {
   margin: 44px;
   color: white;
   font-size: 170%;
 }
 
+.logo_name{
+  margin-bottom: 20px;
+}
+
+.logo_text{
+  font-size: 100%;
+  text-align: left;
+  margin-left: 0;
+  margin-right: 40px;
+    float: left;
+  margin: 0;
+   margin-left: 30px;
+}
+
 .logo_name_artim {
   color: inherit;
   text-align: left;
+
 }
 
 .logo_img,
 .logo_img_artim {
-  margin: 100px;
+
   height: 80px;
   width: 80px;
   width: auto;
   float: left;
   margin-top: 20px;
   margin-right: 20px;
+  margin-left: 30px;
   text-align: center;
   border: 4px double black;
   color: black;
@@ -155,6 +194,12 @@ header {
 
 .heading {
   padding: 0;
+}
+
+.heading span{
+  font-size: 70%;
+  font-style: italic;
+  offset-block-end: 10px;
 }
 
 .icon_main_head {
@@ -252,7 +297,6 @@ header {
   margin: 0;
   padding: 0;
   transition: visibility 0.5s, opacity 0.5s;
-  margin-left: 13%;
 
 }
 
@@ -266,12 +310,20 @@ display: block;
  padding: 7px 4px;
 white-space: nowrap;
 }
+
 .center_ul li{
 width: 75%;
-margin-left: 40%;
+margin-left: 80%;
 }
 
-
+.minndle_ul li{
+  margin-left: 18%;
+}
+.last_ul li{
+  margin-left: 6%;
+align-self: center;
+align-content: center;
+}
 
 /* ---- PARAGRAPHS ---- */
 
