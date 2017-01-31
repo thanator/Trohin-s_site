@@ -9,8 +9,10 @@ WallModel.prototype.isCellLinkable = function (cell) {
 
 WallModel.prototype.isCellWithCoordsLinkable = function (x, y) {
     return _.some(this.cells, function (it) {
-        var isLinkingOnXAxis = Math.abs(it.x - x) == 1;
-        var isLinkingOnYAxis = Math.abs(it.y - y) == 1;
-        return isLinkingOnXAxis != isLinkingOnYAxis; // xor
+        var dx = Math.abs(it.x - x);
+        var dy = Math.abs(it.y - y);
+        var isLinkingOnXAxis = dx == 1 && dy == 0;
+        var isLinkingOnYAxis = dy == 1 && dx == 0;
+        return isLinkingOnXAxis || isLinkingOnYAxis;
     });
 };

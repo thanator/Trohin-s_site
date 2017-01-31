@@ -36901,17 +36901,12 @@ App.prototype.init = function () {
 function CellModel(x, y) {
     this.x = x;
     this.y = y;
-    this.width = CellModel.defaultWidth;
-    this.height = CellModel.defaultHeight;
 }
 module.exports = CellModel;
 
-CellModel.defaultWidth = 32;
-CellModel.defaultHeight = 32;
-
 },{}],183:[function(require,module,exports){
 var WallBuilder = require("./WallBuilder.js");
-var CellModel = require("./CellModel.js");
+var WallView = require("./WallView.js");
 
 
 function MainStageController(stage, interaction) {
@@ -36936,8 +36931,8 @@ MainStageController.prototype._onMouseMove = function (event) {
         return;
     }
     var pos = event.data.getLocalPosition(this.stage, undefined, this.interaction.mouse.global);
-    pos.x = Math.floor(pos.x / CellModel.defaultWidth);
-    pos.y = Math.floor(pos.y / CellModel.defaultHeight);
+    pos.x = Math.floor(pos.x / WallView.cellWidth);
+    pos.y = Math.floor(pos.y / WallView.cellHeight);
     this.wallBuilder.tryAddCell(pos.x, pos.y);
 };
 
@@ -36945,7 +36940,7 @@ MainStageController.prototype._onMouseUp = function () {
     this.wallBuilder = null;
 };
 
-},{"./CellModel.js":182,"./WallBuilder.js":184}],184:[function(require,module,exports){
+},{"./WallBuilder.js":184,"./WallView.js":186}],184:[function(require,module,exports){
 var WallModel = require("./WallModel.js");
 var WallView = require("./WallView.js");
 var CellModel = require("./CellModel.js");
@@ -36976,9 +36971,11 @@ WallModel.prototype.isCellLinkable = function (cell) {
 
 WallModel.prototype.isCellWithCoordsLinkable = function (x, y) {
     return _.some(this.cells, function (it) {
-        var isLinkingOnXAxis = Math.abs(it.x - x) == 1;
-        var isLinkingOnYAxis = Math.abs(it.y - y) == 1;
-        return isLinkingOnXAxis != isLinkingOnYAxis; // xor
+        var dx = Math.abs(it.x - x);
+        var dy = Math.abs(it.y - y);
+        var isLinkingOnXAxis = dx == 1 && dy == 0;
+        var isLinkingOnYAxis = dy == 1 && dx == 0;
+        return isLinkingOnXAxis || isLinkingOnYAxis;
     });
 };
 
@@ -36989,48 +36986,55 @@ var PIXI = require("pixi.js");
 function WallView(model) {
     PIXI.Graphics.apply(this, arguments);
     this.model = model;
-    this.cellBorderSize = 4;
     this.renderWall();
 }
 WallView.prototype = Object.create(PIXI.Graphics.prototype);
 module.exports = WallView;
 
 
+WallView.cellWidth = 32;
+WallView.cellHeight = 32;
+WallView.cellBorderSize = 4;
+
+
 WallView.prototype.renderWall = function () {
     for (var i = 0; i < this.model.cells.length; i++) {
         var cell = this.model.cells[i];
-        var cellX = cell.x * cell.width;
-        var cellY = cell.y * cell.height;
+        var w = WallView.cellWidth;
+        var h = WallView.cellHeight;
+        var x = cell.x * w;
+        var y = cell.y * h;
+        var b = WallView.cellBorderSize;
 
-        this.beginFill(0xbbbbbb);
-        this.drawRect(cellX, cellY, cell.width, cell.height);
+        this.beginFill(0xbbcccc);
+        this.drawRect(x, y, w, h);
         this.endFill();
 
         var neighborhood = this._getCellNeighborhood(cell.x, cell.y);
         this.beginFill(0xff700b);
         if (!neighborhood.left) {
-            this.drawRect(cellX, cellY, this.cellBorderSize, cell.height);
+            this.drawRect(x, y, b, h);
         } else {
-            this.drawRect(cellX, cellY, this.cellBorderSize, this.cellBorderSize);
-            this.drawRect(cellX, cellY + cell.height - this.cellBorderSize, this.cellBorderSize, this.cellBorderSize);
+            this.drawRect(x, y, b, b);
+            this.drawRect(x, y + h - b, b, b);
         }
         if (!neighborhood.right) {
-            this.drawRect(cellX + cell.width - this.cellBorderSize, cellY, this.cellBorderSize, cell.height);
+            this.drawRect(x + w - b, y, b, h);
         } else {
-            this.drawRect(cellX + cell.width - this.cellBorderSize, cellY, this.cellBorderSize, this.cellBorderSize);
-            this.drawRect(cellX + cell.width - this.cellBorderSize, cellY + cell.height - this.cellBorderSize, this.cellBorderSize, this.cellBorderSize);
+            this.drawRect(x + w - b, y, b, b);
+            this.drawRect(x + w - b, y + h - b, b, b);
         }
         if (!neighborhood.top) {
-            this.drawRect(cellX, cellY, cell.width, this.cellBorderSize);
+            this.drawRect(x, y, w, b);
         } else {
-            this.drawRect(cellX, cellY, this.cellBorderSize, this.cellBorderSize);
-            this.drawRect(cellX + cell.width - this.cellBorderSize, cellY, this.cellBorderSize, this.cellBorderSize);
+            this.drawRect(x, y, b, b);
+            this.drawRect(x + w - b, y, b, b);
         }
         if (!neighborhood.bottom) {
-            this.drawRect(cellX, cellY + cell.height - this.cellBorderSize, cell.width, this.cellBorderSize);
+            this.drawRect(x, y + h - b, w, b);
         } else {
-            this.drawRect(cellX, cellY + cell.height - this.cellBorderSize, this.cellBorderSize, this.cellBorderSize);
-            this.drawRect(cellX + cell.width - this.cellBorderSize, cellY + cell.height - this.cellBorderSize, this.cellBorderSize, this.cellBorderSize);
+            this.drawRect(x, y + h - b, b, b);
+            this.drawRect(x + w - b, y + h - b, b, b);
         }
         this.endFill();
     }

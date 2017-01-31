@@ -1,5 +1,5 @@
 var WallBuilder = require("./WallBuilder.js");
-var CellModel = require("./CellModel.js");
+var WallView = require("./WallView.js");
 
 
 function MainStageController(stage, interaction) {
@@ -24,8 +24,8 @@ MainStageController.prototype._onMouseMove = function (event) {
         return;
     }
     var pos = event.data.getLocalPosition(this.stage, undefined, this.interaction.mouse.global);
-    pos.x = Math.floor(pos.x / CellModel.defaultWidth);
-    pos.y = Math.floor(pos.y / CellModel.defaultHeight);
+    pos.x = Math.floor(pos.x / WallView.cellWidth);
+    pos.y = Math.floor(pos.y / WallView.cellHeight);
     this.wallBuilder.tryAddCell(pos.x, pos.y);
 };
 
