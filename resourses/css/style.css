@@ -73,6 +73,13 @@ h2 {
 
 .main_nig_h h2 {
     text-transform: uppercase;
+    text-align: left;
+    margin-top: 0;
+    color: #fff;
+    font-weight: 400;
+}
+.main_nig_h h2::after {
+    display: none;
 }
 
 h2::after {
@@ -151,7 +158,7 @@ header {
 .icon_main_head{
   margin-right: 10px;
   color: #0F6C74;
-font-size: 120%;
+font-size: 130%;
 }
 
 .icon_ghost_head{
