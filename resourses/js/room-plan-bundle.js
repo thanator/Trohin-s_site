@@ -36906,12 +36906,12 @@ module.exports = CellModel;
 
 },{}],183:[function(require,module,exports){
 var WallBuilder = require("./WallBuilder.js");
-var WallView = require("./WallView.js");
 
 
 function MainStageController(stage, interaction) {
     this.stage = stage;
     this.interaction = interaction;
+    this.wallBuilder = new WallBuilder();
 }
 module.exports = MainStageController;
 
@@ -36922,42 +36922,67 @@ MainStageController.prototype.init = function () {
 };
 
 MainStageController.prototype._onMouseDown = function () {
-    this.wallBuilder = new WallBuilder();
+    this.wallBuilder.beginNewWall();
     this.stage.addChild(this.wallBuilder.wallView);
 };
 
 MainStageController.prototype._onMouseMove = function (event) {
-    if (!this.wallBuilder) {
-        return;
-    }
     var pos = event.data.getLocalPosition(this.stage, undefined, this.interaction.mouse.global);
-    pos.x = Math.floor(pos.x / WallView.cellWidth);
-    pos.y = Math.floor(pos.y / WallView.cellHeight);
-    this.wallBuilder.tryAddCell(pos.x, pos.y);
+    this.wallBuilder.tryAddCellWithScreenCoords(pos.x, pos.y);
 };
 
 MainStageController.prototype._onMouseUp = function () {
-    this.wallBuilder = null;
+    this.wallBuilder.endWall();
 };
 
-},{"./WallBuilder.js":184,"./WallView.js":186}],184:[function(require,module,exports){
+},{"./WallBuilder.js":184}],184:[function(require,module,exports){
 var WallModel = require("./WallModel.js");
 var WallView = require("./WallView.js");
 var CellModel = require("./CellModel.js");
 
 
 function WallBuilder() {
-    this.wall = new WallModel();
-    this.wallView = new WallView(this.wall);
+    this.allWalls = [];
 }
 module.exports = WallBuilder;
 
+WallBuilder.prototype.beginNewWall = function () {
+    this.wall = new WallModel();
+    this.wallView = new WallView(this.wall);
+    this.allWalls.push(this.wall);
+};
+
+WallBuilder.prototype.endWall = function () {
+    this.wall = null;
+    this.wallView = null;
+};
+
+WallBuilder.prototype.isBuilding = function () {
+    return this.wall != null;
+};
+
+WallBuilder.prototype.tryAddCellWithScreenCoords = function (x, y) {
+    return this.tryAddCell(Math.floor(x / WallView.cellWidth), Math.floor(y / WallView.cellHeight));
+};
+
 WallBuilder.prototype.tryAddCell = function (x, y) {
-    if (this.wall.cells.length == 0 || this.wall.isCellWithCoordsLinkable(x, y)) {
+    if (this.isBuilding() && this._isCellOkWithThisWall(x, y) && this._isCellOkWithOtherWalls(x, y)) {
         var cell = new CellModel(x, y);
         this.wall.cells.push(cell);
         this.wallView.renderWall();
+        return true;
     }
+    return false;
+};
+
+WallBuilder.prototype._isCellOkWithOtherWalls = function (x, y) {
+    return !_.some(this.allWalls, function (wall) {
+        return wall.hasCellWithCoords(x, y);
+    });
+};
+
+WallBuilder.prototype._isCellOkWithThisWall = function (x, y) {
+    return this.wall.cells.length == 0 || this.wall.isCellWithCoordsLinkable(x, y);
 };
 },{"./CellModel.js":182,"./WallModel.js":185,"./WallView.js":186}],185:[function(require,module,exports){
 function WallModel() {
@@ -36970,12 +36995,49 @@ WallModel.prototype.isCellLinkable = function (cell) {
 };
 
 WallModel.prototype.isCellWithCoordsLinkable = function (x, y) {
+    var neighborhood = this.getCellWithCoordsNeighborhood(x, y);
+    if ((neighborhood.left || neighborhood.right) && !(neighborhood.top || neighborhood.bottom)) {
+        return true;
+    }
+    if ((neighborhood.top || neighborhood.bottom) && !(neighborhood.left || neighborhood.right)) {
+        return true;
+    }
+    return false;
+};
+
+WallModel.prototype.getCellNeighborhood = function (cell) {
+    return this.getCellWithCoordsNeighborhood(cell.x, cell.y);
+};
+
+WallModel.prototype.getCellWithCoordsNeighborhood = function (x, y) {
+    var neighborhood = { left: false, right: false, top: false, bottom: false };
+    for (var i = 0; i < this.cells.length; i++) {
+        var cell = this.cells[i];
+        var dx = cell.x - x;
+        var dy = cell.y - y;
+        if (dx == -1 && dy == 0) {
+            neighborhood.left = true;
+        }
+        if (dx == 1 && dy == 0) {
+            neighborhood.right = true;
+        }
+        if (dy == -1 && dx == 0) {
+            neighborhood.top = true;
+        }
+        if (dy == 1 && dx == 0) {
+            neighborhood.bottom = true;
+        }
+    }
+    return neighborhood;
+};
+
+WallModel.prototype.hasCell = function (cell) {
+    return this.hasCellWithCoords(cell.x, cell.y);
+};
+
+WallModel.prototype.hasCellWithCoords = function (x, y) {
     return _.some(this.cells, function (it) {
-        var dx = Math.abs(it.x - x);
-        var dy = Math.abs(it.y - y);
-        var isLinkingOnXAxis = dx == 1 && dy == 0;
-        var isLinkingOnYAxis = dy == 1 && dx == 0;
-        return isLinkingOnXAxis || isLinkingOnYAxis;
+        return it.x == x && it.y == y;
     });
 };
 
@@ -37010,7 +37072,7 @@ WallView.prototype.renderWall = function () {
         this.drawRect(x, y, w, h);
         this.endFill();
 
-        var neighborhood = this._getCellNeighborhood(cell.x, cell.y);
+        var neighborhood = this.model.getCellNeighborhood(cell);
         this.beginFill(0xff700b);
         if (!neighborhood.left) {
             this.drawRect(x, y, b, h);
@@ -37040,27 +37102,6 @@ WallView.prototype.renderWall = function () {
     }
 };
 
-WallView.prototype._getCellNeighborhood = function (x, y) {
-    var neighborhood = { left: false, right: false, top: false, bottom: false };
-    for (var i = 0; i < this.model.cells.length; i++) {
-        var cell = this.model.cells[i];
-        var dx = cell.x - x;
-        var dy = cell.y - y;
-        if (dx == -1 && dy == 0) {
-            neighborhood.left = true;
-        }
-        if (dx == 1 && dy == 0) {
-            neighborhood.right = true;
-        }
-        if (dy == -1 && dx == 0) {
-            neighborhood.top = true;
-        }
-        if (dy == 1 && dx == 0) {
-            neighborhood.bottom = true;
-        }
-    }
-    return neighborhood;
-};
 
 },{"pixi.js":133}]},{},[180])
 //# sourceMappingURL=room-plan-bundle.js.map

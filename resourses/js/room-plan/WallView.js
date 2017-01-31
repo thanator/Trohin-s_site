@@ -28,7 +28,7 @@ WallView.prototype.renderWall = function () {
         this.drawRect(x, y, w, h);
         this.endFill();
 
-        var neighborhood = this._getCellNeighborhood(cell.x, cell.y);
+        var neighborhood = this.model.getCellNeighborhood(cell);
         this.beginFill(0xff700b);
         if (!neighborhood.left) {
             this.drawRect(x, y, b, h);
@@ -58,24 +58,3 @@ WallView.prototype.renderWall = function () {
     }
 };
 
-WallView.prototype._getCellNeighborhood = function (x, y) {
-    var neighborhood = { left: false, right: false, top: false, bottom: false };
-    for (var i = 0; i < this.model.cells.length; i++) {
-        var cell = this.model.cells[i];
-        var dx = cell.x - x;
-        var dy = cell.y - y;
-        if (dx == -1 && dy == 0) {
-            neighborhood.left = true;
-        }
-        if (dx == 1 && dy == 0) {
-            neighborhood.right = true;
-        }
-        if (dy == -1 && dx == 0) {
-            neighborhood.top = true;
-        }
-        if (dy == 1 && dx == 0) {
-            neighborhood.bottom = true;
-        }
-    }
-    return neighborhood;
-};

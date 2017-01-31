@@ -1,10 +1,10 @@
 var WallBuilder = require("./WallBuilder.js");
-var WallView = require("./WallView.js");
 
 
 function MainStageController(stage, interaction) {
     this.stage = stage;
     this.interaction = interaction;
+    this.wallBuilder = new WallBuilder();
 }
 module.exports = MainStageController;
 
@@ -15,20 +15,15 @@ MainStageController.prototype.init = function () {
 };
 
 MainStageController.prototype._onMouseDown = function () {
-    this.wallBuilder = new WallBuilder();
+    this.wallBuilder.beginNewWall();
     this.stage.addChild(this.wallBuilder.wallView);
 };
 
 MainStageController.prototype._onMouseMove = function (event) {
-    if (!this.wallBuilder) {
-        return;
-    }
     var pos = event.data.getLocalPosition(this.stage, undefined, this.interaction.mouse.global);
-    pos.x = Math.floor(pos.x / WallView.cellWidth);
-    pos.y = Math.floor(pos.y / WallView.cellHeight);
-    this.wallBuilder.tryAddCell(pos.x, pos.y);
+    this.wallBuilder.tryAddCellWithScreenCoords(pos.x, pos.y);
 };
 
 MainStageController.prototype._onMouseUp = function () {
-    this.wallBuilder = null;
+    this.wallBuilder.endWall();
 };
