@@ -377,10 +377,12 @@ background: linear-gradient(to top, #E0E0E0, #FFF);
 .side_name .logo_img_artim{
   height: 60px;
   width: 60px;
+  margin-top: 5px;;
+  margin-bottom: 0;
 }
 
 .side_name .logo_name_artim{
-  margin: 35px 0;
+  margin: 20px 0;
 }
 
 .full{
@@ -389,7 +391,7 @@ background: linear-gradient(to top, #E0E0E0, #FFF);
   margin-bottom: 100px;
   margin-right: 20%;
   margin-left: 20%;
-  margin-top: 100px;
+  margin-top: 80px;
   background-color: white;
   border-radius: 5%;
   
@@ -443,4 +445,31 @@ padding-bottom: 40px;
 .full:last-child{
   padding-bottom: 40px;
   margin-bottom: 160px;
+}
+
+.tree_nav {
+  list-style: none;
+  margin-top: 15px;
+}
+
+.tree_nav li {
+  display: inline-block;
+  margin-left: 40px;
+}
+
+.tree_nav li a:link,
+.tree_nav li a:visited {
+  color: #e2781a;
+  padding: 5px 0;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 90%;
+  border-bottom: 2px solid transparent;
+  -webkit-transition: border-bottom 0.2s;
+  transition: border-bottom 0.2s;
+}
+
+.tree_nav li a:hover,
+.tree_nav li a:active {
+  border-bottom: 2px solid #d37522;
 }
