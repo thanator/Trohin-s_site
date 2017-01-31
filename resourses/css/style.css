@@ -71,6 +71,10 @@ h2 {
   letter-spacing: 1px;
 }
 
+.main_nig_h h2 {
+    text-transform: uppercase;
+}
+
 h2::after {
   display: block;
   height: 2px;
