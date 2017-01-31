@@ -144,6 +144,12 @@ header {
   padding: 0;
 }
 
+.icon_main_head{
+  margin-right: 10px;
+  color: #0F6C74;
+font-size: 120%;
+}
+
 /*---BUTTONS---*/
 
 .btn:link,
@@ -449,7 +455,7 @@ padding-bottom: 40px;
 
 .tree_nav {
   list-style: none;
-  margin-top: 15px;
+  margin-top: 25px;
 }
 
 .tree_nav li {
