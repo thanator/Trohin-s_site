@@ -155,6 +155,7 @@ header {
 .logo_name{
   margin-bottom: 20px;
   width: 20%;
+    margin-top: 15px;
 }
 
 .logo_name span{
@@ -170,8 +171,8 @@ header {
 .logo_img,
 .logo_img_artim {
 
-  height: 80px;
-  width: 80px;
+  height: auto;
+  width: 50px;
   width: auto;
   float: left;
   margin-top: 20px;
@@ -187,8 +188,9 @@ header {
   float: left;
   width: 5%;
   margin-left: 10%;
-  margin-top: 20px;
+  margin-top: 5px;
   margin-right: 0;
+  font-size: 70%;
 
 }
 
@@ -226,7 +228,10 @@ header {
 header .row{
   margin: 0;
   width: 100%;
+  height: 70px;
   max-width: 2000px;
+  background-color: #343434;
+  padding-bottom: 10px;
 }
 
 /*---BUTTONS---*/
@@ -285,7 +290,7 @@ header .row{
  display: inline-block;
  list-style: none;
  
-  margin: 3px;
+  margin: 0px;
 }
 
 .menu li ul li a:link,
@@ -332,12 +337,14 @@ white-space: nowrap;
 
 
 .center_ul{
-  padding-top: 10px;
+  padding-top: 20px;
   display: inline-table;
 }
 
 .center_ul li a {
     display: block;
+    background-color: #343434;
+    border-bottom: #000;
 }
 
 
@@ -622,11 +629,14 @@ footer p {
 .tree_nav li li{
   margin-left: 0;
 }
+.tree_nav li ul {
+    margin-top: 25px;
+}
 
 .tree_nav li a:link,
 .tree_nav li a:visited {
   color: #e2781a;
-  padding: 5px 0;
+  padding: 19px 0;
   text-decoration: none;
   text-transform: uppercase;
   font-size: 90%;
@@ -640,6 +650,9 @@ footer p {
   border-bottom: 2px solid #d37522;
 }
 
+.tree_nav {
+    margin-top: 2px;
+}
 
 
 /* -------------------------------------------------- */
@@ -658,6 +671,7 @@ footer p {
   background-color: white;
   border: 0.3px solid #f3a158;
   text-align: center;
+<<<<<<< HEAD
   height: 550px;
 }
 
@@ -711,3 +725,6 @@ footer p {
   transform: scale(1.03);
   opacity: 1;
 }
+=======
+}
+>>>>>>> f8c4460b5c21b54ebbaa09afedf91a37b119c941
