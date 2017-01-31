@@ -332,8 +332,14 @@ white-space: nowrap;
 
 
 .center_ul{
-padding-top: 10px;
+  padding-top: 10px;
+  display: inline-table;
 }
+
+.center_ul li a {
+    display: block;
+}
+
 
 .minndle_ul li{
   margin-left: 18%;
