@@ -25,15 +25,27 @@ WallView.prototype.renderWall = function () {
         this.beginFill(0xff700b);
         if (!neighborhood.left) {
             this.drawRect(cellX, cellY, this.cellBorderSize, cell.height);
+        } else {
+            this.drawRect(cellX, cellY, this.cellBorderSize, this.cellBorderSize);
+            this.drawRect(cellX, cellY + cell.height - this.cellBorderSize, this.cellBorderSize, this.cellBorderSize);
         }
         if (!neighborhood.right) {
             this.drawRect(cellX + cell.width - this.cellBorderSize, cellY, this.cellBorderSize, cell.height);
+        } else {
+            this.drawRect(cellX + cell.width - this.cellBorderSize, cellY, this.cellBorderSize, this.cellBorderSize);
+            this.drawRect(cellX + cell.width - this.cellBorderSize, cellY + cell.height - this.cellBorderSize, this.cellBorderSize, this.cellBorderSize);
         }
         if (!neighborhood.top) {
             this.drawRect(cellX, cellY, cell.width, this.cellBorderSize);
+        } else {
+            this.drawRect(cellX, cellY, this.cellBorderSize, this.cellBorderSize);
+            this.drawRect(cellX + cell.width - this.cellBorderSize, cellY, this.cellBorderSize, this.cellBorderSize);
         }
         if (!neighborhood.bottom) {
             this.drawRect(cellX, cellY + cell.height - this.cellBorderSize, cell.width, this.cellBorderSize);
+        } else {
+            this.drawRect(cellX, cellY + cell.height - this.cellBorderSize, this.cellBorderSize, this.cellBorderSize);
+            this.drawRect(cellX + cell.width - this.cellBorderSize, cellY + cell.height - this.cellBorderSize, this.cellBorderSize, this.cellBorderSize);
         }
         this.endFill();
     }
