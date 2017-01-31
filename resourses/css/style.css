@@ -16,7 +16,6 @@ body {
   font-size: 20px;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
-  
 }
 
 .row {
@@ -33,12 +32,12 @@ section {
   padding: 1%;
 }
 
-.line{
+.line {
   padding-top: 0;
   margin-bottom: 0;
 }
 
-ul{
+ul {
   list-style-type: none;
 }
 
@@ -72,14 +71,15 @@ h2 {
 }
 
 .main_nig_h h2 {
-    text-transform: uppercase;
-    text-align: left;
-    margin-top: 0;
-    color: #fff;
-    font-weight: 400;
+  text-transform: uppercase;
+  text-align: left;
+  margin-top: 0;
+  color: #fff;
+  font-weight: 400;
 }
+
 .main_nig_h h2::after {
-    display: none;
+  display: none;
 }
 
 h2::after {
@@ -122,7 +122,8 @@ header {
   margin-right: 20px;
 }
 
-.logo_name, .logo_name_artim {
+.logo_name,
+.logo_name_artim {
   margin: 44px;
   color: white;
   font-size: 170%;
@@ -133,7 +134,8 @@ header {
   text-align: left;
 }
 
-.logo_img, .logo_img_artim {
+.logo_img,
+.logo_img_artim {
   margin: 100px;
   height: 80px;
   width: 80px;
@@ -155,16 +157,16 @@ header {
   padding: 0;
 }
 
-.icon_main_head{
+.icon_main_head {
   margin-right: 10px;
-  color: #0F6C74;
-font-size: 130%;
+  color: #0f6c74;
+  font-size: 130%;
 }
 
-.icon_ghost_head{
- margin-right: 10px;
-  color: #F3A158;
-font-size: 120%;
+.icon_ghost_head {
+  margin-right: 10px;
+  color: #f3a158;
+  font-size: 120%;
 }
 
 /*---BUTTONS---*/
@@ -209,6 +211,51 @@ font-size: 120%;
 .btn_full:active {
   border: 1px solid #bf6516;
 }
+
+/* ---- ANIMATION OF STICY BUTTONS ---- */
+
+.menu li {
+  position: relative;
+ display: inline-block;
+ list-style: none;
+  padding: 2px 4px;
+  margin: 2px;
+}
+
+.menu a {
+  color: #fff;
+  font-family: Arial;
+  text-decoration: none;
+}
+
+.menu li ul {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  transition: visibility 0.5s, opacity 0.5s;
+  margin-left: 20%;
+}
+
+.menu li:hover ul {
+visibility: visible;
+opacity: 1;
+}
+
+.menu li li {
+display: block;
+
+white-space: nowrap;
+}
+.center_ul li{
+width: 75%;
+margin-left: 40%;
+}
+
+
 
 /* ---- PARAGRAPHS ---- */
 
@@ -262,7 +309,6 @@ font-size: 120%;
   color: #bf6516;
   transform: scale(1.15);
   padding-left: 11px;
-
 }
 
 .yup {
@@ -290,7 +336,7 @@ footer {
   background-color: rgba(15%, 15%, 15%, 1);
   padding: 40px;
   font-size: 80%;
-   word-spacing: 1px;
+  word-spacing: 1px;
   letter-spacing: 1px;
   line-height: 125%;
 }
@@ -313,7 +359,7 @@ footer p {
   width: 100vw;
 }
 
-.secret{
+.secret {
   opacity: 0.05;
 }
 
@@ -341,7 +387,7 @@ footer p {
 
 
 
-.conts p{
+.conts p {
   font-size: 85%;
   font-style: italic;
 }
@@ -349,7 +395,7 @@ footer p {
 
 /*MAP*/
 
-.map{
+.map {
   width: 50%;
   height: 400px;
   position: relative;
@@ -357,12 +403,10 @@ footer p {
   margin-left: 25%;
   border: 2px solid black;
   border-radius: 5px;
- 
 }
 
-.map_box{
-
-background: linear-gradient(to top, #E0E0E0, #FFF);
+.map_box {
+  background: linear-gradient(to top, #e0e0e0, #fff);
   opacity: 0.9;
   height: 500px;
   padding-top: 40px;
@@ -376,8 +420,7 @@ background: linear-gradient(to top, #E0E0E0, #FFF);
 /* --- TREE PAGE --- */
 /* -------------------------------------------------- */
 
-.side{
-
+.side {
   position: fixed;
   top: 0;
   left: 0;
@@ -385,33 +428,30 @@ background: linear-gradient(to top, #E0E0E0, #FFF);
   background-color: rgba(255, 255, 255, 0.98);
   box-shadow: 0 2px 2px #efefef;
   z-index: 9999;
-  
-
 }
 
-.side a{
+.side a {
   margin-top: 20px;
- 
 }
 
-.side_name{
+.side_name {
   width: 30%;
   float: left;
   font-size: 70%;
 }
 
-.side_name .logo_img_artim{
+.side_name .logo_img_artim {
   height: 60px;
   width: 60px;
-  margin-top: 5px;;
+  margin-top: 5px;
   margin-bottom: 0;
 }
 
-.side_name .logo_name_artim{
+.side_name .logo_name_artim {
   margin: 20px 0;
 }
 
-.full{
+.full {
   text-align: center;
   width: 60%;
   margin-bottom: 100px;
@@ -420,37 +460,35 @@ background: linear-gradient(to top, #E0E0E0, #FFF);
   margin-top: 80px;
   background-color: white;
   border-radius: 5%;
-  
-}
-.tree_body{
- position: relative;
-    min-height: 100%;
-     background-color: #F1F1F1;
-     padding:0 5%;
-
-
 }
 
-.main{
-     margin: 0 0 100px; /* bottom = footer height */
+.tree_body {
+  position: relative;
+  min-height: 100%;
+  background-color: #f1f1f1;
+  padding: 0 5%;
 }
 
-.tree_foot{
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 140px;
-    width: 100%;
-padding-bottom: 40px;
+.main {
+  margin: 0 0 100px; /* bottom = footer height */
 }
 
-.content{
+.tree_foot {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 140px;
+  width: 100%;
+  padding-bottom: 40px;
+}
+
+.content {
   padding: 10px 0;
   margin-bottom: 10px;
 }
 
-.content:after{
-   display: block;
+.content:after {
+  display: block;
   height: 2px;
   background-color: #e67e22;
   content: " ";
@@ -459,7 +497,7 @@ padding-bottom: 40px;
   margin-top: 30px;
 }
 
-.content h3{
+.content h3 {
   font-size: 200%;
   word-spacing: 2px;
   text-align: center;
@@ -468,7 +506,7 @@ padding-bottom: 40px;
   letter-spacing: 1px;
 }
 
-.full:last-child{
+.full:last-child {
   padding-bottom: 40px;
   margin-bottom: 160px;
 }
