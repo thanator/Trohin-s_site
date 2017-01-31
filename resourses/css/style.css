@@ -131,7 +131,7 @@ header {
 .main_nig_h {
   position: absolute;
   width: 1140px;
-  top: 50%;
+  top: 52.5%;
   left: 55%;
   transform: translate(-50%, -50%);
 }
@@ -154,16 +154,11 @@ header {
 
 .logo_name{
   margin-bottom: 20px;
+  width: 20%;
 }
 
-.logo_text{
-  font-size: 100%;
-  text-align: left;
-  margin-left: 0;
-  margin-right: 40px;
-    float: left;
-  margin: 0;
-   margin-left: 30px;
+.logo_name span{
+  font-size: 50%;
 }
 
 .logo_name_artim {
@@ -188,6 +183,15 @@ header {
   background-color: white;
 }
 
+.logo_img{
+  float: left;
+  width: 5%;
+  margin-left: 10%;
+  margin-top: 20px;
+  margin-right: 0;
+
+}
+
 .logo_img_artim {
   margin-bottom: 10px;
 }
@@ -197,8 +201,7 @@ header {
 }
 
 .heading span{
-  font-size: 70%;
-  font-style: italic;
+  font-size: 60%;
   offset-block-end: 10px;
 }
 
@@ -212,6 +215,18 @@ header {
   margin-right: 10px;
   color: #f3a158;
   font-size: 120%;
+}
+
+.heading_div{
+  float: left;
+  width: 15%;
+    display: inline-block;
+}
+
+header .row{
+  margin: 0;
+  width: 100%;
+  max-width: 2000px;
 }
 
 /*---BUTTONS---*/
@@ -259,12 +274,18 @@ header {
 
 /* ---- ANIMATION OF STICY BUTTONS ---- */
 
+.menu{
+  float: right;
+  padding-top: 20px;
+  margin-right: 100px;
+}
+
 .menu li {
   position: relative;
  display: inline-block;
  list-style: none;
  
-  margin: 2px;
+  margin: 3px;
 }
 
 .menu li ul li a:link,
@@ -272,19 +293,17 @@ header {
   color: #fff;
   font-family: Arial;
   text-decoration: none;
-  border: 1px solid #e67e22;
+  
   color: #e67e22;
   margin-right: 10px;
-  border-radius: 9px;
   padding: 3px;
-  margin: 5px;
    transition: background-color 0.3s, border 0.3s, color 0.3s;
 }
 
 .menu li ul li a:hover,
 .menu li il li a:active {
     background-color: #e67e22;
-  border: 1px solid #e67e22;
+
   color: #fff;
 }
 
@@ -296,6 +315,7 @@ header {
   left: 0;
   margin: 0;
   padding: 0;
+  margin-top: 10px;
   transition: visibility 0.5s, opacity 0.5s;
 
 }
@@ -307,13 +327,12 @@ opacity: 1;
 
 .menu li li {
 display: block;
- padding: 7px 4px;
 white-space: nowrap;
 }
 
-.center_ul li{
-width: 75%;
-margin-left: 80%;
+
+.center_ul{
+padding-top: 10px;
 }
 
 .minndle_ul li{
@@ -582,11 +601,20 @@ footer p {
 .tree_nav {
   list-style: none;
   margin-top: 25px;
+ 
+}
+
+.tree_nav ul{
+  margin-top: 10px;
 }
 
 .tree_nav li {
   display: inline-block;
-  margin-left: 40px;
+   margin-left: 40px;
+}
+
+.tree_nav li li{
+  margin-left: 0;
 }
 
 .tree_nav li a:link,
@@ -605,3 +633,4 @@ footer p {
 .tree_nav li a:active {
   border-bottom: 2px solid #d37522;
 }
+
