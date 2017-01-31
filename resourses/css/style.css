@@ -634,3 +634,22 @@ footer p {
   border-bottom: 2px solid #d37522;
 }
 
+
+
+/* -------------------------------------------------- */
+/* --- TYPES OF WORKS --- */
+/* -------------------------------------------------- */
+
+.types_of_works{
+  background-color: #f8f8f8;
+}
+
+.types_of_works .long_copy{
+  text-align: center;
+}
+
+.types_of_works .box{
+  background-color: white;
+  border: 0.5px solid #f3a158;
+  text-align: center;
+}
