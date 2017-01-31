@@ -1508,6 +1508,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
+
 },{"_process":167}],8:[function(require,module,exports){
 var EMPTY_ARRAY_BUFFER = new ArrayBuffer(0);
 
@@ -26756,6 +26757,7 @@ exports.loader = loader;
 global.PIXI = exports; // eslint-disable-line
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"./accessibility":26,"./core":49,"./deprecation":108,"./extract":110,"./extras":119,"./filters":130,"./interaction":137,"./loaders":140,"./mesh":149,"./particles":152,"./polyfill":158,"./prepare":162}],134:[function(require,module,exports){
 'use strict';
 
@@ -31917,6 +31919,7 @@ if (!global.cancelAnimationFrame) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],160:[function(require,module,exports){
 'use strict';
 
@@ -33799,6 +33802,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],169:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -36883,32 +36887,164 @@ function App() {
 module.exports = App;
 
 App.prototype.init = function () {
-    var app = new PIXI.Application(800, 600, {antialias: true});
+    var app = new PIXI.Application(800, 600, {antialias: true, backgroundColor: 0xeeeeee});
 
     var $view = $(app.view);
     $(".app").replaceWith($view);
     $view.addClass("app");
 
-    var controller = new MainStageController(app.stage);
+    var controller = new MainStageController(app.stage, app.renderer.plugins.interaction);
     controller.init();
 };
 
-},{"./MainStageController.js":182,"pixi.js":133}],182:[function(require,module,exports){
-var PIXI = require("pixi.js");
+},{"./MainStageController.js":183,"pixi.js":133}],182:[function(require,module,exports){
+function CellModel(x, y) {
+    this.x = x;
+    this.y = y;
+    this.width = CellModel.defaultWidth;
+    this.height = CellModel.defaultHeight;
+}
+module.exports = CellModel;
+
+CellModel.defaultWidth = 32;
+CellModel.defaultHeight = 32;
+
+},{}],183:[function(require,module,exports){
+var WallBuilder = require("./WallBuilder.js");
+var CellModel = require("./CellModel.js");
 
 
-function MainStageController(stage) {
+function MainStageController(stage, interaction) {
     this.stage = stage;
+    this.interaction = interaction;
 }
 module.exports = MainStageController;
 
 MainStageController.prototype.init = function () {
-    this.stage.interactive = true;
-    this.stage.on("mousedown", this._onClick.bind(this));
+    this.interaction.on("mousedown", this._onMouseDown.bind(this));
+    this.interaction.on("mousemove", this._onMouseMove.bind(this));
+    this.interaction.on("mouseup", this._onMouseUp.bind(this));
 };
 
-MainStageController.prototype._onClick = function (event) {
-    // TODO
+MainStageController.prototype._onMouseDown = function () {
+    this.wallBuilder = new WallBuilder();
+    this.stage.addChild(this.wallBuilder.wallView);
 };
 
-},{"pixi.js":133}]},{},[180]);
+MainStageController.prototype._onMouseMove = function (event) {
+    if (!this.wallBuilder) {
+        return;
+    }
+    var pos = event.data.getLocalPosition(this.stage, undefined, this.interaction.mouse.global);
+    pos.x = Math.floor(pos.x / CellModel.defaultWidth);
+    pos.y = Math.floor(pos.y / CellModel.defaultHeight);
+    this.wallBuilder.tryAddCell(pos.x, pos.y);
+};
+
+MainStageController.prototype._onMouseUp = function () {
+    this.wallBuilder = null;
+};
+
+},{"./CellModel.js":182,"./WallBuilder.js":184}],184:[function(require,module,exports){
+var WallModel = require("./WallModel.js");
+var WallView = require("./WallView.js");
+var CellModel = require("./CellModel.js");
+
+
+function WallBuilder() {
+    this.wall = new WallModel();
+    this.wallView = new WallView(this.wall);
+}
+module.exports = WallBuilder;
+
+WallBuilder.prototype.tryAddCell = function (x, y) {
+    if (this.wall.cells.length == 0 || this.wall.isCellWithCoordsLinkable(x, y)) {
+        var cell = new CellModel(x, y);
+        this.wall.cells.push(cell);
+        this.wallView.renderWall();
+    }
+};
+},{"./CellModel.js":182,"./WallModel.js":185,"./WallView.js":186}],185:[function(require,module,exports){
+function WallModel() {
+    this.cells = [];
+}
+module.exports = WallModel;
+
+WallModel.prototype.isCellLinkable = function (cell) {
+    return this.isCellWithCoordsLinkable(cell.x, cell.y);
+};
+
+WallModel.prototype.isCellWithCoordsLinkable = function (x, y) {
+    return _.some(this.cells, function (it) {
+        var isLinkingOnXAxis = Math.abs(it.x - x) == 1;
+        var isLinkingOnYAxis = Math.abs(it.y - y) == 1;
+        return isLinkingOnXAxis != isLinkingOnYAxis; // xor
+    });
+};
+
+},{}],186:[function(require,module,exports){
+var PIXI = require("pixi.js");
+
+
+function WallView(model) {
+    PIXI.Graphics.apply(this, arguments);
+    this.model = model;
+    this.cellBorderSize = 4;
+    this.renderWall();
+}
+WallView.prototype = Object.create(PIXI.Graphics.prototype);
+module.exports = WallView;
+
+
+WallView.prototype.renderWall = function () {
+    for (var i = 0; i < this.model.cells.length; i++) {
+        var cell = this.model.cells[i];
+        var cellX = cell.x * cell.width;
+        var cellY = cell.y * cell.height;
+
+        this.beginFill(0xbbbbbb);
+        this.drawRect(cellX, cellY, cell.width, cell.height);
+        this.endFill();
+
+        var neighborhood = this._getCellNeighborhood(cell.x, cell.y);
+        this.beginFill(0xff700b);
+        if (!neighborhood.left) {
+            this.drawRect(cellX, cellY, this.cellBorderSize, cell.height);
+        }
+        if (!neighborhood.right) {
+            this.drawRect(cellX + cell.width - this.cellBorderSize, cellY, this.cellBorderSize, cell.height);
+        }
+        if (!neighborhood.top) {
+            this.drawRect(cellX, cellY, cell.width, this.cellBorderSize);
+        }
+        if (!neighborhood.bottom) {
+            this.drawRect(cellX, cellY + cell.height - this.cellBorderSize, cell.width, this.cellBorderSize);
+        }
+        this.endFill();
+    }
+};
+
+WallView.prototype._getCellNeighborhood = function (x, y) {
+    var neighborhood = { left: false, right: false, top: false, bottom: false };
+    for (var i = 0; i < this.model.cells.length; i++) {
+        var cell = this.model.cells[i];
+        var dx = cell.x - x;
+        var dy = cell.y - y;
+        if (dx == -1 && dy == 0) {
+            neighborhood.left = true;
+        }
+        if (dx == 1 && dy == 0) {
+            neighborhood.right = true;
+        }
+        if (dy == -1 && dx == 0) {
+            neighborhood.top = true;
+        }
+        if (dy == 1 && dx == 0) {
+            neighborhood.bottom = true;
+        }
+    }
+    return neighborhood;
+};
+
+},{"pixi.js":133}]},{},[180])
+//# sourceMappingURL=room-plan-bundle.js.map
