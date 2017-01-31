@@ -353,12 +353,14 @@ background: linear-gradient(to top, #E0E0E0, #FFF);
 .side{
 
   position: fixed;
-  float: left;
-  width: 200px;
-  margin: 100px 50px;
-  height: 400px;
-    top: 10%;
-  left: 5%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 2px 2px #efefef;
+  z-index: 9999;
+  
+
 }
 
 .side a{
@@ -366,13 +368,28 @@ background: linear-gradient(to top, #E0E0E0, #FFF);
  
 }
 
+.side_name{
+  width: 30%;
+  float: left;
+  font-size: 70%;
+}
+
+.side_name .logo_img_artim{
+  height: 60px;
+  width: 60px;
+}
+
+.side_name .logo_name_artim{
+  margin: 35px 0;
+}
+
 .full{
-  float: right;
   text-align: center;
   width: 60%;
   margin-bottom: 100px;
   margin-right: 20%;
   margin-left: 20%;
+  margin-top: 100px;
   background-color: white;
   border-radius: 5%;
   
