@@ -671,7 +671,6 @@ footer p {
   background-color: white;
   border: 0.3px solid #f3a158;
   text-align: center;
-<<<<<<< HEAD
   height: 550px;
 }
 
@@ -725,6 +724,4 @@ footer p {
   transform: scale(1.03);
   opacity: 1;
 }
-=======
-}
->>>>>>> f8c4460b5c21b54ebbaa09afedf91a37b119c941
+
