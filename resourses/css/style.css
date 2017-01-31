@@ -218,14 +218,29 @@ header {
   position: relative;
  display: inline-block;
  list-style: none;
-  padding: 2px 4px;
+ 
   margin: 2px;
 }
 
-.menu a {
+.menu li ul li a:link,
+.menu li il li a:visited {
   color: #fff;
   font-family: Arial;
   text-decoration: none;
+  border: 1px solid #e67e22;
+  color: #e67e22;
+  margin-right: 10px;
+  border-radius: 9px;
+  padding: 3px;
+  margin: 5px;
+   transition: background-color 0.3s, border 0.3s, color 0.3s;
+}
+
+.menu li ul li a:hover,
+.menu li il li a:active {
+    background-color: #e67e22;
+  border: 1px solid #e67e22;
+  color: #fff;
 }
 
 .menu li ul {
@@ -237,7 +252,8 @@ header {
   margin: 0;
   padding: 0;
   transition: visibility 0.5s, opacity 0.5s;
-  margin-left: 20%;
+  margin-left: 13%;
+
 }
 
 .menu li:hover ul {
@@ -247,7 +263,7 @@ opacity: 1;
 
 .menu li li {
 display: block;
-
+ padding: 7px 4px;
 white-space: nowrap;
 }
 .center_ul li{
