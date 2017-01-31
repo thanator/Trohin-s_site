@@ -656,6 +656,58 @@ footer p {
 
 .types_of_works .box{
   background-color: white;
-  border: 0.5px solid #f3a158;
+  border: 0.3px solid #f3a158;
   text-align: center;
+  height: 550px;
+}
+
+.types_of_works h3::after {
+  display: block;
+  height: 1px;
+  background-color: #e67e22;
+  content: " ";
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+.types_of_works h3{
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+
+.h3_down{
+  padding-bottom: 10px;
+}
+
+.types_of_works p{
+  margin-top: 20px;
+}
+
+.works_photo {
+  
+  height: 180px;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  background-color: black;
+}
+
+.works_photo img {
+  opacity: 0.7;
+  width: auto;
+  height: auto;
+  -webkit-transform: scale(1.15);
+  transform: scale(1.15);
+  -webkit-transition: opacity 0.5s, -webkit-transform 0.5s;
+  transition: opacity 0.5s, -webkit-transform 0.5s;
+  transition: transform 0.5s, opacity 0.5s;
+  transition: transform 0.5s, opacity 0.5s, -webkit-transform 0.5s;
+  height: 200px;
+}
+
+.works_photo img:hover {
+  -webkit-transform: scale(1.03);
+  transform: scale(1.03);
+  opacity: 1;
 }
