@@ -4,15 +4,16 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="resourses/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="vendors/css/normalize.css">
     <link rel="stylesheet" type="text/css" href="vendors/css/ionicons.min.css">
     <link rel="stylesheet" type="text/css" href="vendors/css/grid.css">
     <link rel="stylesheet" type="text/css" href="vendors/css/animate.css">
 
-    <link rel="stylesheet" type="text/css" href="resourses/css/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i" rel="stylesheet">
+
     <title>KvartStroi</title>
     <style>
   
@@ -30,6 +31,8 @@
 
         </div>
 
+
+
         <section class="heading" id="headding">
             <header>
                 <nav>
@@ -42,37 +45,37 @@
                         </div>
 
                         <div class="menu">
-                            <ul >                                
-                            
-                            <li><a class="fake_link" href="page_app.html">Конструктор помещений</a>
-                                <ul class="center_ul">
-                                    <li><a href="#">К-р квартир</a></li>
-                                    <li><a href="#">К-р коттеджей</a></li>
-                                    <li><a href="#">К-р офисов</a></li>
-                                </ul>
-                            </li>
-                            <li><a class="fake_link" href="page_app.html">Виды работ</a>
-                                <ul class="center_ul">
-                                    <li><a href="#">Отделочные<br>работы</a></li>
-                                    <li><a href="#">Электро-монтажные<br>работы</a></li>
-                                    <li><a href="#">Малярно-штукатурные<br>работы</a></li>
-                                    <li><a href="#">Плиточные<br>работы</a></li>
-                                    <li><a href="#">Сантехнические<br>работы</a></li>
-                                </ul>
-                            </li>
-                            <li><a class="fake_link" href="page_app.html">Цены</a>
-                                <ul class="center_ul">
+                            <ul>
 
-                                </ul>
-                            </li>
-                            <li><a class="fake_link" href="page_app.html">О нас</a>
-                                <ul class="center_ul">
-                                    <li><a href="#">Описание</a></li>
-                                    <li><a href="#">Оплата услуг</a></li>
-                                    <li><a href="#">Контакты</a></li>
-                                    <li><a href="#">FAQ</a></li>
-                                </ul>
-                            </li>
+                                <li><a class="fake_link" href="page_app.html">Конструктор помещений</a>
+                                    <ul class="center_ul">
+                                        <li><a href="#">К-р квартир</a></li>
+                                        <li><a href="#">К-р коттеджей</a></li>
+                                        <li><a href="#">К-р офисов</a></li>
+                                    </ul>
+                                </li>
+                                <li><a class="fake_link" href="page_app.html">Виды работ</a>
+                                    <ul class="center_ul">
+                                        <li><a href="#">Отделочные<br>работы</a></li>
+                                        <li><a href="#">Электро-монтажные<br>работы</a></li>
+                                        <li><a href="#">Малярно-штукатурные<br>работы</a></li>
+                                        <li><a href="#">Плиточные<br>работы</a></li>
+                                        <li><a href="#">Сантехнические<br>работы</a></li>
+                                    </ul>
+                                </li>
+                                <li><a class="fake_link" href="page_app.html">Цены</a>
+                                    <ul class="center_ul">
+
+                                    </ul>
+                                </li>
+                                <li><a class="fake_link" href="page_app.html">О нас</a>
+                                    <ul class="center_ul">
+                                        <li><a href="#">Описание</a></li>
+                                        <li><a href="#">Оплата услуг</a></li>
+                                        <li><a href="#">Контакты</a></li>
+                                        <li><a href="#">FAQ</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
 
@@ -94,7 +97,7 @@
         </section>
 
         <section class="main_info js__main_info" id="features">
-        
+
             <div class="row">
                 <h2>Спланировать ремонт &mdash; нет ничего проще</h2>
                 <p class="long_copy">
@@ -193,14 +196,21 @@
                             <img src="resourses/img/photo_2017-02-01_00-45-13.jpg" alt="">
                         </figure>
 
-                        <h3>Всё своё? Установим!</h3>
+                        <h3 id="bot">Всё своё? Установим!</h3>
                         <p>Вы можете заказать у нас всё необходимое для ремонта, начиная от паркета, и заканчивая сантехникой.
                             Но если у вас уже есть свои <span class="beauty_word">собственные материалы и мебель</span>,
                             мы можем заняться их установкой.
                         </p>
                     </div>
-
+                    <div class="move_up hidd">
+                        <a href="#headding"><i class="ion-chevron-up icon-big"></i></a>
+                        <p>Вверх</p>
+                    </div>
             </section>
+
+
+
+
 
 
 
@@ -217,8 +227,8 @@
 
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
             <script src="vendors/js/jquery.waypoints.min.js"></script>
-            <script src="vendors/js/noframework.waypoints.min.js"></script>
             <script src="resourses/js/script.js"></script>
+            <script src="resourses/js/nav_scroll.js"></script>
 
 
 
