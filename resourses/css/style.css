@@ -61,7 +61,7 @@ ul {
 display: block;
     position: fixed;
     width: 78px;
-    bottom: 100px;
+    bottom: 30px;
     right: 0;
     background:rgba(100,100,100,0.75)
 }
