@@ -2,6 +2,34 @@ $(document).ready(function () {
 
 
 
+  $('.js__main_info').waypoint(function (direction) {
+        if (direction == "down") {
+            $('nav').addClass('sticky');
+        } else {
+            $('nav').removeClass('sticky');
+        }
+    }, {
+            offset: '60px;'
+        });
+
+       
+     /*
+           var lastScrollTop = 0;
+$(window).scroll(function(event){
+   var st = $(this).scrollTop();
+   if (st < lastScrollTop){   
+     $('nav').removeClass('sticky');
+   } else {
+     $('nav').addClass('sticky');
+   }
+   lastScrollTop = st;
+});
+     */   
+  
+        
+      
+
+
     $(".js__klick_1_to_2").click(function () {
         $("#page01").hide();
         $("#page02").show();
@@ -45,5 +73,20 @@ var map = new GMaps({
   content: '<p>Our MSC</p>'
 }
     });
+
+//sticky header on main page
+
+
+ /*$('.js__main_info').waypoint(function (direction) {
+        if (direction == "down") {
+            $('nav').addClass('sticky');
+        } else {
+            $('nav').removeClass('sticky');
+        }
+    }, {
+            offset: '60px;'
+        });
+*/ 
+      
 
 });
