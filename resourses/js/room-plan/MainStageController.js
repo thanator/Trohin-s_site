@@ -12,11 +12,12 @@ MainStageController.prototype.init = function () {
     this.interaction.on("mousedown", this._onMouseDown.bind(this));
     this.interaction.on("mousemove", this._onMouseMove.bind(this));
     this.interaction.on("mouseup", this._onMouseUp.bind(this));
+    this.wallBuilder.wallsCollection.on("addWallView", this._onAddWallView.bind(this));
+    this.wallBuilder.wallsCollection.on("removeWallView", this._onRemoveWallView.bind(this));
 };
 
 MainStageController.prototype._onMouseDown = function () {
     this.wallBuilder.beginNewWall();
-    this.stage.addChild(this.wallBuilder.wallView);
 };
 
 MainStageController.prototype._onMouseMove = function (event) {
@@ -26,4 +27,12 @@ MainStageController.prototype._onMouseMove = function (event) {
 
 MainStageController.prototype._onMouseUp = function () {
     this.wallBuilder.endWall();
+};
+
+MainStageController.prototype._onAddWallView = function (view) {
+    this.stage.addChild(view);
+};
+
+MainStageController.prototype._onRemoveWallView = function (view) {
+    this.stage.removeChild(view);
 };

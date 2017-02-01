@@ -7,6 +7,7 @@ function WallView(model) {
     this.renderWall();
 }
 WallView.prototype = Object.create(PIXI.Graphics.prototype);
+WallView.prototype.constructor = WallView;
 module.exports = WallView;
 
 

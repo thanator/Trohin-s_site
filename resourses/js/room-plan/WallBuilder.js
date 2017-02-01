@@ -1,17 +1,18 @@
 var WallModel = require("./WallModel.js");
 var WallView = require("./WallView.js");
+var WallsCollection = require("./WallsCollection.js");
 var CellModel = require("./CellModel.js");
 
 
 function WallBuilder() {
-    this.allWalls = [];
+    this.wallsCollection = new WallsCollection();
 }
 module.exports = WallBuilder;
 
 WallBuilder.prototype.beginNewWall = function () {
     this.wall = new WallModel();
     this.wallView = new WallView(this.wall);
-    this.allWalls.push(this.wall);
+    this.wallsCollection.addWall(this.wall, this.wallView);
 };
 
 WallBuilder.prototype.endWall = function () {
@@ -31,6 +32,7 @@ WallBuilder.prototype.tryAddCell = function (x, y) {
     if (this.isBuilding() && this._isCellOkWithThisWall(x, y) && this._isCellOkWithOtherWalls(x, y)) {
         var cell = new CellModel(x, y);
         this.wall.cells.push(cell);
+        this._tryJoin();
         this.wallView.renderWall();
         return true;
     }
@@ -38,11 +40,26 @@ WallBuilder.prototype.tryAddCell = function (x, y) {
 };
 
 WallBuilder.prototype._isCellOkWithOtherWalls = function (x, y) {
-    return !_.some(this.allWalls, function (wall) {
-        return wall.hasCellWithCoords(x, y);
+    return _.every(this.wallsCollection.walls, function (wall) {
+        return !wall.hasCellWithCoords(x, y);
     });
 };
 
 WallBuilder.prototype._isCellOkWithThisWall = function (x, y) {
     return this.wall.cells.length == 0 || this.wall.isCellWithCoordsLinkable(x, y);
+};
+
+WallBuilder.prototype._tryJoin = function () {
+    for (var i = 0; i < this.wallsCollection.walls.length; i++) {
+        var wall = this.wallsCollection.walls[i];
+        if (wall == this.wall) {
+            continue;
+        }
+        if (wall.tryJoin(this.wall)) {
+            this.wallsCollection.removeWall(this.wall);
+            this.wall = wall;
+            this.wallView = this.wallsCollection.wallViews[i][0];
+            break;
+        }
+    }
 };

@@ -9,13 +9,30 @@ WallModel.prototype.isCellLinkable = function (cell) {
 
 WallModel.prototype.isCellWithCoordsLinkable = function (x, y) {
     var neighborhood = this.getCellWithCoordsNeighborhood(x, y);
-    if ((neighborhood.left || neighborhood.right) && !(neighborhood.top || neighborhood.bottom)) {
-        return true;
+    if (!neighborhood.left && !neighborhood.right && !neighborhood.top && !neighborhood.bottom) {
+        return false;
     }
-    if ((neighborhood.top || neighborhood.bottom) && !(neighborhood.left || neighborhood.right)) {
-        return true;
+    if (neighborhood.left && neighborhood.top) {
+        if (this.hasCellWithCoords(x - 1, y - 1)) {
+            return false;
+        }
     }
-    return false;
+    if (neighborhood.right && neighborhood.top) {
+        if (this.hasCellWithCoords(x + 1, y - 1)) {
+            return false;
+        }
+    }
+    if (neighborhood.left && neighborhood.bottom) {
+        if (this.hasCellWithCoords(x - 1, y + 1)) {
+            return false;
+        }
+    }
+    if (neighborhood.right && neighborhood.bottom) {
+        if (this.hasCellWithCoords(x + 1, y + 1)) {
+            return false;
+        }
+    }
+    return true;
 };
 
 WallModel.prototype.getCellNeighborhood = function (cell) {
@@ -52,4 +69,71 @@ WallModel.prototype.hasCellWithCoords = function (x, y) {
     return _.some(this.cells, function (it) {
         return it.x == x && it.y == y;
     });
+};
+
+WallModel.prototype.join = function (otherWall) {
+    this.cells = _.concat(this.cells, otherWall.cells);
+};
+
+WallModel.prototype.tryJoin = function (otherWall) {
+    var oldCells = this.cells;
+    this.cells = _.concat(this.cells, otherWall.cells);
+    if (!this.isOkay()) {
+        this.cells = oldCells;
+        return false;
+    }
+    return true;
+};
+
+WallModel.prototype.joinCopy = function (otherWall) {
+    var newWall = new WallModel();
+    newWall.cells = _.concat(this.cells, otherWall.cells);
+};
+
+WallModel.prototype.isOkay = function () {
+    return this._areAllCellsLinkedOkay() && this._isCellGraphOkay();
+};
+
+WallModel.prototype._areAllCellsLinkedOkay = function () {
+    return _.every(this.cells, function (cell) {
+        return this.isCellLinkable(cell);
+    }.bind(this));
+};
+
+WallModel.prototype._isCellGraphOkay = function () {
+    var checkedCells = new Array(this.cells.length);
+    this._cellDfs(this.cells[0].x, this.cells[0].y, checkedCells);
+    return _.every(checkedCells, function (it) {
+        return it === true;
+    });
+};
+
+WallModel.prototype._cellDfs = function (x, y, checkedCells) {
+    if (checkedCells[this._getCellIndex(x, y)] === true) {
+        return;
+    }
+    checkedCells[this._getCellIndex(x, y)] = true;
+
+    var neighborhood = this.getCellWithCoordsNeighborhood(x, y);
+    if (neighborhood.left) {
+        this._cellDfs(x - 1, y, checkedCells);
+    }
+    if (neighborhood.right) {
+        this._cellDfs(x + 1, y, checkedCells);
+    }
+    if (neighborhood.top) {
+        this._cellDfs(x, y - 1, checkedCells);
+    }
+    if (neighborhood.bottom) {
+        this._cellDfs(x, y + 1, checkedCells);
+    }
+};
+
+WallModel.prototype._getCellIndex = function (x, y) {
+    for (var i = 0; i < this.cells.length; i++) {
+        var cell = this.cells[i];
+        if (cell.x == x && cell.y == y) {
+            return i;
+        }
+    }
 };
