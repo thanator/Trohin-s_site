@@ -23,10 +23,6 @@ WallBuilder.prototype.isBuilding = function () {
     return this.wall != null;
 };
 
-WallBuilder.prototype.tryAddCellWithScreenCoords = function (x, y) {
-    return this.tryAddCell(Math.floor(x / WallView.cellWidth), Math.floor(y / WallView.cellHeight));
-};
-
 WallBuilder.prototype.tryAddCell = function (x, y) {
     if (this.isBuilding() && this._isCellOkWithThisWall(x, y) && this._isCellOkWithOtherWalls(x, y)) {
         var cell = new CellModel(x, y);

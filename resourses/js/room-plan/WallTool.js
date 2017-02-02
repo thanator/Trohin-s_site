@@ -1,4 +1,5 @@
 var WallBuilder = require("./WallBuilder.js");
+var WallView = require("./WallView.js");
 
 
 function WallTool(appState) {
@@ -12,7 +13,7 @@ WallTool.prototype.onMouseDown = function () {
 };
 
 WallTool.prototype.onMouseMove = function (x, y) {
-    this.wallBuilder.tryAddCellWithScreenCoords(x, y);
+    this.wallBuilder.tryAddCell(Math.floor(x / WallView.cellWidth), Math.floor(y / WallView.cellHeight));
 };
 
 WallTool.prototype.onMouseUp = function () {

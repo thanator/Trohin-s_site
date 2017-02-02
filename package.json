@@ -13,6 +13,7 @@
     "watchify": "^3.9.0"
   },
   "dependencies": {
+    "core-js": "^2.4.1",
     "eventemitter3": "^2.0.2",
     "pixi.js": "^4.3.4"
   }

@@ -61,6 +61,12 @@ WallModel.prototype.getCellWithCoordsNeighborhood = function (x, y) {
     return neighborhood;
 };
 
+WallModel.prototype.getCell = function (x, y) {
+    return _.find(this.cells, function (it) {
+        return it.x == x && it.y == y;
+    });
+};
+
 WallModel.prototype.hasCell = function (cell) {
     return this.hasCellWithCoords(cell.x, cell.y);
 };
