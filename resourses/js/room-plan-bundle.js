@@ -36883,6 +36883,7 @@ $(function () {
 var PIXI = require("pixi.js");
 var MainStageController = require("./MainStageController.js");
 var AppState = require("./AppState.js");
+var ToolsView = require("./ToolsView.js");
 
 
 function App() {
@@ -36900,9 +36901,12 @@ App.prototype.init = function () {
 
     var controller = new MainStageController(this.pixiApp.stage, this.pixiApp.renderer.plugins.interaction, this.state);
     controller.init();
+
+    var toolsView = new ToolsView(this.state);
+    toolsView.init();
 };
 
-},{"./AppState.js":183,"./MainStageController.js":185,"pixi.js":134}],183:[function(require,module,exports){
+},{"./AppState.js":183,"./MainStageController.js":185,"./ToolsView.js":186,"pixi.js":134}],183:[function(require,module,exports){
 var WallsCollection = require("./WallsCollection.js");
 var WallTool = require("./WallTool.js");
 var WireTool = require("./WireTool.js");
@@ -36917,7 +36921,7 @@ function AppState() {
     this.currentTool = this.tools[0];
 }
 module.exports = AppState;
-},{"./WallTool.js":188,"./WallsCollection.js":190,"./WireTool.js":192}],184:[function(require,module,exports){
+},{"./WallTool.js":189,"./WallsCollection.js":191,"./WireTool.js":193}],184:[function(require,module,exports){
 function CellModel(x, y) {
     this.x = x;
     this.y = y;
@@ -36963,6 +36967,43 @@ MainStageController.prototype._onRemoveWallView = function (view) {
 };
 
 },{}],186:[function(require,module,exports){
+function ToolsView(appState) {
+    this.appState = appState;
+    this.toolsDomIdsToIntIds = {
+        "#app-tool-wall": 0,
+        "#app-tool-wire": 1
+    }
+}
+module.exports = ToolsView;
+
+ToolsView.prototype.init = function () {
+    for (var domId in this.toolsDomIdsToIntIds) {
+        if (this.toolsDomIdsToIntIds.hasOwnProperty(domId)) {
+            this._registerEvent(domId, this.toolsDomIdsToIntIds[domId]);
+        }
+    }
+};
+
+ToolsView.prototype._registerEvent = function (domId, intId) {
+    var self = this;
+    $(domId).click(function () {
+        self._changeActiveButton($(this));
+        self.appState.currentTool = self.appState.tools[intId];
+    });
+};
+
+ToolsView.prototype._changeActiveButton = function ($nextActive) {
+    var $active = $(".app-tools__item--active");
+    var $inactive = $(".app-tools__item--inactive");
+
+    $active.removeClass("app-tools__item--active");
+    $inactive.removeClass("app-tools__item--inactive");
+
+    $active.addClass("app-tools__item--inactive");
+    $nextActive.addClass("app-tools__item--active");
+};
+
+},{}],187:[function(require,module,exports){
 var WallModel = require("./WallModel.js");
 var WallView = require("./WallView.js");
 var CellModel = require("./CellModel.js");
@@ -37027,7 +37068,7 @@ WallBuilder.prototype._tryJoin = function () {
         }
     }
 };
-},{"./CellModel.js":184,"./WallModel.js":187,"./WallView.js":189}],187:[function(require,module,exports){
+},{"./CellModel.js":184,"./WallModel.js":188,"./WallView.js":190}],188:[function(require,module,exports){
 function WallModel() {
     this.cells = [];
 }
@@ -37168,12 +37209,11 @@ WallModel.prototype._getCellIndex = function (x, y) {
     }
 };
 
-},{}],188:[function(require,module,exports){
+},{}],189:[function(require,module,exports){
 var WallBuilder = require("./WallBuilder.js");
 
 
 function WallTool(appState) {
-    this.name = "Построить стену";
     this.appState = appState;
     this.wallBuilder = new WallBuilder(this.appState.wallsCollection);
 }
@@ -37191,7 +37231,7 @@ WallTool.prototype.onMouseUp = function () {
     this.wallBuilder.endWall();
 };
 
-},{"./WallBuilder.js":186}],189:[function(require,module,exports){
+},{"./WallBuilder.js":187}],190:[function(require,module,exports){
 var PIXI = require("pixi.js");
 
 
@@ -37274,7 +37314,7 @@ WallView.prototype._renderCellContents = function (x, y, w, h, content, neighbor
     }
 };
 
-},{"pixi.js":134}],190:[function(require,module,exports){
+},{"pixi.js":134}],191:[function(require,module,exports){
 var EventEmitter = require("eventemitter3");
 
 
@@ -37318,22 +37358,30 @@ WallsCollection.prototype.removeWallView = function (view) {
     this.emit("removeWallView", view);
 };
 
-},{"eventemitter3":3}],191:[function(require,module,exports){
+},{"eventemitter3":3}],192:[function(require,module,exports){
 function WireBuilder(wallsCollection) {
     this.wallsCollection = wallsCollection;
 }
 module.exports = WireBuilder;
 
-},{}],192:[function(require,module,exports){
+},{}],193:[function(require,module,exports){
 var WireBuilder = require("./WireBuilder.js");
 
 
 function WireTool(appState) {
-    this.name = "Провести проводку";
     this.appState = appState;
     this.wallBuilder = new WireBuilder(this.appState.wallsCollection);
 }
 module.exports = WireTool;
 
-},{"./WireBuilder.js":191}]},{},[181])
+WireTool.prototype.onMouseDown = function () {
+};
+
+WireTool.prototype.onMouseMove = function (x, y) {
+};
+
+WireTool.prototype.onMouseUp = function () {
+};
+
+},{"./WireBuilder.js":192}]},{},[181])
 //# sourceMappingURL=room-plan-bundle.js.map

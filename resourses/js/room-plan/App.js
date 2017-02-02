@@ -1,6 +1,7 @@
 var PIXI = require("pixi.js");
 var MainStageController = require("./MainStageController.js");
 var AppState = require("./AppState.js");
+var ToolsView = require("./ToolsView.js");
 
 
 function App() {
@@ -18,4 +19,7 @@ App.prototype.init = function () {
 
     var controller = new MainStageController(this.pixiApp.stage, this.pixiApp.renderer.plugins.interaction, this.state);
     controller.init();
+
+    var toolsView = new ToolsView(this.state);
+    toolsView.init();
 };

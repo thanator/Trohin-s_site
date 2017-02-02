@@ -2,7 +2,6 @@ var WallBuilder = require("./WallBuilder.js");
 
 
 function WallTool(appState) {
-    this.name = "Построить стену";
     this.appState = appState;
     this.wallBuilder = new WallBuilder(this.appState.wallsCollection);
 }
