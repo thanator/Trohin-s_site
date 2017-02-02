@@ -1,11 +1,10 @@
 var WallModel = require("./WallModel.js");
 var WallView = require("./WallView.js");
-var WallsCollection = require("./WallsCollection.js");
 var CellModel = require("./CellModel.js");
 
 
-function WallBuilder() {
-    this.wallsCollection = new WallsCollection();
+function WallBuilder(wallsCollection) {
+    this.wallsCollection = wallsCollection;
 }
 module.exports = WallBuilder;
 

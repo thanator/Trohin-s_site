@@ -36882,6 +36882,7 @@ $(function () {
 },{"./room-plan/App.js":182}],182:[function(require,module,exports){
 var PIXI = require("pixi.js");
 var MainStageController = require("./MainStageController.js");
+var AppState = require("./AppState.js");
 
 
 function App() {
@@ -36889,31 +36890,46 @@ function App() {
 module.exports = App;
 
 App.prototype.init = function () {
-    var app = new PIXI.Application(800, 600, {antialias: true, backgroundColor: 0xeeeeee});
+    this.pixiApp = new PIXI.Application(800, 600, {antialias: true, backgroundColor: 0xeeeeee});
 
-    var $view = $(app.view);
+    var $view = $(this.pixiApp.view);
     $(".app").replaceWith($view);
     $view.addClass("app");
 
-    var controller = new MainStageController(app.stage, app.renderer.plugins.interaction);
+    this.state = new AppState();
+
+    var controller = new MainStageController(this.pixiApp.stage, this.pixiApp.renderer.plugins.interaction, this.state);
     controller.init();
 };
 
-},{"./MainStageController.js":184,"pixi.js":134}],183:[function(require,module,exports){
+},{"./AppState.js":183,"./MainStageController.js":185,"pixi.js":134}],183:[function(require,module,exports){
+var WallsCollection = require("./WallsCollection.js");
+var WallTool = require("./WallTool.js");
+var WireTool = require("./WireTool.js");
+
+
+function AppState() {
+    this.wallsCollection = new WallsCollection();
+    this.tools = [
+        new WallTool(this),
+        new WireTool(this)
+    ];
+    this.currentTool = this.tools[0];
+}
+module.exports = AppState;
+},{"./WallTool.js":188,"./WallsCollection.js":190,"./WireTool.js":192}],184:[function(require,module,exports){
 function CellModel(x, y) {
     this.x = x;
     this.y = y;
+    this.contents = [];
 }
 module.exports = CellModel;
 
-},{}],184:[function(require,module,exports){
-var WallBuilder = require("./WallBuilder.js");
-
-
-function MainStageController(stage, interaction) {
+},{}],185:[function(require,module,exports){
+function MainStageController(stage, interaction, appState) {
     this.stage = stage;
     this.interaction = interaction;
-    this.wallBuilder = new WallBuilder();
+    this.appState = appState;
 }
 module.exports = MainStageController;
 
@@ -36921,21 +36937,21 @@ MainStageController.prototype.init = function () {
     this.interaction.on("mousedown", this._onMouseDown.bind(this));
     this.interaction.on("mousemove", this._onMouseMove.bind(this));
     this.interaction.on("mouseup", this._onMouseUp.bind(this));
-    this.wallBuilder.wallsCollection.on("addWallView", this._onAddWallView.bind(this));
-    this.wallBuilder.wallsCollection.on("removeWallView", this._onRemoveWallView.bind(this));
+    this.appState.wallsCollection.on("addWallView", this._onAddWallView.bind(this));
+    this.appState.wallsCollection.on("removeWallView", this._onRemoveWallView.bind(this));
 };
 
 MainStageController.prototype._onMouseDown = function () {
-    this.wallBuilder.beginNewWall();
+    this.appState.currentTool.onMouseDown();
 };
 
 MainStageController.prototype._onMouseMove = function (event) {
     var pos = event.data.getLocalPosition(this.stage, undefined, this.interaction.mouse.global);
-    this.wallBuilder.tryAddCellWithScreenCoords(pos.x, pos.y);
+    this.appState.currentTool.onMouseMove(pos.x, pos.y);
 };
 
 MainStageController.prototype._onMouseUp = function () {
-    this.wallBuilder.endWall();
+    this.appState.currentTool.onMouseUp();
 };
 
 MainStageController.prototype._onAddWallView = function (view) {
@@ -36946,15 +36962,14 @@ MainStageController.prototype._onRemoveWallView = function (view) {
     this.stage.removeChild(view);
 };
 
-},{"./WallBuilder.js":185}],185:[function(require,module,exports){
+},{}],186:[function(require,module,exports){
 var WallModel = require("./WallModel.js");
 var WallView = require("./WallView.js");
-var WallsCollection = require("./WallsCollection.js");
 var CellModel = require("./CellModel.js");
 
 
-function WallBuilder() {
-    this.wallsCollection = new WallsCollection();
+function WallBuilder(wallsCollection) {
+    this.wallsCollection = wallsCollection;
 }
 module.exports = WallBuilder;
 
@@ -37012,7 +37027,7 @@ WallBuilder.prototype._tryJoin = function () {
         }
     }
 };
-},{"./CellModel.js":183,"./WallModel.js":186,"./WallView.js":187,"./WallsCollection.js":188}],186:[function(require,module,exports){
+},{"./CellModel.js":184,"./WallModel.js":187,"./WallView.js":189}],187:[function(require,module,exports){
 function WallModel() {
     this.cells = [];
 }
@@ -37153,7 +37168,30 @@ WallModel.prototype._getCellIndex = function (x, y) {
     }
 };
 
-},{}],187:[function(require,module,exports){
+},{}],188:[function(require,module,exports){
+var WallBuilder = require("./WallBuilder.js");
+
+
+function WallTool(appState) {
+    this.name = "Построить стену";
+    this.appState = appState;
+    this.wallBuilder = new WallBuilder(this.appState.wallsCollection);
+}
+module.exports = WallTool;
+
+WallTool.prototype.onMouseDown = function () {
+    this.wallBuilder.beginNewWall();
+};
+
+WallTool.prototype.onMouseMove = function (x, y) {
+    this.wallBuilder.tryAddCellWithScreenCoords(x, y);
+};
+
+WallTool.prototype.onMouseUp = function () {
+    this.wallBuilder.endWall();
+};
+
+},{"./WallBuilder.js":186}],189:[function(require,module,exports){
 var PIXI = require("pixi.js");
 
 
@@ -37175,48 +37213,68 @@ WallView.cellBorderSize = 4;
 WallView.prototype.renderWall = function () {
     for (var i = 0; i < this.model.cells.length; i++) {
         var cell = this.model.cells[i];
+
+        var border = WallView.cellBorderSize;
         var w = WallView.cellWidth;
         var h = WallView.cellHeight;
         var x = cell.x * w;
         var y = cell.y * h;
-        var b = WallView.cellBorderSize;
-
-        this.beginFill(0xbbcccc);
-        this.drawRect(x, y, w, h);
-        this.endFill();
-
         var neighborhood = this.model.getCellNeighborhood(cell);
-        this.beginFill(0xff700b);
-        if (!neighborhood.left) {
-            this.drawRect(x, y, b, h);
-        } else {
-            this.drawRect(x, y, b, b);
-            this.drawRect(x, y + h - b, b, b);
-        }
-        if (!neighborhood.right) {
-            this.drawRect(x + w - b, y, b, h);
-        } else {
-            this.drawRect(x + w - b, y, b, b);
-            this.drawRect(x + w - b, y + h - b, b, b);
-        }
-        if (!neighborhood.top) {
-            this.drawRect(x, y, w, b);
-        } else {
-            this.drawRect(x, y, b, b);
-            this.drawRect(x + w - b, y, b, b);
-        }
-        if (!neighborhood.bottom) {
-            this.drawRect(x, y + h - b, w, b);
-        } else {
-            this.drawRect(x, y + h - b, b, b);
-            this.drawRect(x + w - b, y + h - b, b, b);
-        }
-        this.endFill();
+
+        this._renderCellBackground(x, y, w, h);
+        this._renderCellBorder(x, y, w, h, border, neighborhood);
+        cell.contents.forEach(function (content) {
+            this._renderCellContents(x, y, w, h, content, neighborhood);
+        }.bind(this));
     }
 };
 
+WallView.prototype._renderCellBackground = function (x, y, w, h) {
+    this.beginFill(0xbbcccc);
+    this.drawRect(x, y, w, h);
+    this.endFill();
+};
 
-},{"pixi.js":134}],188:[function(require,module,exports){
+WallView.prototype._renderCellBorder = function (x, y, w, h, border, neighborhood) {
+    this.beginFill(0xff700b);
+    if (!neighborhood.left) {
+        this.drawRect(x, y, border, h);
+    } else {
+        this.drawRect(x, y, border, border);
+        this.drawRect(x, y + h - border, border, border);
+    }
+    if (!neighborhood.right) {
+        this.drawRect(x + w - border, y, border, h);
+    } else {
+        this.drawRect(x + w - border, y, border, border);
+        this.drawRect(x + w - border, y + h - border, border, border);
+    }
+    if (!neighborhood.top) {
+        this.drawRect(x, y, w, border);
+    } else {
+        this.drawRect(x, y, border, border);
+        this.drawRect(x + w - border, y, border, border);
+    }
+    if (!neighborhood.bottom) {
+        this.drawRect(x, y + h - border, w, border);
+    } else {
+        this.drawRect(x, y + h - border, border, border);
+        this.drawRect(x + w - border, y + h - border, border, border);
+    }
+    this.endFill();
+};
+
+WallView.prototype._renderCellContents = function (x, y, w, h, content, neighborhood) {
+    switch (content) {
+        case "wire":
+            this.beginFill(0xff0000);
+            this.drawRect(x + w / 4, y + h / 4, w / 2, h / 2);
+            this.endFill();
+            break;
+    }
+};
+
+},{"pixi.js":134}],190:[function(require,module,exports){
 var EventEmitter = require("eventemitter3");
 
 
@@ -37260,5 +37318,22 @@ WallsCollection.prototype.removeWallView = function (view) {
     this.emit("removeWallView", view);
 };
 
-},{"eventemitter3":3}]},{},[181])
+},{"eventemitter3":3}],191:[function(require,module,exports){
+function WireBuilder(wallsCollection) {
+    this.wallsCollection = wallsCollection;
+}
+module.exports = WireBuilder;
+
+},{}],192:[function(require,module,exports){
+var WireBuilder = require("./WireBuilder.js");
+
+
+function WireTool(appState) {
+    this.name = "Провести проводку";
+    this.appState = appState;
+    this.wallBuilder = new WireBuilder(this.appState.wallsCollection);
+}
+module.exports = WireTool;
+
+},{"./WireBuilder.js":191}]},{},[181])
 //# sourceMappingURL=room-plan-bundle.js.map

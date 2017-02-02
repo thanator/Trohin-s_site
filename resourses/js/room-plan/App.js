@@ -1,5 +1,6 @@
 var PIXI = require("pixi.js");
 var MainStageController = require("./MainStageController.js");
+var AppState = require("./AppState.js");
 
 
 function App() {
@@ -7,12 +8,14 @@ function App() {
 module.exports = App;
 
 App.prototype.init = function () {
-    var app = new PIXI.Application(800, 600, {antialias: true, backgroundColor: 0xeeeeee});
+    this.pixiApp = new PIXI.Application(800, 600, {antialias: true, backgroundColor: 0xeeeeee});
 
-    var $view = $(app.view);
+    var $view = $(this.pixiApp.view);
     $(".app").replaceWith($view);
     $view.addClass("app");
 
-    var controller = new MainStageController(app.stage, app.renderer.plugins.interaction);
+    this.state = new AppState();
+
+    var controller = new MainStageController(this.pixiApp.stage, this.pixiApp.renderer.plugins.interaction, this.state);
     controller.init();
 };
