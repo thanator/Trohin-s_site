@@ -38448,7 +38448,21 @@ WireBuilder.prototype.tryAddWire = function (x, y) {
         for (var j = 0; j < wall.cells.length; j++) {
             var cell = wall.cells[j];
             if (cell.x == x && cell.y == y) {
-                cell.contents.add("wire");
+                var hasConnection = false;
+                for (var k = 0; k < wall.cells.length; k++) {
+                    var otherCell = wall.cells[j];
+                    var dx = Math.abs(otherCell.x - cell.x);
+                    var dy = Math.abs(otherCell.y - cell.y);
+                    if ((dx == 1 && dy == 0) || (dy == 1 && dx == 0)) {
+                        if (otherCell.contents.has("wire")) {
+                            hasConnection = true;
+                            break;
+                        }
+                    }
+                }
+                if (hasConnection) {
+                    cell.contents.add("wire");
+                }
                 done = true;
                 break;
             }
