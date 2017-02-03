@@ -27,7 +27,7 @@ $(document).ready(function(){
 			$(this)
 				.css('margin-left', '0%');
 			$(this)
-				.animate({'margin-left': '-100%'}, 20000, 'linear', reset);
+				.animate({'margin-left': '-100%'}, 25000, 'linear', reset);
 		};
 		//
 		reset.call(
@@ -41,7 +41,7 @@ $(document).ready(function(){
         },
                                              
         function(){     
-          var time=20000+parseInt( $(this).css('margin-left') )/($(this).width()/2)*20000;          
+          var time=25000+parseInt( $(this).css('margin-left') )/($(this).width()/2)*25000;          
            $(this).animate({'margin-left': '-100%'}, time, 'linear',reset);
         });                                
     });
