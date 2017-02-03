@@ -17,6 +17,7 @@ WallView.cellBorderSize = 4;
 
 
 WallView.prototype.renderWall = function () {
+    this.clear();
     for (var i = 0; i < this.model.cells.length; i++) {
         var cell = this.model.cells[i];
 

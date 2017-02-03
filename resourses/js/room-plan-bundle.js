@@ -38348,6 +38348,26 @@ WallBuilder.prototype.tryAddCell = function (x, y) {
     return false;
 };
 
+WallBuilder.prototype.tryRemoveCell = function (x, y) {
+    var d = this.wallsCollection.findCellAndWall(x, y);
+    if (d.cell == null) {
+        return false;
+    }
+    d.wall.cells.splice(d.wall.cells.indexOf(d.cell), 1);
+    var newWalls = d.wall.split();
+    if (newWalls.length <= 1) {
+        d.wallViews[0].renderWall();
+        return true;
+    }
+    this.wallsCollection.removeWall(d.wall);
+    for (var i = 0; i < newWalls.length; i++) {
+        var wall = newWalls[i];
+        var wallView = new WallView(wall);
+        this.wallsCollection.addWall(wall, wallView);
+    }
+    return true;
+};
+
 WallBuilder.prototype._isCellOkWithOtherWalls = function (x, y) {
     return _.every(this.wallsCollection.walls, function (wall) {
         return !wall.hasCellWithCoords(x, y);
@@ -38364,10 +38384,8 @@ WallBuilder.prototype._tryJoin = function () {
         if (wall == this.wall) {
             continue;
         }
-        if (wall.tryJoin(this.wall)) {
-            this.wallsCollection.removeWall(this.wall);
-            this.wall = wall;
-            this.wallView = this.wallsCollection.wallViews[i][0];
+        if (this.wall.tryJoin(wall)) {
+            this.wallsCollection.removeWall(wall);
             break;
         }
     }
@@ -38387,7 +38405,7 @@ WallModel.prototype.isCellLinkable = function (cell) {
 
 WallModel.prototype.isCellWithCoordsLinkable = function (x, y) {
     var neighborhood = this.getCellWithCoordsNeighborhood(x, y);
-    if (!neighborhood.left && !neighborhood.right && !neighborhood.up && !neighborhood.down) {
+    if (neighborhood.hasNoNeighbors()) {
         return false;
     }
     if (neighborhood.left && neighborhood.up) {
@@ -38474,6 +38492,52 @@ WallModel.prototype.joinCopy = function (otherWall) {
     newWall.cells = _.concat(this.cells, otherWall.cells);
 };
 
+WallModel.prototype.split = function () {
+    var checkedCells = new Array(this.cells.length);
+
+    var isCheckedAll = function () {
+        return _.every(checkedCells, function (it) {
+            return it === true;
+        });
+    }.bind(this);
+    var getFirstUncheckedCell = function () {
+        for (var i = 0; i < checkedCells.length; i++) {
+            if (checkedCells[i] !== true) {
+                return this.cells[i];
+            }
+        }
+        return null;
+    }.bind(this);
+    var diffNew = function (was, now) {
+        var result = _.clone(now);
+        for (var i = 0; i < result.length; i++) {
+            if (was[i] === true) {
+                result[i] = false;
+            }
+        }
+        return result;
+    }.bind(this);
+
+    var walls = [];
+    while (!isCheckedAll()) {
+        var oldCheckedCells = _.clone(checkedCells);
+
+        var cell = getFirstUncheckedCell();
+        this._cellDfs(cell.x, cell.y, checkedCells);
+
+        var wall = new WallModel();
+        var diff = diffNew(oldCheckedCells, checkedCells);
+        for (var i = 0; i < diff.length; i++) {
+            if (diff[i] === true) {
+                wall.cells.push(this.cells[i]);
+            }
+        }
+
+        walls.push(wall);
+    }
+    return walls;
+};
+
 WallModel.prototype.isOkay = function () {
     return this._areAllCellsLinkedOkay() && this._isCellGraphOkay();
 };
@@ -38530,14 +38594,33 @@ var WallView = require("./WallView.js");
 function WallTool(appState) {
     this.appState = appState;
     this.wallBuilder = new WallBuilder(this.appState.wallsCollection);
+    this.isMouseDown = false;
 }
 module.exports = WallTool;
 
 WallTool.prototype.onMouseDown = function () {
-    this.wallBuilder.beginNewWall();
+    this.isMouseDown = true;
+    if (this.appState.toolMode == "add") {
+        this.wallBuilder.beginNewWall();
+    }
 };
 
 WallTool.prototype.onMouseMove = function (x, y) {
+    if (!this.isMouseDown) {
+        return;
+    }
+    this._create(x, y);
+};
+
+WallTool.prototype.onMouseUp = function (x, y) {
+    this.isMouseDown = false;
+    if (this.appState.toolMode == "add") {
+        this.wallBuilder.endWall();
+    }
+    this._create(x, y);
+};
+
+WallTool.prototype._create = function (x, y) {
     var cellX = Math.floor(x / WallView.cellWidth);
     var cellY = Math.floor(y / WallView.cellHeight);
     switch (this.appState.toolMode) {
@@ -38548,10 +38631,6 @@ WallTool.prototype.onMouseMove = function (x, y) {
             this.wallBuilder.tryRemoveCell(cellX, cellY);
             break;
     }
-};
-
-WallTool.prototype.onMouseUp = function () {
-    this.wallBuilder.endWall();
 };
 
 },{"./WallBuilder.js":259,"./WallView.js":262}],262:[function(require,module,exports){
@@ -38574,6 +38653,7 @@ WallView.cellBorderSize = 4;
 
 
 WallView.prototype.renderWall = function () {
+    this.clear();
     for (var i = 0; i < this.model.cells.length; i++) {
         var cell = this.model.cells[i];
 
@@ -38863,27 +38943,35 @@ function WireBuilder(wallsCollection) {
 module.exports = WireBuilder;
 
 WireBuilder.prototype.tryAddWire = function (x, y) {
-    var done = false;
-    for (var i = 0; i < this.wallsCollection.walls.length; i++) {
-        var wall = this.wallsCollection.walls[i];
-        for (var j = 0; j < wall.cells.length; j++) {
-            var cell = wall.cells[j];
-            if (cell.x == x && cell.y == y) {
-                var hasConnection = _.some(wall.getCellNeighborhood(cell).toArray(), function (otherCell) {
-                    return otherCell.contents.has("wire");
-                });
-                if (hasConnection) {
-                    cell.contents.add("wire");
-                    done = true;
-                }
-                break;
-            }
-        }
-        if (done) {
-            this.wallsCollection.wallViews[i][0].renderWall();
-            break;
-        }
+    var d = this.wallsCollection.findCellAndWall(x, y);
+    if (d.cell == null) {
+        return false;
     }
+    var hasConnection = _.some(d.wall.getCellNeighborhood(d.cell).toArray(), function (otherCell) {
+        return otherCell.contents.has("wire");
+    });
+    if (!hasConnection) {
+        return false;
+    }
+    d.cell.contents.add("wire");
+    d.wallViews[0].renderWall();
+    return true;
+};
+
+WireBuilder.prototype.tryRemoveWire = function (x, y) {
+    var d = this.wallsCollection.findCellAndWall(x, y);
+    if (d.cell == null) {
+        return false;
+    }
+    var connections = _.filter(d.wall.getCellNeighborhood(d.cell).toArray(), function (otherCell) {
+        return otherCell.contents.has("wire");
+    });
+    if (connections.length > 1) {
+        return false;
+    }
+    d.cell.contents.delete("wire");
+    d.wallViews[0].renderWall();
+    return true;
 };
 
 },{}],267:[function(require,module,exports){

@@ -34,6 +34,26 @@ WallBuilder.prototype.tryAddCell = function (x, y) {
     return false;
 };
 
+WallBuilder.prototype.tryRemoveCell = function (x, y) {
+    var d = this.wallsCollection.findCellAndWall(x, y);
+    if (d.cell == null) {
+        return false;
+    }
+    d.wall.cells.splice(d.wall.cells.indexOf(d.cell), 1);
+    var newWalls = d.wall.split();
+    if (newWalls.length <= 1) {
+        d.wallViews[0].renderWall();
+        return true;
+    }
+    this.wallsCollection.removeWall(d.wall);
+    for (var i = 0; i < newWalls.length; i++) {
+        var wall = newWalls[i];
+        var wallView = new WallView(wall);
+        this.wallsCollection.addWall(wall, wallView);
+    }
+    return true;
+};
+
 WallBuilder.prototype._isCellOkWithOtherWalls = function (x, y) {
     return _.every(this.wallsCollection.walls, function (wall) {
         return !wall.hasCellWithCoords(x, y);
@@ -50,10 +70,8 @@ WallBuilder.prototype._tryJoin = function () {
         if (wall == this.wall) {
             continue;
         }
-        if (wall.tryJoin(this.wall)) {
-            this.wallsCollection.removeWall(this.wall);
-            this.wall = wall;
-            this.wallView = this.wallsCollection.wallViews[i][0];
+        if (this.wall.tryJoin(wall)) {
+            this.wallsCollection.removeWall(wall);
             break;
         }
     }

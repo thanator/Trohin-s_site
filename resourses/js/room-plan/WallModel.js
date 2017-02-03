@@ -12,7 +12,7 @@ WallModel.prototype.isCellLinkable = function (cell) {
 
 WallModel.prototype.isCellWithCoordsLinkable = function (x, y) {
     var neighborhood = this.getCellWithCoordsNeighborhood(x, y);
-    if (!neighborhood.left && !neighborhood.right && !neighborhood.up && !neighborhood.down) {
+    if (neighborhood.hasNoNeighbors()) {
         return false;
     }
     if (neighborhood.left && neighborhood.up) {
@@ -97,6 +97,52 @@ WallModel.prototype.tryJoin = function (otherWall) {
 WallModel.prototype.joinCopy = function (otherWall) {
     var newWall = new WallModel();
     newWall.cells = _.concat(this.cells, otherWall.cells);
+};
+
+WallModel.prototype.split = function () {
+    var checkedCells = new Array(this.cells.length);
+
+    var isCheckedAll = function () {
+        return _.every(checkedCells, function (it) {
+            return it === true;
+        });
+    }.bind(this);
+    var getFirstUncheckedCell = function () {
+        for (var i = 0; i < checkedCells.length; i++) {
+            if (checkedCells[i] !== true) {
+                return this.cells[i];
+            }
+        }
+        return null;
+    }.bind(this);
+    var diffNew = function (was, now) {
+        var result = _.clone(now);
+        for (var i = 0; i < result.length; i++) {
+            if (was[i] === true) {
+                result[i] = false;
+            }
+        }
+        return result;
+    }.bind(this);
+
+    var walls = [];
+    while (!isCheckedAll()) {
+        var oldCheckedCells = _.clone(checkedCells);
+
+        var cell = getFirstUncheckedCell();
+        this._cellDfs(cell.x, cell.y, checkedCells);
+
+        var wall = new WallModel();
+        var diff = diffNew(oldCheckedCells, checkedCells);
+        for (var i = 0; i < diff.length; i++) {
+            if (diff[i] === true) {
+                wall.cells.push(this.cells[i]);
+            }
+        }
+
+        walls.push(wall);
+    }
+    return walls;
 };
 
 WallModel.prototype.isOkay = function () {
