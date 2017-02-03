@@ -2893,7 +2893,6 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-
 },{"_process":237}],78:[function(require,module,exports){
 var EMPTY_ARRAY_BUFFER = new ArrayBuffer(0);
 
@@ -28142,7 +28141,6 @@ exports.loader = loader;
 global.PIXI = exports; // eslint-disable-line
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{"./accessibility":96,"./core":119,"./deprecation":178,"./extract":180,"./extras":189,"./filters":200,"./interaction":207,"./loaders":210,"./mesh":219,"./particles":222,"./polyfill":228,"./prepare":232}],204:[function(require,module,exports){
 'use strict';
 
@@ -33304,7 +33302,6 @@ if (!global.cancelAnimationFrame) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],230:[function(require,module,exports){
 'use strict';
 
@@ -34876,7 +34873,6 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],239:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -38599,6 +38595,19 @@ WallsCollection.prototype.removeWallView = function (view) {
     this.emit("removeWallView", view);
 };
 
+WallsCollection.prototype.findCellAndWall = function (x, y) {
+    for (var i = 0; i < this.wallsCollection.walls.length; i++) {
+        var wall = this.wallsCollection.walls[i];
+        for (var j = 0; j < wall.cells.length; j++) {
+            var cell = wall.cells[j];
+            if (cell.x == x && cell.y == y) {
+                var wallViews = this.wallsCollection.wallViews[i];
+                return { cell: cell, wall: wall, wallViews: wallViews, i: i };
+            }
+        }
+    }
+    return {};
+};
 },{"eventemitter3":72}],264:[function(require,module,exports){
 function WindowBuilder(wallsCollection) {
     this.wallsCollection = wallsCollection;
@@ -38606,56 +38615,107 @@ function WindowBuilder(wallsCollection) {
 module.exports = WindowBuilder;
 
 WindowBuilder.prototype.tryAddWindow = function (x, y) {
-    var done = false;
-    for (var i = 0; i < this.wallsCollection.walls.length; i++) {
-        var wall = this.wallsCollection.walls[i];
-        for (var j = 0; j < wall.cells.length; j++) {
-            var cell = wall.cells[j];
-            if (cell.x == x && cell.y == y) {
-                var hasWindow = this._hasWindow(cell);
-                if (!hasWindow) {
-                    var neighborhood = wall.getCellNeighborhood(cell);
-                    var cell0 = null;
-                    var cell1 = cell;
-                    var cell2 = null;
-                    if (neighborhood.isVerticalLine()) {
-                        cell0 = neighborhood.up;
-                        cell2 = neighborhood.down;
-                        var cell0Neighborhood = wall.getCellNeighborhood(cell0);
-                        var cell2Neighborhood = wall.getCellNeighborhood(cell2);
-                        if (cell0Neighborhood.left || cell0Neighborhood.right || cell2Neighborhood.left || cell2Neighborhood.right) {
-                            break;
-                        }
-                    } else if (neighborhood.isHorizontalLine()) {
-                        cell0 = neighborhood.left;
-                        cell2 = neighborhood.right;
-                        var cell0Neighborhood = wall.getCellNeighborhood(cell0);
-                        var cell2Neighborhood = wall.getCellNeighborhood(cell2);
-                        if (cell0Neighborhood.up || cell0Neighborhood.down || cell2Neighborhood.up || cell2Neighborhood.down) {
-                            break;
-                        }
-                    } else {
-                        break;
-                    }
-                    if (!this._hasWindow(cell0) && !this._hasWindow(cell1) && !this._hasWindow(cell2)) {
-                        this._createWindow(cell0, cell1, cell2);
-                        done = true;
-                    }
-                }
-                break;
-            }
-        }
-        if (done) {
-            this.wallsCollection.wallViews[i][0].renderWall();
-            break;
-        }
+    var d = this.wallsCollection.findCellAndWall(x, y);
+    if (d.cell == null) {
+        return false;
     }
+    var hasWindow = this._hasWindow(d.cell);
+    if (hasWindow) {
+        return false;
+    }
+    var neighborhood = d.wall.getCellNeighborhood(d.cell);
+    var cell0 = null;
+    var cell1 = d.cell;
+    var cell2 = null;
+    if (neighborhood.isVerticalLine()) {
+        cell0 = neighborhood.up;
+        cell2 = neighborhood.down;
+        var cell0Neighborhood = d.wall.getCellNeighborhood(cell0);
+        var cell2Neighborhood = d.wall.getCellNeighborhood(cell2);
+        if (cell0Neighborhood.left || cell0Neighborhood.right || cell2Neighborhood.left || cell2Neighborhood.right) {
+            return false;
+        }
+    } else if (neighborhood.isHorizontalLine()) {
+        cell0 = neighborhood.left;
+        cell2 = neighborhood.right;
+        var cell0Neighborhood = d.wall.getCellNeighborhood(cell0);
+        var cell2Neighborhood = d.wall.getCellNeighborhood(cell2);
+        if (cell0Neighborhood.up || cell0Neighborhood.down || cell2Neighborhood.up || cell2Neighborhood.down) {
+            return false;
+        }
+    } else {
+        return false;
+    }
+    if (this._hasWindow(cell0) || this._hasWindow(cell1) || this._hasWindow(cell2)) {
+        return false;
+    }
+    this._createWindow(cell0, cell1, cell2);
+    d.wallViews[0].renderWall();
+    return true;
+};
+
+WindowBuilder.prototype.tryRemoveWindow = function (x, y) {
+    var d = this.wallsCollection.findCellAndWall(x, y);
+    if (d.cell == null) {
+        return false;
+    }
+    var windowType = this._getWindowType(d.cell);
+    if (windowType == null) {
+        return false;
+    }
+    var neighborhood = d.wall.getCellNeighborhood(d.cell);
+    switch (windowType) {
+        case "window0":
+            d.cell.contents.remove("window0");
+            if (neighborhood.right) {
+                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.remove("window1");
+                d.wall.getCell(d.cell.x + 2, d.cell.y).contents.remove("window2");
+            } else if (neighborhood.down) {
+                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.remove("window1");
+                d.wall.getCell(d.cell.x, d.cell.y + 2).contents.remove("window2");
+            }
+            break;
+
+        case "window1":
+            d.cell.contents.remove("window1");
+            if (neighborhood.right) {
+                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.remove("window0");
+                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.remove("window2");
+            } else if (neighborhood.down) {
+                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.remove("window0");
+                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.remove("window2");
+            }
+            break;
+
+        case "window2":
+            d.cell.contents.remove("window2");
+            if (neighborhood.left) {
+                d.wall.getCell(d.cell.x - 2, d.cell.y).contents.remove("window0");
+                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.remove("window1");
+            } else if (neighborhood.up) {
+                d.wall.getCell(d.cell.x, d.cell.y - 2).contents.remove("window0");
+                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.remove("window1");
+            }
+            break;
+    }
+    d.wallViews[0].renderWall();
+    return true;
 };
 
 WindowBuilder.prototype._hasWindow = function (cell) {
     return _.some([0, 1, 2], function (i) {
         return cell.contents.has("window" + i);
     });
+};
+
+WindowBuilder.prototype._getWindowType = function (cell) {
+    var i = _.find([0, 1, 2], function (i) {
+        return cell.contents.has("window" + i);
+    });
+    if (i == null) {
+        return null;
+    }
+    return "window" + i;
 };
 
 WindowBuilder.prototype._createWindow = function () {
@@ -38741,5 +38801,4 @@ WireTool.prototype.onMouseUp = function () {
     this.isMouseDown = false;
 };
 
-},{"./WallView.js":262,"./WireBuilder.js":266}]},{},[250])
-//# sourceMappingURL=room-plan-bundle.js.map
+},{"./WallView.js":262,"./WireBuilder.js":266}]},{},[250]);
