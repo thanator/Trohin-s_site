@@ -802,3 +802,118 @@ footer p {
   display: block;
 }
 
+/* -------------------------------------------------- */
+/* --- AUTO_SCROLLING CONTENT --- */
+/* -------------------------------------------------- */
+
+.our_work{
+  background-color: #f8f8f8;
+}
+
+.content_scroll{
+  width: 100vw;
+}
+
+
+
+.section_work {
+  padding: 0;
+  height: 300px;
+}
+
+.work_showcase {
+  list-style: none;
+  width: 100%;
+  display: inline-table;
+}
+
+.work_showcase li {
+  display: block;
+  float: left;
+  width: 25%;
+}
+
+.work_photo {
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  background-color: black;
+}
+
+
+.work_photo img {
+  opacity: 0.7;
+  width: 100%;
+  height: 300px;
+  -webkit-transform: scale(1.15);
+  transform: scale(1.15);
+  -webkit-transition: opacity 0.5s, -webkit-transform 0.5s;
+  transition: opacity 0.5s, -webkit-transform 0.5s;
+  transition: transform 0.5s, opacity 0.5s;
+  transition: transform 0.5s, opacity 0.5s, -webkit-transform 0.5s;
+}
+
+.work_photo img:hover {
+  -webkit-transform: scale(1.03);
+  transform: scale(1.03);
+  opacity: 1;
+}
+
+.text_work_1,
+.text_work_2,
+.text_work_3,
+.text_work_4 {
+  width: 100%;
+  height: 300px;
+  margin: 0;
+  transition: opacity 0.3s, background 0.3s;
+  }
+
+  .text_work_1{
+     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)), url(img/1.jpg);
+  }
+   .text_work_2{
+     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)), url(img/2.jpg);
+  }
+   .text_work_3{
+     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)), url(img/3.jpg);
+  }
+   .text_work_4{
+     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)), url(img/4.jpg);
+  }
+
+
+.text_work_1 p,
+.text_work_2 p,
+.text_work_3 p,
+.text_work_4 p{
+    opacity: 0;
+  
+    font-weight: 300;
+    font-family: 'Segoe UI';
+    
+     transition: opacity 0.3s, background 0.3s;
+   
+}
+.text_work_1:hover p,
+.text_work_2:hover p,
+.text_work_3:hover p,
+.text_work_4:hover p{
+    opacity: 1;
+    background: rgba(0,0,0,0.5);
+}
+
+.p1{
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 20px;
+  height: auto;
+  font-size: 40px;
+  color: #e67e22;
+}
+.p2{
+height: 100%;
+  font-size: 30px;
+color: #fff;
+  padding: 0 5px;
+}

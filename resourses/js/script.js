@@ -28,7 +28,7 @@ $(document).ready(function () {
     $(window).scroll(function (event) {
         var st = $(this).scrollTop();
         if (st > lastScrollTop) {
-            $('.move_up').removeClass('fixed');
+    //        $('.move_up').removeClass('fixed');
         } else {
             $('.move_up').addClass('fixed');
         }
