@@ -13,17 +13,19 @@ MainStageController.prototype.init = function () {
     this.appState.wallsCollection.on("removeWallView", this._onRemoveWallView.bind(this));
 };
 
-MainStageController.prototype._onMouseDown = function () {
-    this.appState.currentTool.onMouseDown();
+MainStageController.prototype._onMouseDown = function (event) {
+    var pos = this._getMousePos(event);
+    this.appState.currentTool.onMouseDown(pos.x, pos.y);
 };
 
 MainStageController.prototype._onMouseMove = function (event) {
-    var pos = event.data.getLocalPosition(this.stage, undefined, this.interaction.mouse.global);
+    var pos = this._getMousePos(event);
     this.appState.currentTool.onMouseMove(pos.x, pos.y);
 };
 
-MainStageController.prototype._onMouseUp = function () {
-    this.appState.currentTool.onMouseUp();
+MainStageController.prototype._onMouseUp = function (event) {
+    var pos = this._getMousePos(event);
+    this.appState.currentTool.onMouseUp(pos.x, pos.y);
 };
 
 MainStageController.prototype._onAddWallView = function (view) {
@@ -32,4 +34,8 @@ MainStageController.prototype._onAddWallView = function (view) {
 
 MainStageController.prototype._onRemoveWallView = function (view) {
     this.stage.removeChild(view);
+};
+
+MainStageController.prototype._getMousePos = function (event) {
+    return event.data.getLocalPosition(this.stage, undefined, this.interaction.mouse.global);
 };

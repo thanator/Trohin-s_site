@@ -1,3 +1,6 @@
+var CellNeighborhood = require("./CellNeighborhood.js");
+
+
 function WallModel() {
     this.cells = [];
 }
@@ -9,25 +12,25 @@ WallModel.prototype.isCellLinkable = function (cell) {
 
 WallModel.prototype.isCellWithCoordsLinkable = function (x, y) {
     var neighborhood = this.getCellWithCoordsNeighborhood(x, y);
-    if (!neighborhood.left && !neighborhood.right && !neighborhood.top && !neighborhood.bottom) {
+    if (!neighborhood.left && !neighborhood.right && !neighborhood.up && !neighborhood.down) {
         return false;
     }
-    if (neighborhood.left && neighborhood.top) {
+    if (neighborhood.left && neighborhood.up) {
         if (this.hasCellWithCoords(x - 1, y - 1)) {
             return false;
         }
     }
-    if (neighborhood.right && neighborhood.top) {
+    if (neighborhood.right && neighborhood.up) {
         if (this.hasCellWithCoords(x + 1, y - 1)) {
             return false;
         }
     }
-    if (neighborhood.left && neighborhood.bottom) {
+    if (neighborhood.left && neighborhood.down) {
         if (this.hasCellWithCoords(x - 1, y + 1)) {
             return false;
         }
     }
-    if (neighborhood.right && neighborhood.bottom) {
+    if (neighborhood.right && neighborhood.down) {
         if (this.hasCellWithCoords(x + 1, y + 1)) {
             return false;
         }
@@ -40,22 +43,22 @@ WallModel.prototype.getCellNeighborhood = function (cell) {
 };
 
 WallModel.prototype.getCellWithCoordsNeighborhood = function (x, y) {
-    var neighborhood = { left: false, right: false, top: false, bottom: false };
+    var neighborhood = new CellNeighborhood();
     for (var i = 0; i < this.cells.length; i++) {
         var cell = this.cells[i];
         var dx = cell.x - x;
         var dy = cell.y - y;
         if (dx == -1 && dy == 0) {
-            neighborhood.left = true;
+            neighborhood.left = cell;
         }
         if (dx == 1 && dy == 0) {
-            neighborhood.right = true;
+            neighborhood.right = cell;
         }
         if (dy == -1 && dx == 0) {
-            neighborhood.top = true;
+            neighborhood.up = cell;
         }
         if (dy == 1 && dx == 0) {
-            neighborhood.bottom = true;
+            neighborhood.down = cell;
         }
     }
     return neighborhood;
@@ -127,10 +130,10 @@ WallModel.prototype._cellDfs = function (x, y, checkedCells) {
     if (neighborhood.right) {
         this._cellDfs(x + 1, y, checkedCells);
     }
-    if (neighborhood.top) {
+    if (neighborhood.up) {
         this._cellDfs(x, y - 1, checkedCells);
     }
-    if (neighborhood.bottom) {
+    if (neighborhood.down) {
         this._cellDfs(x, y + 1, checkedCells);
     }
 };

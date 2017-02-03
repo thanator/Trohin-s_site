@@ -55,13 +55,13 @@ WallView.prototype._renderCellBorder = function (x, y, w, h, border, neighborhoo
         this.drawRect(x + w - border, y, border, border);
         this.drawRect(x + w - border, y + h - border, border, border);
     }
-    if (!neighborhood.top) {
+    if (!neighborhood.up) {
         this.drawRect(x, y, w, border);
     } else {
         this.drawRect(x, y, border, border);
         this.drawRect(x + w - border, y, border, border);
     }
-    if (!neighborhood.bottom) {
+    if (!neighborhood.down) {
         this.drawRect(x, y + h - border, w, border);
     } else {
         this.drawRect(x, y + h - border, border, border);
@@ -74,6 +74,14 @@ WallView.prototype._renderCellContents = function (x, y, w, h, content, neighbor
     switch (content) {
         case "wire":
             this.beginFill(0xff0000);
+            this.drawRect(x + w / 4, y + h / 4, w / 2, h / 2);
+            this.endFill();
+            break;
+
+        case "window0":
+        case "window1":
+        case "window2":
+            this.beginFill(0x00ff00);
             this.drawRect(x + w / 4, y + h / 4, w / 2, h / 2);
             this.endFill();
             break;
