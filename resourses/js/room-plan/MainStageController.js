@@ -11,6 +11,7 @@ MainStageController.prototype.init = function () {
     this.interaction.on("mouseup", this._onMouseUp.bind(this));
     this.appState.wallsCollection.on("addWallView", this._onAddWallView.bind(this));
     this.appState.wallsCollection.on("removeWallView", this._onRemoveWallView.bind(this));
+    this.appState.createStartEnvironment();
 };
 
 MainStageController.prototype._onMouseDown = function (event) {

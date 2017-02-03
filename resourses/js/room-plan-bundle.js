@@ -37984,6 +37984,9 @@ var WallTool = require("./WallTool.js");
 var WireTool = require("./WireTool.js");
 var DoorTool = require("./DoorTool.js");
 var WindowTool = require("./WindowTool.js");
+var WallModel = require("./WallModel.js");
+var WallView = require("./WallView.js");
+var CellModel = require("./CellModel.js");
 
 
 function AppState() {
@@ -37998,7 +38001,27 @@ function AppState() {
     this.toolMode = "add";
 }
 module.exports = AppState;
-},{"./DoorTool.js":256,"./WallTool.js":261,"./WallsCollection.js":263,"./WindowTool.js":265,"./WireTool.js":267}],253:[function(require,module,exports){
+
+AppState.prototype.createStartEnvironment = function () {
+    var wall = new WallModel();
+
+    for (var x = 20; x <= 24; x++) {
+        wall.cells.push(new CellModel(x, 0));
+    }
+    for (var y = 1; y <= 7; y++) {
+        wall.cells.push(new CellModel(24, y));
+    }
+
+    wall.getCell(24, 2).contents.add("door0");
+    wall.getCell(24, 3).contents.add("door1");
+    wall.getCell(24, 4).contents.add("door2");
+
+    wall.getCell(23, 0).contents.add("wire");
+    wall.getCell(24, 0).contents.add("wire");
+
+    this.wallsCollection.addWall(wall, new WallView(wall));
+};
+},{"./CellModel.js":253,"./DoorTool.js":256,"./WallModel.js":260,"./WallTool.js":261,"./WallView.js":262,"./WallsCollection.js":263,"./WindowTool.js":265,"./WireTool.js":267}],253:[function(require,module,exports){
 var Set = require('core-js/library/fn/set');
 
 function CellModel(x, y) {
@@ -38215,6 +38238,7 @@ MainStageController.prototype.init = function () {
     this.interaction.on("mouseup", this._onMouseUp.bind(this));
     this.appState.wallsCollection.on("addWallView", this._onAddWallView.bind(this));
     this.appState.wallsCollection.on("removeWallView", this._onRemoveWallView.bind(this));
+    this.appState.createStartEnvironment();
 };
 
 MainStageController.prototype._onMouseDown = function (event) {
@@ -38966,7 +38990,7 @@ WireBuilder.prototype.tryRemoveWire = function (x, y) {
     var connections = _.filter(d.wall.getCellNeighborhood(d.cell).toArray(), function (otherCell) {
         return otherCell.contents.has("wire");
     });
-    if (connections.length > 1) {
+    if (connections.length != 1) {
         return false;
     }
     d.cell.contents.delete("wire");

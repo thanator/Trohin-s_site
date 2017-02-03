@@ -27,7 +27,7 @@ WireBuilder.prototype.tryRemoveWire = function (x, y) {
     var connections = _.filter(d.wall.getCellNeighborhood(d.cell).toArray(), function (otherCell) {
         return otherCell.contents.has("wire");
     });
-    if (connections.length > 1) {
+    if (connections.length != 1) {
         return false;
     }
     d.cell.contents.delete("wire");
