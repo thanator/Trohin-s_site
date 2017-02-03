@@ -105,6 +105,10 @@ display: block;
   color: #A64800;
 }
 
+.Call i{
+  cursor: pointer;
+}
+
 /*---HEADING---*/
 
 h1,
