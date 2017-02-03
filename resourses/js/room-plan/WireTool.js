@@ -15,7 +15,16 @@ WireTool.prototype.onMouseDown = function () {
 
 WireTool.prototype.onMouseMove = function (x, y) {
     if (this.isMouseDown) {
-        this.wireBuilder.tryAddWire(Math.floor(x / WallView.cellWidth), Math.floor(y / WallView.cellHeight));
+        var cellX = Math.floor(x / WallView.cellWidth);
+        var cellY = Math.floor(y / WallView.cellHeight);
+        switch (this.appState.toolMode) {
+            case "add":
+                this.wireBuilder.tryAddWire(cellX, cellY);
+                break;
+            case "remove":
+                this.wireBuilder.tryRemoveWire(cellX, cellY);
+                break;
+        }
     }
 };
 

@@ -55,35 +55,35 @@ DoorBuilder.prototype.tryRemoveDoor = function (x, y) {
     var neighborhood = d.wall.getCellNeighborhood(d.cell);
     switch (doorType) {
         case "door0":
-            d.cell.contents.remove("door0");
+            d.cell.contents.delete("door0");
             if (neighborhood.right) {
-                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.remove("door1");
-                d.wall.getCell(d.cell.x + 2, d.cell.y).contents.remove("door2");
+                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.delete("door1");
+                d.wall.getCell(d.cell.x + 2, d.cell.y).contents.delete("door2");
             } else if (neighborhood.down) {
-                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.remove("door1");
-                d.wall.getCell(d.cell.x, d.cell.y + 2).contents.remove("door2");
+                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.delete("door1");
+                d.wall.getCell(d.cell.x, d.cell.y + 2).contents.delete("door2");
             }
             break;
 
         case "door1":
-            d.cell.contents.remove("door1");
+            d.cell.contents.delete("door1");
             if (neighborhood.right) {
-                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.remove("door0");
-                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.remove("door2");
+                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.delete("door0");
+                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.delete("door2");
             } else if (neighborhood.down) {
-                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.remove("door0");
-                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.remove("door2");
+                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.delete("door0");
+                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.delete("door2");
             }
             break;
 
         case "door2":
-            d.cell.contents.remove("door2");
+            d.cell.contents.delete("door2");
             if (neighborhood.left) {
-                d.wall.getCell(d.cell.x - 2, d.cell.y).contents.remove("door0");
-                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.remove("door1");
+                d.wall.getCell(d.cell.x - 2, d.cell.y).contents.delete("door0");
+                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.delete("door1");
             } else if (neighborhood.up) {
-                d.wall.getCell(d.cell.x, d.cell.y - 2).contents.remove("door0");
-                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.remove("door1");
+                d.wall.getCell(d.cell.x, d.cell.y - 2).contents.delete("door0");
+                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.delete("door1");
             }
             break;
     }

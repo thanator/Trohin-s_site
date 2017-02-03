@@ -42,12 +42,12 @@ WallsCollection.prototype.removeWallView = function (view) {
 };
 
 WallsCollection.prototype.findCellAndWall = function (x, y) {
-    for (var i = 0; i < this.wallsCollection.walls.length; i++) {
-        var wall = this.wallsCollection.walls[i];
+    for (var i = 0; i < this.walls.length; i++) {
+        var wall = this.walls[i];
         for (var j = 0; j < wall.cells.length; j++) {
             var cell = wall.cells[j];
             if (cell.x == x && cell.y == y) {
-                var wallViews = this.wallsCollection.wallViews[i];
+                var wallViews = this.wallViews[i];
                 return { cell: cell, wall: wall, wallViews: wallViews, i: i };
             }
         }

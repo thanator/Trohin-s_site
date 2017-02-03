@@ -15,5 +15,14 @@ DoorTool.prototype.onMouseMove = function () {
 };
 
 DoorTool.prototype.onMouseUp = function (x, y) {
-    this.doorBuilder.tryAddDoor(Math.floor(x / WallView.cellWidth), Math.floor(y / WallView.cellHeight));
+    var cellX = Math.floor(x / WallView.cellWidth);
+    var cellY = Math.floor(y / WallView.cellHeight);
+    switch (this.appState.toolMode) {
+        case "add":
+            this.doorBuilder.tryAddDoor(cellX, cellY);
+            break;
+        case "remove":
+            this.doorBuilder.tryRemoveDoor(cellX, cellY);
+            break;
+    }
 };

@@ -14,5 +14,6 @@ function AppState() {
         new WindowTool(this)
     ];
     this.currentTool = this.tools[0];
+    this.toolMode = "add";
 }
 module.exports = AppState;

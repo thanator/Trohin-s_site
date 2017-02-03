@@ -15,5 +15,14 @@ WindowTool.prototype.onMouseMove = function () {
 };
 
 WindowTool.prototype.onMouseUp = function (x, y) {
-    this.windowBuilder.tryAddWindow(Math.floor(x / WallView.cellWidth), Math.floor(y / WallView.cellHeight));
+    var cellX = Math.floor(x / WallView.cellWidth);
+    var cellY = Math.floor(y / WallView.cellHeight);
+    switch (this.appState.toolMode) {
+        case "add":
+            this.windowBuilder.tryAddWindow(cellX, cellY);
+            break;
+        case "remove":
+            this.windowBuilder.tryRemoveWindow(cellX, cellY);
+            break;
+    }
 };

@@ -55,35 +55,35 @@ WindowBuilder.prototype.tryRemoveWindow = function (x, y) {
     var neighborhood = d.wall.getCellNeighborhood(d.cell);
     switch (windowType) {
         case "window0":
-            d.cell.contents.remove("window0");
+            d.cell.contents.delete("window0");
             if (neighborhood.right) {
-                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.remove("window1");
-                d.wall.getCell(d.cell.x + 2, d.cell.y).contents.remove("window2");
+                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.delete("window1");
+                d.wall.getCell(d.cell.x + 2, d.cell.y).contents.delete("window2");
             } else if (neighborhood.down) {
-                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.remove("window1");
-                d.wall.getCell(d.cell.x, d.cell.y + 2).contents.remove("window2");
+                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.delete("window1");
+                d.wall.getCell(d.cell.x, d.cell.y + 2).contents.delete("window2");
             }
             break;
 
         case "window1":
-            d.cell.contents.remove("window1");
+            d.cell.contents.delete("window1");
             if (neighborhood.right) {
-                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.remove("window0");
-                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.remove("window2");
+                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.delete("window0");
+                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.delete("window2");
             } else if (neighborhood.down) {
-                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.remove("window0");
-                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.remove("window2");
+                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.delete("window0");
+                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.delete("window2");
             }
             break;
 
         case "window2":
-            d.cell.contents.remove("window2");
+            d.cell.contents.delete("window2");
             if (neighborhood.left) {
-                d.wall.getCell(d.cell.x - 2, d.cell.y).contents.remove("window0");
-                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.remove("window1");
+                d.wall.getCell(d.cell.x - 2, d.cell.y).contents.delete("window0");
+                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.delete("window1");
             } else if (neighborhood.up) {
-                d.wall.getCell(d.cell.x, d.cell.y - 2).contents.remove("window0");
-                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.remove("window1");
+                d.wall.getCell(d.cell.x, d.cell.y - 2).contents.delete("window0");
+                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.delete("window1");
             }
             break;
     }
