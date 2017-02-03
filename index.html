@@ -26,11 +26,62 @@
     <div id="page01">
 
         <div class="Call">
-            <a href="page_cont.html"><i class="ion-android-call icon-big"></i></a>
+            <a href="#"><i class="ion-android-call icon-big js__send_box"></i></a>
             <p>Получить консультацию</p>
 
         </div>
-
+        
+        <div class="send_box hidd">
+            <i class="ion-close-circled js__send_box_closed"></i>
+            <div class="back_box">
+                
+            </div>
+            <div class="main_box">
+                <form method="post" action="#" class="contact_form">
+                    <div class="row">
+                        <div class="col span-1-of-3">
+                            <label for="name">Ваше имя</label>
+                        </div>
+                        <div class="col span-2-of-3">
+                            <input type="text" name="name" id="name" placeholder="Имя" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col span-1-of-3">
+                            <label for="phone">Ваш телефон</label>
+                        </div>
+                        <div class="col span-2-of-3">
+                            <input type="phone" name="phone" id="phone" placeholder="+7(999)888-33-22" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col span-1-of-3">
+                            <label for="email">Ваш Email <br>(по желанию)</label>
+                        </div>
+                        <div class="col span-2-of-3">
+                            <input type="email" name="email" id="email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="row_sub">
+                        <div class="col span-1-of-3">
+                            <label>Комментарий</label>
+                        </div>
+                        <div class="col span-2-of-3">
+                            <textarea name="message" placeholder="Сообщение"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col span-1-of-3">
+                            <label>&nbsp;</label>
+                        </div>
+                        <div class="col span-2-of-3">
+                            <input type="submit" value="Отправить!">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
 
 
         <section class="heading" id="headding">
@@ -63,7 +114,7 @@
                                         <li><a href="#">Сантехнические<br>работы</a></li>
                                     </ul>
                                 </li>
-                                <li><a class="fake_link" href="page_app.html">Цены</a>
+                                <li><a class="fake_link" href="tree.html">Цены</a>
                                     <ul class="center_ul">
 
                                     </ul>
@@ -87,7 +138,7 @@
                     <h1>Качественный ремонт</h1>
                     <h2>Квартир, загородных домов, офисов</h2>
 
-                    <a class="btn btn_full" href="page_app.html"><i class="ion-checkmark icon_main_head"></i>Узнать больше</a>
+                    <a class="btn btn_full js__send_box" href="#"><i class="ion-checkmark icon_main_head"></i>Узнать больше</a>
 
                     <a class="btn btn_ghost" href="Tree.html" id="new-operator"><i class="ion-ios-calculator icon_ghost_head"></i>Конструктор помещения</a>
 

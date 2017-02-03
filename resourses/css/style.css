@@ -339,7 +339,6 @@ header .row{
 .menu li ul li a:link,
 .menu li il li a:visited {
   color: #fff;
-  font-family: Arial;
   text-decoration: none;
   
   color: #e67e22;
@@ -958,4 +957,77 @@ cite img {
   border-radius: 50%;
   margin-right: 10px;
   vertical-align: middle;
+}
+
+
+/*    SEND FORM    */
+
+.send_box i{
+  position: fixed;
+  top:30%;
+  right:27.7%;
+  z-index: 10002;
+  cursor: pointer;
+}
+
+.back_box{
+  background-color: black;
+  opacity: 0.85;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border: 1px solid #f3a158;
+  z-index: 10000;
+  
+}
+
+.main_box{
+  background-color: white;
+  position: fixed;
+  top: 30%;
+  left: 27.5%;
+  height: 47.5%;
+  width: 45%;
+  border: 1px solid #f3a158;
+  z-index: 10001;
+  
+}
+
+/* -------------------------------------------------- */
+/* --- FORM --- */
+/* -------------------------------------------------- */
+
+.contact_form {
+  width: 60%;
+  margin: 0 auto;
+}
+
+input[type=text],
+input[type=phone],
+select,
+textarea {
+  width: 100%;
+  padding: 7px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+textarea {
+  height: 100px;
+}
+
+input[type=checkbox] {
+  margin: 10px 5px 10px 0;
+}
+
+*:focus {
+  outline: none;
+}
+
+.row_sub{
+    max-width: 1140px;
+  margin: 0 auto;
+  padding-bottom: 40px;
 }

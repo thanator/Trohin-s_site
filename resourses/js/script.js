@@ -37,10 +37,14 @@ $(document).ready(function () {
 
 //doesn't matter
 
-    $(".js__klick_3_to_2").click(function () {
-        $("#page03").hide();
-        $("#page02").show();
+    $('.js__send_box').click(function () {  
+         $('.send_box').removeClass('hidd');
     });
+
+      $('.js__send_box_closed').click(function () {  
+         $('.send_box').addClass('hidd');
+    });
+
 
     //GMAPS
 
