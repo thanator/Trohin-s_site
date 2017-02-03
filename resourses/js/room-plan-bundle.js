@@ -37978,10 +37978,11 @@ App.prototype.init = function () {
     toolsView.init();
 };
 
-},{"./AppState.js":252,"./MainStageController.js":255,"./ToolsView.js":256,"pixi.js":203}],252:[function(require,module,exports){
+},{"./AppState.js":252,"./MainStageController.js":257,"./ToolsView.js":258,"pixi.js":203}],252:[function(require,module,exports){
 var WallsCollection = require("./WallsCollection.js");
 var WallTool = require("./WallTool.js");
 var WireTool = require("./WireTool.js");
+var DoorTool = require("./DoorTool.js");
 var WindowTool = require("./WindowTool.js");
 
 
@@ -37990,12 +37991,13 @@ function AppState() {
     this.tools = [
         new WallTool(this),
         new WireTool(this),
+        new DoorTool(this),
         new WindowTool(this)
     ];
     this.currentTool = this.tools[0];
 }
 module.exports = AppState;
-},{"./WallTool.js":259,"./WallsCollection.js":261,"./WindowTool.js":263,"./WireTool.js":265}],253:[function(require,module,exports){
+},{"./DoorTool.js":256,"./WallTool.js":261,"./WallsCollection.js":263,"./WindowTool.js":265,"./WireTool.js":267}],253:[function(require,module,exports){
 var Set = require('core-js/library/fn/set');
 
 function CellModel(x, y) {
@@ -38053,6 +38055,92 @@ CellNeighborhood.prototype.toArray = function () {
 };
 
 },{}],255:[function(require,module,exports){
+function DoorBuilder(wallsCollection) {
+    this.wallsCollection = wallsCollection;
+}
+module.exports = DoorBuilder;
+
+DoorBuilder.prototype.tryAddDoor = function (x, y) {
+    var done = false;
+    for (var i = 0; i < this.wallsCollection.walls.length; i++) {
+        var wall = this.wallsCollection.walls[i];
+        for (var j = 0; j < wall.cells.length; j++) {
+            var cell = wall.cells[j];
+            if (cell.x == x && cell.y == y) {
+                var hasDoor = this._hasDoor(cell);
+                if (!hasDoor) {
+                    var neighborhood = wall.getCellNeighborhood(cell);
+                    var cell0 = null;
+                    var cell1 = cell;
+                    var cell2 = null;
+                    if (neighborhood.isVerticalLine()) {
+                        cell0 = neighborhood.up;
+                        cell2 = neighborhood.down;
+                        var cell0Neighborhood = wall.getCellNeighborhood(cell0);
+                        var cell2Neighborhood = wall.getCellNeighborhood(cell2);
+                        if (cell0Neighborhood.left || cell0Neighborhood.right || cell2Neighborhood.left || cell2Neighborhood.right) {
+                            break;
+                        }
+                    } else if (neighborhood.isHorizontalLine()) {
+                        cell0 = neighborhood.left;
+                        cell2 = neighborhood.right;
+                        var cell0Neighborhood = wall.getCellNeighborhood(cell0);
+                        var cell2Neighborhood = wall.getCellNeighborhood(cell2);
+                        if (cell0Neighborhood.up || cell0Neighborhood.down || cell2Neighborhood.up || cell2Neighborhood.down) {
+                            break;
+                        }
+                    } else {
+                        break;
+                    }
+                    if (!this._hasDoor(cell0) && !this._hasDoor(cell1) && !this._hasDoor(cell2)) {
+                        this._createDoor(cell0, cell1, cell2);
+                        done = true;
+                    }
+                }
+                break;
+            }
+        }
+        if (done) {
+            this.wallsCollection.wallViews[i][0].renderWall();
+            break;
+        }
+    }
+};
+
+DoorBuilder.prototype._hasDoor = function (cell) {
+    return _.some([0, 1, 2], function (i) {
+        return cell.contents.has("door" + i);
+    });
+};
+
+DoorBuilder.prototype._createDoor = function () {
+    for (var i = 0; i < 3; i++) {
+        arguments[i].contents.add("door" + i);
+    }
+};
+
+},{}],256:[function(require,module,exports){
+var DoorBuilder = require("./DoorBuilder.js");
+var WallView = require("./WallView.js");
+
+
+function DoorTool(appState) {
+    this.appState = appState;
+    this.doorBuilder = new DoorBuilder(this.appState.wallsCollection);
+}
+module.exports = DoorTool;
+
+DoorTool.prototype.onMouseDown = function () {
+};
+
+DoorTool.prototype.onMouseMove = function () {
+};
+
+DoorTool.prototype.onMouseUp = function (x, y) {
+    this.doorBuilder.tryAddDoor(Math.floor(x / WallView.cellWidth), Math.floor(y / WallView.cellHeight));
+};
+
+},{"./DoorBuilder.js":255,"./WallView.js":262}],257:[function(require,module,exports){
 function MainStageController(stage, interaction, appState) {
     this.stage = stage;
     this.interaction = interaction;
@@ -38095,13 +38183,14 @@ MainStageController.prototype._getMousePos = function (event) {
     return event.data.getLocalPosition(this.stage, undefined, this.interaction.mouse.global);
 };
 
-},{}],256:[function(require,module,exports){
+},{}],258:[function(require,module,exports){
 function ToolsView(appState) {
     this.appState = appState;
     this.toolsDomIdsToIntIds = {
         "#app-tool-wall": 0,
         "#app-tool-wire": 1,
-        "#app-tool-window": 2
+        "#app-tool-door": 2,
+        "#app-tool-window": 3
     }
 }
 module.exports = ToolsView;
@@ -38133,7 +38222,7 @@ ToolsView.prototype._changeActiveButton = function ($nextActive) {
     $nextActive.addClass("app-tools__item--active");
 };
 
-},{}],257:[function(require,module,exports){
+},{}],259:[function(require,module,exports){
 var WallModel = require("./WallModel.js");
 var WallView = require("./WallView.js");
 var CellModel = require("./CellModel.js");
@@ -38194,7 +38283,7 @@ WallBuilder.prototype._tryJoin = function () {
         }
     }
 };
-},{"./CellModel.js":253,"./WallModel.js":258,"./WallView.js":260}],258:[function(require,module,exports){
+},{"./CellModel.js":253,"./WallModel.js":260,"./WallView.js":262}],260:[function(require,module,exports){
 var CellNeighborhood = require("./CellNeighborhood.js");
 
 
@@ -38344,7 +38433,7 @@ WallModel.prototype._getCellIndex = function (x, y) {
     }
 };
 
-},{"./CellNeighborhood.js":254}],259:[function(require,module,exports){
+},{"./CellNeighborhood.js":254}],261:[function(require,module,exports){
 var WallBuilder = require("./WallBuilder.js");
 var WallView = require("./WallView.js");
 
@@ -38367,7 +38456,7 @@ WallTool.prototype.onMouseUp = function () {
     this.wallBuilder.endWall();
 };
 
-},{"./WallBuilder.js":257,"./WallView.js":260}],260:[function(require,module,exports){
+},{"./WallBuilder.js":259,"./WallView.js":262}],262:[function(require,module,exports){
 var PIXI = require("pixi.js");
 
 
@@ -38448,17 +38537,25 @@ WallView.prototype._renderCellContents = function (x, y, w, h, content, neighbor
             this.endFill();
             break;
 
+        case "door0":
+        case "door1":
+        case "door2":
+            this.beginFill(0x00ff00);
+            this.drawRect(x + w / 4, y + h / 4, w / 2, h / 2);
+            this.endFill();
+            break;
+
         case "window0":
         case "window1":
         case "window2":
-            this.beginFill(0x00ff00);
+            this.beginFill(0x0000ff);
             this.drawRect(x + w / 4, y + h / 4, w / 2, h / 2);
             this.endFill();
             break;
     }
 };
 
-},{"pixi.js":203}],261:[function(require,module,exports){
+},{"pixi.js":203}],263:[function(require,module,exports){
 var EventEmitter = require("eventemitter3");
 
 
@@ -38502,7 +38599,7 @@ WallsCollection.prototype.removeWallView = function (view) {
     this.emit("removeWallView", view);
 };
 
-},{"eventemitter3":72}],262:[function(require,module,exports){
+},{"eventemitter3":72}],264:[function(require,module,exports){
 function WindowBuilder(wallsCollection) {
     this.wallsCollection = wallsCollection;
 }
@@ -38567,7 +38664,7 @@ WindowBuilder.prototype._createWindow = function () {
     }
 };
 
-},{}],263:[function(require,module,exports){
+},{}],265:[function(require,module,exports){
 var WindowBuilder = require("./WindowBuilder.js");
 var WallView = require("./WallView.js");
 
@@ -38588,7 +38685,7 @@ WindowTool.prototype.onMouseUp = function (x, y) {
     this.windowBuilder.tryAddWindow(Math.floor(x / WallView.cellWidth), Math.floor(y / WallView.cellHeight));
 };
 
-},{"./WallView.js":260,"./WindowBuilder.js":262}],264:[function(require,module,exports){
+},{"./WallView.js":262,"./WindowBuilder.js":264}],266:[function(require,module,exports){
 function WireBuilder(wallsCollection) {
     this.wallsCollection = wallsCollection;
 }
@@ -38618,7 +38715,7 @@ WireBuilder.prototype.tryAddWire = function (x, y) {
     }
 };
 
-},{}],265:[function(require,module,exports){
+},{}],267:[function(require,module,exports){
 var WireBuilder = require("./WireBuilder.js");
 var WallView = require("./WallView.js");
 
@@ -38644,5 +38741,5 @@ WireTool.prototype.onMouseUp = function () {
     this.isMouseDown = false;
 };
 
-},{"./WallView.js":260,"./WireBuilder.js":264}]},{},[250])
+},{"./WallView.js":262,"./WireBuilder.js":266}]},{},[250])
 //# sourceMappingURL=room-plan-bundle.js.map

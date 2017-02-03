@@ -3,7 +3,8 @@ function ToolsView(appState) {
     this.toolsDomIdsToIntIds = {
         "#app-tool-wall": 0,
         "#app-tool-wire": 1,
-        "#app-tool-window": 2
+        "#app-tool-door": 2,
+        "#app-tool-window": 3
     }
 }
 module.exports = ToolsView;

@@ -78,10 +78,18 @@ WallView.prototype._renderCellContents = function (x, y, w, h, content, neighbor
             this.endFill();
             break;
 
+        case "door0":
+        case "door1":
+        case "door2":
+            this.beginFill(0x00ff00);
+            this.drawRect(x + w / 4, y + h / 4, w / 2, h / 2);
+            this.endFill();
+            break;
+
         case "window0":
         case "window1":
         case "window2":
-            this.beginFill(0x00ff00);
+            this.beginFill(0x0000ff);
             this.drawRect(x + w / 4, y + h / 4, w / 2, h / 2);
             this.endFill();
             break;
