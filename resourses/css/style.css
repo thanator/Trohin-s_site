@@ -686,7 +686,7 @@ footer p {
 .tree_nav li a:visited {
   color: #e2781a;
   padding-top: 19px;
-  padding-bottom: 8px;
+  padding-bottom: 14px;
   text-decoration: none;
   text-transform: uppercase;
   font-size: 90%;
@@ -795,6 +795,7 @@ footer p {
 .sticky .tree_nav li a:link,
 .sticky .tree_nav li a:visited {
   padding: 16px 0;
+    padding-bottom: 14px;
 }
 
 .sticky .logo {
