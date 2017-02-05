@@ -992,7 +992,7 @@ cite img {
   position: fixed;
   top: 30%;
   left: 27.5%;
-  height: 47.5%;
+  height: auto;
   width: 45%;
   border: 1px solid #f3a158;
   z-index: 10001;
