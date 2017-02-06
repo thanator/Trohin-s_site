@@ -43,23 +43,11 @@ ToolsView.prototype._initModeButtons = function () {
 };
 
 ToolsView.prototype._changeActiveToolButton = function ($nextActive) {
-    var $active = $(".app-tools__tool--active");
-    var $inactive = $(".app-tools__tool--inactive");
-
-    $active.removeClass("app-tools__tool--active");
-    $inactive.removeClass("app-tools__tool--inactive");
-
-    $active.addClass("app-tools__tool--inactive");
-    $nextActive.addClass("app-tools__tool--active");
+    $(".app-tools__tool--active").removeClass("app-tools__tool--active").addClass("app-tools__tool--inactive");
+    $nextActive.removeClass("app-tools__tool--inactive").addClass("app-tools__tool--active");
 };
 
 ToolsView.prototype._changeActiveModeButton = function ($nextActive) {
-    var $active = $(".app-tools__mode--active");
-    var $inactive = $(".app-tools__mode--inactive");
-
-    $active.removeClass("app-tools__mode--active");
-    $inactive.removeClass("app-tools__mode--inactive");
-
-    $active.addClass("app-tools__mode--inactive");
-    $nextActive.addClass("app-tools__mode--active");
+    $(".app-tools__mode--active").removeClass("app-tools__mode--active").addClass("app-tools__mode--inactive");
+    $nextActive.removeClass("app-tools__mode--inactive").addClass("app-tools__mode--active");
 };

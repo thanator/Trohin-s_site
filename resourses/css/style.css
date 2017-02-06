@@ -498,7 +498,6 @@ footer p {
   margin: 10px 0;
 }
 
-.foot_app,
 .foot_cont {
   position: fixed;
   bottom: 0;
@@ -526,8 +525,68 @@ footer p {
 }
 
 .header_app {
+  padding-bottom: 20px;
 }
 
+.foot_app {
+  margin-top: 12px;
+}
+
+.app {
+  height: 600px;
+}
+
+.app-tools {
+}
+
+.app-tools__separator {
+  display: inline-block;
+  width: 32px;
+}
+
+.app-tools__tool {
+  display: inline-block;
+  padding: 4px 16px;
+  cursor: pointer;
+  border: 2px solid #fff;
+  border-radius: 27px;
+}
+
+.app-tools__tool--active {
+  border: 2px solid #523fb2;
+}
+
+.app-tools__tool--inactive {
+  color: #ddd;
+}
+
+.app-tools__tool--inactive:hover {
+  border: 2px solid #bbb;
+}
+
+.app-tools__mode {
+  display: inline-block;
+  padding: 4px 16px;
+  cursor: pointer;
+  border: 2px solid #fff;
+  border-radius: 27px;
+}
+
+.app-tools__mode--active {
+  border: 2px solid #e6331b;
+}
+
+.app-tools__mode--inactive {
+  color: #dddddd;
+}
+
+.app-tools__mode--inactive:hover {
+  border: 2px solid #bbb;
+}
+
+.app-price {
+  margin: 12px;
+}
 
 
 /* -------------------------------------------------- */

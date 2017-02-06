@@ -24,5 +24,5 @@ PriceView.prototype.init = function () {
 
 PriceView.prototype.update = function () {
     var price = this.model.calculate();
-    $("#room-plan-price").html(price + "₽");
+    $("#room-plan-price").html(price);
 };
