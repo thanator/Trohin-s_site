@@ -8,7 +8,7 @@ WindowBuilder.prototype.tryAddWindow = function (x, y) {
     if (d.cell == null) {
         return false;
     }
-    var hasWindow = this._hasWindow(d.cell);
+    var hasWindow = this._hasWindowOrDoor(d.cell);
     if (hasWindow) {
         return false;
     }
@@ -35,7 +35,7 @@ WindowBuilder.prototype.tryAddWindow = function (x, y) {
     } else {
         return false;
     }
-    if (this._hasWindow(cell0) || this._hasWindow(cell1) || this._hasWindow(cell2)) {
+    if (this._hasWindowOrDoor(cell0) || this._hasWindowOrDoor(cell1) || this._hasWindowOrDoor(cell2)) {
         return false;
     }
     this._createWindow(cell0, cell1, cell2);
@@ -91,9 +91,9 @@ WindowBuilder.prototype.tryRemoveWindow = function (x, y) {
     return true;
 };
 
-WindowBuilder.prototype._hasWindow = function (cell) {
+WindowBuilder.prototype._hasWindowOrDoor = function (cell) {
     return _.some([0, 1, 2], function (i) {
-        return cell.contents.has("window" + i);
+        return cell.contents.has("window" + i) || cell.contents.has("door" + i);
     });
 };
 

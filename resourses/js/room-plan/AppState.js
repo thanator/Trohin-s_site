@@ -24,7 +24,7 @@ module.exports = AppState;
 AppState.prototype.createStartEnvironment = function () {
     var wall = new WallModel();
 
-    for (var x = 20; x <= 24; x++) {
+    for (var x = 18; x <= 24; x++) {
         wall.cells.push(new CellModel(x, 0));
     }
     for (var y = 1; y <= 7; y++) {
