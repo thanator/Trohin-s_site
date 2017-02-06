@@ -38384,15 +38384,11 @@ PriceModel.prototype.calculate = function () {
                         price += PriceModel.wirePrice;
                         break;
 
-                    case "door0":
                     case "door1":
-                    case "door2":
                         price += PriceModel.doorPrice;
                         break;
 
-                    case "window0":
                     case "window1":
-                    case "window2":
                         price += PriceModel.windowPrice;
                         break;
                 }
@@ -38540,6 +38536,9 @@ WallBuilder.prototype.tryAddCell = function (x, y) {
 WallBuilder.prototype.tryRemoveCell = function (x, y) {
     var d = this.wallsCollection.findCellAndWall(x, y);
     if (d.cell == null) {
+        return false;
+    }
+    if (d.cell.contents.size != 0) {
         return false;
     }
     d.wall.cells.splice(d.wall.cells.indexOf(d.cell), 1);
@@ -38941,11 +38940,11 @@ WallView.prototype._renderWire = function (x, y, w, h, wallSize, neighborhood) {
 };
 
 WallView.prototype._renderDoor = function (index, x, y, w, h, wallSize, neighborhood) {
-    this._renderRectInWall(x, y, w, h, wallSize, neighborhood.isVerticalLine(), index, 0xc76700, 0x7b3f00);
+    this._renderRectInWall(x, y, w, h, wallSize, neighborhood.up || neighborhood.down, index, 0xc76700, 0x7b3f00);
 };
 
 WallView.prototype._renderWindow = function (index, x, y, w, h, wallSize, neighborhood) {
-    this._renderRectInWall(x, y, w, h, wallSize, neighborhood.isVerticalLine(), index, 0xbfefff, 0x3bceff);
+    this._renderRectInWall(x, y, w, h, wallSize, neighborhood.up || neighborhood.down, index, 0xbfefff, 0x3bceff);
 };
 
 WallView.prototype._renderRectInWall = function (x, y, w, h, wallSize, isVerticalNeighborhood, index, color, borderColor) {

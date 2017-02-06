@@ -25,15 +25,11 @@ PriceModel.prototype.calculate = function () {
                         price += PriceModel.wirePrice;
                         break;
 
-                    case "door0":
                     case "door1":
-                    case "door2":
                         price += PriceModel.doorPrice;
                         break;
 
-                    case "window0":
                     case "window1":
-                    case "window2":
                         price += PriceModel.windowPrice;
                         break;
                 }

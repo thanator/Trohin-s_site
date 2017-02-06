@@ -39,6 +39,9 @@ WallBuilder.prototype.tryRemoveCell = function (x, y) {
     if (d.cell == null) {
         return false;
     }
+    if (d.cell.contents.size != 0) {
+        return false;
+    }
     d.wall.cells.splice(d.wall.cells.indexOf(d.cell), 1);
     var newWalls = d.wall.split();
     if (newWalls.length <= 1) {

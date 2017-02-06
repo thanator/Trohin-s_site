@@ -113,11 +113,11 @@ WallView.prototype._renderWire = function (x, y, w, h, wallSize, neighborhood) {
 };
 
 WallView.prototype._renderDoor = function (index, x, y, w, h, wallSize, neighborhood) {
-    this._renderRectInWall(x, y, w, h, wallSize, neighborhood.isVerticalLine(), index, 0xc76700, 0x7b3f00);
+    this._renderRectInWall(x, y, w, h, wallSize, neighborhood.up || neighborhood.down, index, 0xc76700, 0x7b3f00);
 };
 
 WallView.prototype._renderWindow = function (index, x, y, w, h, wallSize, neighborhood) {
-    this._renderRectInWall(x, y, w, h, wallSize, neighborhood.isVerticalLine(), index, 0xbfefff, 0x3bceff);
+    this._renderRectInWall(x, y, w, h, wallSize, neighborhood.up || neighborhood.down, index, 0xbfefff, 0x3bceff);
 };
 
 WallView.prototype._renderRectInWall = function (x, y, w, h, wallSize, isVerticalNeighborhood, index, color, borderColor) {
