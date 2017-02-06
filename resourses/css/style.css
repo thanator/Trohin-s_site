@@ -900,9 +900,11 @@ footer p {
 }
 
 .h_link .h_check a:link,
-.h_link .h_check a:visited{
+.h_link .h_check a:visited,
+.h_link .h_check_2 a:link,
+.h_link .h_check_2 a:visited{
   text-decoration: none;
-  color: #555555;
+
   border-bottom: none;
     text-decoration: none;
   text-transform: uppercase;
@@ -911,15 +913,23 @@ footer p {
   transition: border-bottom 0.2s, color 0.2s, font-size 0.2s;
 }
 
+.h_link .h_check a:link,
+.h_link .h_check a:visited{
+  color: #555555;
+}
 
-
+.h_link .h_check_2 a:link,
+.h_link .h_check_2 a:visited{
+  color: white;
+}
 
 .h_link .h_check a:hover,
-.h_link .h_check a:active{
+.h_link .h_check a:active,
+.h_link .h_check_2 a:hover,
+.h_link .h_check_2 a:active{
   color: #dd7112;
   font-size: 100%;
     border-bottom: 2px solid #e67e22;
-
 }
 
 
