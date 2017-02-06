@@ -1,36 +1,54 @@
 $(document).ready(function () {
 
 
+//Sticky nav
+    $('.js__main_info').waypoint(function (direction) {
+        if (direction == "down") {
+            $('nav').addClass('sticky');
+        } else {
+            $('nav').removeClass('sticky');
+        }
+    }, {
+            offset: '60px;'
+        });
 
-    $(".js__klick_1_to_2").click(function () {
-        $("#page01").hide();
-        $("#page02").show();
+//Button to top
+    $('.js__main_info').waypoint(function (direction) {
+        if (direction == "down") {
+            $('.move_up').removeClass('hidd');
+        } else {
+            $('.move_up').addClass('hidd');
+        }
+    }, {
+            offset: '60px;'
+        });
+
+
+    var lastScrollTop = 0;
+    $(window).scroll(function (event) {
+        var st = $(this).scrollTop();
+        if (st > lastScrollTop) {
+    //        $('.move_up').removeClass('fixed');
+        } else {
+            $('.move_up').addClass('fixed');
+        }
+        lastScrollTop = st;
     });
 
-    $(".js__klick_1_to_3").click(function () {
-        $("#page01").hide();
-        $("#page03").show();
-    });
-    $(".js__klick_2_to_1").click(function () {
-        $("#page02").hide();
-        $("#page01").show();
-    });
-    $(".js__klick_2_to_3").click(function () {
-        $("#page02").hide();
-        $("#page03").show();
-    });
-    $(".js__klick_3_to_1").click(function () {
-        $("#page03").hide();
-        $("#page01").show();
-    });
-    $(".js__klick_3_to_2").click(function () {
-        $("#page03").hide();
-        $("#page02").show();
+//doesn't matter
+
+    $('.js__send_box').click(function () {  
+         $('.send_box').removeClass('hidd');
     });
 
-//GMAPS
+      $('.js__send_box_closed').click(function () {  
+         $('.send_box').addClass('hidd');
+    });
 
-var map = new GMaps({
+
+    //GMAPS
+
+    var map = new GMaps({
         div: '.map',
         lat: 55.7656845,
         lng: 37.6846058,
@@ -42,8 +60,11 @@ var map = new GMaps({
         lng: 37.6846058,
         title: 'Moscow',
         infoWindow: {
-  content: '<p>Our MSC</p>'
-}
+            content: '<p>Our MSC</p>'
+        }
     });
 
+
+
 });
+

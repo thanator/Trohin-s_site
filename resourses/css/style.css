@@ -32,9 +32,85 @@ section {
   padding: 1%;
 }
 
-.line{
+.line {
   padding-top: 0;
   margin-bottom: 0;
+}
+
+ul {
+  list-style-type: none;
+}
+
+/*--- Buttons in bottom ---*/
+
+.hidd{
+  visibility: hidden;
+}
+
+.move_up {
+  background:rgba(100,100,100,1);
+  height:120px;
+   display: none;
+  bottom: -100px;
+  color: white;
+  transition: bottom 1s;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.move_up.fixed {
+display: block;
+    position: fixed;
+    width: 78px;
+    bottom: 30px;
+    right: 0;
+    background:rgba(100,100,100,0.75)
+}
+.move_up.fixed ~ .wrap {
+  margin-top:80px;
+}
+
+.move_up .icon-big:visited,
+.move_up .icon-big{
+  margin-left: 10px;
+  color: #FF6F00;
+}
+
+.move_up .icon-big:hover{
+  color: #A64800;
+
+}
+
+.move_up p{
+ margin-left: 10px;
+}
+
+.Call{
+  position: fixed;
+  bottom: 20px;
+  left: 10px;
+  width: 77px;
+  height: 77px;
+  background-color: orange;
+  opacity: 0.85;
+  text-align: center;
+  border-radius: 50%; 
+  border: 1px solid #C45500;
+}
+
+.Call .icon-big:visited,
+.Call .icon-big{
+  margin-left: 5px;
+  color: #FF6F00;
+}
+
+.Call .icon-big:hover{
+  color: #A64800;
+     transform: scale(1.1);
+  padding-left: 0;
+}
+
+.Call i{
+  cursor: pointer;
 }
 
 /*---HEADING---*/
@@ -66,6 +142,18 @@ h2 {
   letter-spacing: 1px;
 }
 
+.main_nig_h h2 {
+  text-transform: uppercase;
+  text-align: left;
+  margin-top: 0;
+  color: #fff;
+  font-weight: 400;
+}
+
+.main_nig_h h2::after {
+  display: none;
+}
+
 h2::after {
   display: block;
   height: 2px;
@@ -93,7 +181,7 @@ header {
 .main_nig_h {
   position: absolute;
   width: 1140px;
-  top: 50%;
+  top: 52.5%;
   left: 55%;
   transform: translate(-50%, -50%);
 }
@@ -106,29 +194,54 @@ header {
   margin-right: 20px;
 }
 
-.logo_name, .logo_name_artim {
+.logo_name,
+.logo_name_artim,
+.logo_text {
   margin: 44px;
   color: white;
   font-size: 170%;
 }
 
+.logo_name{
+  margin-bottom: 20px;
+  width: 20%;
+    margin-top: 15px;
+}
+
+.logo_name span{
+  font-size: 50%;
+}
+
 .logo_name_artim {
   color: inherit;
   text-align: left;
+
 }
 
-.logo_img, .logo_img_artim {
-  margin: 100px;
-  height: 80px;
-  width: 80px;
+.logo_img,
+.logo_img_artim {
+
+  height: auto;
+  width: 50px;
   width: auto;
   float: left;
   margin-top: 20px;
   margin-right: 20px;
+  margin-left: 30px;
   text-align: center;
   border: 4px double black;
   color: black;
   background-color: white;
+}
+
+.logo_img{
+  float: left;
+  width: 5%;
+  margin-left: 10%;
+  margin-top: 5px;
+  margin-right: 0;
+  font-size: 70%;
+
 }
 
 .logo_img_artim {
@@ -137,6 +250,39 @@ header {
 
 .heading {
   padding: 0;
+}
+
+.heading span{
+  font-size: 60%;
+  offset-block-end: 10px;
+}
+
+.icon_main_head {
+  margin-right: 10px;
+  color: #0f6c74;
+  font-size: 130%;
+}
+
+.icon_ghost_head {
+  margin-right: 10px;
+  color: #f3a158;
+  font-size: 120%;
+}
+
+.heading_div{
+  float: left;
+  width: 15%;
+    display: inline-block;
+}
+
+header .row{
+  margin: 0;
+  width: 100%;
+  height: 70px;
+  max-width: 2000px;
+  background-color: #343434;
+  padding-bottom: 10px;
+  /*opacity: 0.85;*/
 }
 
 /*---BUTTONS---*/
@@ -163,6 +309,7 @@ header {
 .btn_ghost:visited {
   border: 1px solid #e67e22;
   color: #e67e22;
+  margin-right: 10px;
 }
 
 .btn:hover,
@@ -179,6 +326,86 @@ header {
 .btn_full:hover,
 .btn_full:active {
   border: 1px solid #bf6516;
+}
+
+/* ---- ANIMATION OF STICY BUTTONS ---- */
+
+.menu{
+  float: right;
+  padding-top: 20px;
+  margin-right: 100px;
+}
+
+.menu li {
+  position: relative;
+ display: inline-block;
+ list-style: none;
+ 
+  margin: 0px;
+}
+
+.menu li ul li a:link,
+.menu li il li a:visited {
+  color: #fff;
+  text-decoration: none;
+  color: #e67e22;
+  margin-right: 10px;
+  padding: 3px 10px;
+  transition: border-bottom 0.3s;
+}
+
+.menu li ul li a:hover,
+.menu li il li a:active {
+    background-color: #e67e22;
+    color: #fff;
+    margin-right: 10px;
+    padding: 3px 10px;
+}
+
+.menu li ul {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+    z-index: 99999;
+  top: 100%;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  margin-top: 15px;
+  transition: visibility 0.5s, opacity 0.5s;
+
+}
+
+.menu li:hover ul {
+visibility: visible;
+opacity: 1;
+}
+
+.menu li li {
+display: block;
+white-space: nowrap;
+}
+
+
+.center_ul{
+  padding-top: 25px;
+  display: inline-table;
+}
+
+.center_ul li a {
+    display: block;
+    background-color: #343434;
+    border-bottom: #000;
+}
+
+
+.minndle_ul li{
+  margin-left: 18%;
+}
+.last_ul li{
+  margin-left: 6%;
+align-self: center;
+align-content: center;
 }
 
 /* ---- PARAGRAPHS ---- */
@@ -233,7 +460,6 @@ header {
   color: #bf6516;
   transform: scale(1.15);
   padding-left: 11px;
-
 }
 
 .yup {
@@ -261,7 +487,7 @@ footer {
   background-color: rgba(15%, 15%, 15%, 1);
   padding: 40px;
   font-size: 80%;
-   word-spacing: 1px;
+  word-spacing: 1px;
   letter-spacing: 1px;
   line-height: 125%;
 }
@@ -284,6 +510,9 @@ footer p {
   width: 100vw;
 }
 
+.secret {
+  opacity: 0.05;
+}
 
 /* -------------------------------------------------- */
 /* --- PAGE WITH APP --- */
@@ -309,7 +538,7 @@ footer p {
 
 
 
-.conts p{
+.conts p {
   font-size: 85%;
   font-style: italic;
 }
@@ -317,7 +546,7 @@ footer p {
 
 /*MAP*/
 
-.map{
+.map {
   width: 50%;
   height: 400px;
   position: relative;
@@ -325,14 +554,504 @@ footer p {
   margin-left: 25%;
   border: 2px solid black;
   border-radius: 5px;
- 
 }
 
-.map_box{
-
-background: linear-gradient(to top, #E0E0E0, #FFF);
+.map_box {
+  background: linear-gradient(to top, #e0e0e0, #fff);
   opacity: 0.9;
   height: 500px;
   padding-top: 40px;
   width: 100%;
+}
+
+
+
+
+/* -------------------------------------------------- */
+/* --- TREE PAGE --- */
+/* -------------------------------------------------- */
+
+.side {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 2px 2px #efefef;
+  z-index: 9999;
+}
+
+.side a {
+  margin-top: 20px;
+}
+
+.side_name {
+  width: 30%;
+  float: left;
+  font-size: 70%;
+}
+
+.side_name .logo_img_artim {
+  height: 60px;
+  width: 60px;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+.side_name .logo_name_artim {
+  margin: 20px 0;
+}
+
+.full {
+  text-align: center;
+  width: 60%;
+  margin-bottom: 100px;
+  margin-right: 20%;
+  margin-left: 20%;
+  margin-top: 80px;
+  background-color: white;
+  border-radius: 5%;
+}
+
+.tree_body {
+  position: relative;
+  min-height: 100%;
+  background-color: #f1f1f1;
+  padding: 0 5%;
+}
+
+.main {
+  margin: 0 0 100px; /* bottom = footer height */
+}
+
+.tree_foot {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 140px;
+  width: 100%;
+  padding-bottom: 40px;
+}
+
+.content {
+  padding: 10px 0;
+  margin-bottom: 10px;
+}
+
+.content:after {
+  display: block;
+  height: 2px;
+  background-color: #e67e22;
+  content: " ";
+  width: 180px;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+.content h3 {
+  font-size: 200%;
+  word-spacing: 2px;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+}
+
+.full:last-child {
+  padding-bottom: 40px;
+  margin-bottom: 160px;
+}
+
+.tree_nav {
+  list-style: none;
+  margin-top: 25px;
+ 
+}
+
+.tree_nav ul{
+  margin-top: 10px;
+}
+
+.tree_nav li {
+  display: inline-block;
+   margin-left: 40px;
+}
+
+.tree_nav li li{
+  margin-left: 0;
+}
+.tree_nav li ul {
+}
+
+.fake_link{
+  height: 10px;
+}
+
+.tree_nav li a:link,
+.tree_nav li a:visited {
+  color: #e2781a;
+  padding-top: 19px;
+  padding-bottom: 14px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 90%;
+  border-bottom: none;
+  -webkit-transition: border-bottom 0.2s;
+  transition: border-bottom 0.2s;
+    transition: border-left 0s;
+}
+
+.tree_nav li a:hover,
+.tree_nav li a:active {
+  border-bottom: 2px solid #d37522;
+}
+
+.tree_nav .menu ul li ul a:hover,
+.tree_nav .menu ul li ul a:active {
+    border: 0;
+    border-left: 2px solid #d37522;
+    background-color: #343434;
+    color: #d37522;
+    padding: 3px 10px;
+}
+
+.tree_nav {
+    margin-top: 2px;
+}
+
+
+/* -------------------------------------------------- */
+/* --- TYPES OF WORKS --- */
+/* -------------------------------------------------- */
+
+.types_of_works{
+  background-color: #f8f8f8;
+}
+
+.types_of_works .long_copy{
+  text-align: center;
+}
+
+.types_of_works .box{
+  background-color: white;
+  border: 0.3px solid #f3a158;
+  text-align: center;
+  height: 550px;
+}
+
+.types_of_works h3::after {
+  display: block;
+  height: 1px;
+  background-color: #e67e22;
+  content: " ";
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+.types_of_works h3{
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+
+.h3_down{
+  padding-bottom: 10px;
+}
+
+.types_of_works p{
+  margin-top: 20px;
+}
+
+.works_photo {
+  
+  height: 180px;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  background-color: black;
+}
+
+.works_photo img {
+  opacity: 0.7;
+  width: auto;
+  height: auto;
+  -webkit-transform: scale(1.15);
+  transform: scale(1.15);
+  -webkit-transition: opacity 0.5s, -webkit-transform 0.5s;
+  transition: opacity 0.5s, -webkit-transform 0.5s;
+  transition: transform 0.5s, opacity 0.5s;
+  transition: transform 0.5s, opacity 0.5s, -webkit-transform 0.5s;
+  height: 200px;
+}
+
+.works_photo img:hover {
+  -webkit-transform: scale(1.03);
+  transform: scale(1.03);
+  opacity: 1;
+}
+
+
+/* -------------------------------------------------- */
+/* --- FLOATING STICKY NAV ON INDEX.HTML --- */
+/* -------------------------------------------------- */
+
+.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+}
+
+
+.sticky .tree_nav {
+}
+
+.sticky .tree_nav li a:link,
+.sticky .tree_nav li a:visited {
+  padding: 16px 0;
+    padding-bottom: 14px;
+}
+
+.sticky .tree_nav .menu ul li ul a {
+    padding: 3px 10px;
+}
+
+.sticky .logo {
+  display: none;
+}
+
+.sticky .logo_img {
+  display: block;
+}
+
+/* -------------------------------------------------- */
+/* --- AUTO_SCROLLING CONTENT --- */
+/* -------------------------------------------------- */
+
+.our_work{
+  background-color: #f8f8f8;
+}
+
+.content_scroll{
+  width: 100vw;
+}
+
+
+
+.section_work {
+  padding: 0;
+  height: 300px;
+}
+
+.work_showcase {
+  list-style: none;
+  width: 100%;
+  display: inline-table;
+}
+
+.work_showcase li {
+  display: block;
+  float: left;
+  width: 25%;
+}
+
+.work_photo {
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  background-color: black;
+}
+
+
+.work_photo img {
+  opacity: 0.7;
+  width: 100%;
+  height: 300px;
+  -webkit-transform: scale(1.15);
+  transform: scale(1.15);
+  -webkit-transition: opacity 0.5s, -webkit-transform 0.5s;
+  transition: opacity 0.5s, -webkit-transform 0.5s;
+  transition: transform 0.5s, opacity 0.5s;
+  transition: transform 0.5s, opacity 0.5s, -webkit-transform 0.5s;
+}
+
+.work_photo img:hover {
+  -webkit-transform: scale(1.03);
+  transform: scale(1.03);
+  opacity: 1;
+}
+
+.text_work_1,
+.text_work_2,
+.text_work_3,
+.text_work_4 {
+  width: 100%;
+  height: 300px;
+  margin: 0;
+  transition: opacity 0.3s, background 0.3s;
+  }
+
+  .text_work_1{
+     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)), url(img/1.jpg);
+  }
+   .text_work_2{
+     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)), url(img/2.jpg);
+  }
+   .text_work_3{
+     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)), url(img/3.jpg);
+  }
+   .text_work_4{
+     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)), url(img/4.jpg);
+  }
+
+
+.text_work_1 p,
+.text_work_2 p,
+.text_work_3 p,
+.text_work_4 p{
+    opacity: 0;
+  
+    font-weight: 300;
+    font-family: 'Segoe UI';
+    
+     transition: opacity 0.3s, background 0.3s;
+   
+}
+.text_work_1:hover p,
+.text_work_2:hover p,
+.text_work_3:hover p,
+.text_work_4:hover p{
+    opacity: 1;
+    background: rgba(0,0,0,0.65);
+}
+
+.p1{
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 20px;
+  height: auto;
+  font-size: 40px;
+  color: #e67e22;
+}
+.p2{
+height: 100%;
+  font-size: 30px;
+color: #fff;
+  padding: 0 5px;
+}
+
+
+/* -------------------------------------------------- */
+/* --- CLIENTS --- */
+/* -------------------------------------------------- */
+
+.secrion_test {
+  background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.75)), url(img/back-customers.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.75)), url(img/back-customers.jpg);
+  background-size: cover;
+  color: white;
+  background-attachment: fixed;
+}
+
+blockquote {
+  padding: 2%;
+  font-style: italic;
+  line-height: 145%;
+  position: relative;
+}
+
+blockquote:before {
+  content: "\201C";
+  font-size: 300%;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: -3px;
+}
+
+cite {
+  font-size: 90%;
+  margin-top: 25px;
+  display: block;
+}
+
+cite img {
+  height: 90px;
+  border-radius: 50%;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+
+/*    SEND FORM    */
+
+.send_box i{
+  position: fixed;
+  top:30%;
+  right:27.7%;
+  z-index: 10002;
+  cursor: pointer;
+}
+
+.back_box{
+  background-color: black;
+  opacity: 0.9;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border: 1px solid #f3a158;
+  z-index: 10000;
+  
+}
+
+.main_box{
+  background-color: white;
+  position: fixed;
+  top: 30%;
+  left: 27.5%;
+  height: auto;
+  width: 45%;
+  border: 1px solid #f3a158;
+  z-index: 10001;
+  
+}
+
+/* -------------------------------------------------- */
+/* --- FORM --- */
+/* -------------------------------------------------- */
+
+.contact_form {
+  width: 60%;
+  margin: 0 auto;
+}
+
+input[type=text],
+input[type=phone],
+select,
+textarea {
+  width: 100%;
+  padding: 7px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+textarea {
+  height: 100px;
+}
+
+input[type=checkbox] {
+  margin: 10px 5px 10px 0;
+}
+
+*:focus {
+  outline: none;
+}
+
+.row_sub{
+    max-width: 1140px;
+  margin: 0 auto;
+  padding-bottom: 40px;
 }

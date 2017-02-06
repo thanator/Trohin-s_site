@@ -1,71 +1,218 @@
 <!DOCTYPE html>
-
-
 <html>
 
 <head>
-    <meta charset="utf-8">
-
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="resourses/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="vendors/css/normalize.css">
     <link rel="stylesheet" type="text/css" href="vendors/css/ionicons.min.css">
     <link rel="stylesheet" type="text/css" href="vendors/css/grid.css">
     <link rel="stylesheet" type="text/css" href="vendors/css/animate.css">
 
-    <link rel="stylesheet" type="text/css" href="resourses/css/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i" rel="stylesheet">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#form").submit(function () { //устанавливаем событие отправки для формы с id=form
+                var form_data = $(this).serialize(); //собераем все данные из формы
+                $.ajax({
+                    type: "POST", //Метод отправки
+                    url: "resourses/php/send.php", //путь до php фаила отправителя
+                    data: form_data,
+                    success: function () {
+                        //код в этом блоке выполняется при успешной отправке сообщения
+                        alert("Ваше сообщение отпрвлено!");
+                    }
+                });
+            });
+        });
+    </script>
+    
     <title>KvartStroi</title>
     <style>
-  
+
     </style>
 </head>
 
-
 <body>
-
-    <div class="main" id="page01">
-
-
-        <section class="heading">
+    <div id="page01">
+        <div class="Call">
+            <i class="ion-android-call icon-big js__send_box"></i>
+        </div>
+        <div class="send_box hidd">
+            <i class="ion-close-circled js__send_box_closed"></i>
+            <div class="back_box">
+            </div>
+            <div class="main_box">
+                <form form id="form" class="contact_form">
+                    <div class="row">
+                        <div class="col span-1-of-3">
+                            <label for="name">Ваше имя</label>
+                        </div>
+                        <div class="col span-2-of-3">
+                            <input type="text" name="name" id="name" placeholder="Имя" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col span-1-of-3">
+                            <label for="phone">Ваш телефон</label>
+                        </div>
+                        <div class="col span-2-of-3">
+                            <input type="phone" name="phone" id="phone" placeholder="+7(999)888-33-22" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col span-1-of-3">
+                            <label for="email">Ваш Email <br>(по желанию)</label>
+                        </div>
+                        <div class="col span-2-of-3">
+                            <input type="email" name="email" id="email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="row_sub">
+                        <div class="col span-1-of-3">
+                            <label>Комментарий</label>
+                        </div>
+                        <div class="col span-2-of-3">
+                            <textarea name="message" placeholder="Сообщение"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col span-1-of-3">
+                            <label>&nbsp;</label>
+                        </div>
+                        <div class="col span-2-of-3">
+                            <input type="submit" value="Отправить!">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <section class="heading" id="headding">
             <header>
-                <div class="row">
-                    <p class="logo_img">ТУТ <br>БУДЕТ <br>ЛОГО</p>
-                    <p class="logo_name">KvartStroi</p>
-                </div>
-
-                <div class="main_nig_h">
-                    <h1>Запланировали ремонт?<br>Мы Вам поможем!</h1>
-                    <a class="btn btn_full" href="page_app.html"> Планировка помещения</a>
-                    <a class="btn btn_ghost" href="page_cont.html"> Контакты</a>
+                <nav>
+                    <div class="row tree_nav">
+                        <p class="logo_img">ТУТ <br>БУДЕТ <br>ЛОГО</p>
+                        <div class="heading_div">
+                            <!-- <span>- Запланировали ремонт? Мы вам поможем!</span> -->
+                            <p class="logo_name">KvartStroi</p>
+                        </div>
+                        <div class="menu">
+                            <ul>
+                                <li><a class="fake_link" href="page_app.html">Конструктор помещений</a>
+                                    <ul class="center_ul">
+                                        <li><a href="#">К-р квартир</a></li>
+                                        <li><a href="#">К-р коттеджей</a></li>
+                                        <li><a href="#">К-р офисов</a></li>
+                                    </ul>
+                                </li>
+                                <li><a class="fake_link" href="page_app.html">Виды работ</a>
+                                    <ul class="center_ul">
+                                        <li><a href="#">Отделочные<br>работы</a></li>
+                                        <li><a href="#">Электро-монтажные<br>работы</a></li>
+                                        <li><a href="#">Малярно-штукатурные<br>работы</a></li>
+                                        <li><a href="#">Плиточные<br>работы</a></li>
+                                        <li><a href="#">Сантехнические<br>работы</a></li>
+                                    </ul>
+                                </li>
+                                <li><a class="fake_link" href="tree.html">Цены</a>
+                                    <ul class="center_ul">
+                                    </ul>
+                                </li>
+                                <li><a class="fake_link" href="page_app.html">О нас</a>
+                                    <ul class="center_ul">
+                                        <li><a href="#">Описание</a></li>
+                                        <li><a href="#">Оплата услуг</a></li>
+                                        <li><a href="#">Контакты</a></li>
+                                        <li><a href="#">FAQ</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <div class="main_nig_h js__suck">
+                    <h1>Качественный ремонт</h1>
+                    <h2>Квартир, загородных домов, офисов</h2>
+                    <a class="btn btn_full js__send_box" href="#"><i class="ion-checkmark icon_main_head"></i>Узнать больше</a>
+                    <a class="btn btn_ghost" href="Tree.html" id="new-operator"><i class="ion-ios-calculator icon_ghost_head"></i>Конструктор помещения</a>
                 </div>
             </header>
         </section>
-
-        <section class="main_info">
+        <section class="our_work js__main_info">
+            <div class="row">
+                <h2 id="pip">Примеры наших работ</h2>
+                <p class="long_copy">
+                    Наши клиенты всегда остаются довольны выполненной работой, и лучшим доказательством могут служить многочисленные фотографии
+                    сделанного ремонта:
+                </p>
+            </div>
+            <div class="content">
+                <!-- Scrolling Text Start -->
+                <section class="section_work">
+                    <div id="header-scrolling-text">
+                        <div id="scrolling-text" class="container">
+                            <ul class="work_showcase clearfix">
+                                <li>
+                                    <figure class="work_photo">
+                                        <figure class="text_work_1">
+                                            <p class="p1">Квартира номер ноль</p>
+                                            <p class="p2">Эта квартира запилена в худший традициях этих ваших интернетов</p>
+                                        </figure>
+                                    </figure>
+                                </li>
+                                <li>
+                                    <figure class="work_photo">
+                                        <figure class="text_work_2">
+                                            <p class="p1">Квартира номер раз</p>
+                                            <p class="p2">Эта квартира выполнена в лучших традициях бугурт-трэда</p>
+                                        </figure>
+                                    </figure>
+                                </li>
+                                <li>
+                                    <figure class="work_photo">
+                                        <figure class="text_work_3">
+                                            <p class="p1">Третья квартира</p>
+                                            <p class="p2">А это - просто копипаста фотки из гугла</p>
+                                        </figure>
+                                    </figure>
+                                </li>
+                                <li>
+                                    <figure class="work_photo">
+                                        <figure class="text_work_4">
+                                            <p class="p1">четвёртый номер этот</p>
+                                            <p class="p2">как Йода говорить модно когда-то было, будто умный дофига</p>
+                                            </span>
+                                        </figure>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                <!-- Scrolling Text End -->
+            </div>
+        </section>
+        <section class="main_info" id="features">
             <div class="row">
                 <h2>Спланировать ремонт &mdash; нет ничего проще</h2>
                 <p class="long_copy">
-                    Привет! мы - <span class="beauty_word">KvartStroi</span> . У нас Вы сможете запросто распланировать ремонт
-                    и заказать всё необходимое.
+                    Строительная компания <span class="beauty_word">KvartStroi</span> представляет услуги по ремонту квартир
+                    "под ключ" по всей Москве. Высококачественные работы, выполняемые сотрудниками, свидетельствуют о богатом
+                    опыте рабочих. Кроме того, предлагаемые цены на стройматериалы являются одними из самых выгодных на российском
+                    рынке.
                 </p>
-
             </div>
-
-
             <div class="row">
                 <section class="line">
                     <div class="col span-3-of-10 box">
-                        <a href="index.html"><i class="ion-checkmark icon-big"></i></a>
-
+                        <a href="Tree.html"><i class="ion-checkmark icon-big"></i></a>
                     </div>
                     <div class="col span-4-of-10 box">
                         <a href="page_app.html"><i class="ion-settings icon-big"></i></a>
-
                     </div>
                     <div class="col span-3-of-10 box">
-                        <a href="page_cont.html"><i class="ion-android-call icon-big"></i></a>
-
+                        <a href="page_cont.html"><i class=" ion-thumbsup icon-big"></i></a>
                     </div>
-
                 </section>
                 <section class="line">
                     <div class="col span-3-of-10 box">
@@ -89,29 +236,95 @@
                         </p>
                     </div>
             </div>
-
+            </section>
+            <section class="types_of_works">
+                <div class="row">
+                    <h2>Особенности</h2>
+                    <p class="long_copy">
+                        Компания <span class="beauty_word">KvartStroi</span> обладает следующими особенностями:
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="col span-1-of-4 box">
+                        <figure class="works_photo">
+                            <img src="resourses/img/pexels-photo-196644.jpg" alt="">
+                        </figure>
+                        <h3>Индивидуальный дизайн</h3>
+                        <p>На нашем сайте вы можете, при помощи спецаильного приложения, создать дизайн, который будет подходить
+                            именно Вам! Кроме того, наши специалисты всегда готовы создать для вас <span class="beauty_word">эксклюзивный дизайнерский проект</span>.
+                        </p>
+                    </div>
+                    <div class="col span-1-of-4 box">
+                        <figure class="works_photo">
+                            <img src="resourses/img/construction-work-carpenter-tools.jpg" alt="">
+                        </figure>
+                        <h3>Все виды работ<br>&nbsp;</h3>
+                        <p>Наша компания занимается <span class="beauty_word">всеми возможными работами.</span> И в заказе могут
+                            быть как целый комплекс работ, начиная с отделки стен, и заканчивая декором, так и какие-то частные
+                            работы, такие как установка сантехники или укладка проводки.</p>
+                    </div>
+                    <div class="col span-1-of-4 box">
+                        <figure class="works_photo">
+                            <img src="resourses/img/stock-photo-close-up-of-quality-control-form-and-marker-302440457.jpg" alt="">
+                        </figure>
+                        <h3>В ответе за качество</h3>
+                        <p>Благодаря контролю качества на всех этапах, исключительно первоклассным и качественным материалам,
+                            индивидуальному подходу к каждому клиенту, а так же большому опыту проведения ремонтных работ
+                            мы <span class="beauty_word">гарантируем качественную работу!</span> </p>
+                    </div>
+                    <div class="col span-1-of-4 box">
+                        <figure class="works_photo">
+                            <img src="resourses/img/photo_2017-02-01_00-45-13.jpg" alt="">
+                        </figure>
+                        <h3 id="bot">Всё своё? Установим!</h3>
+                        <p>Вы можете заказать у нас всё необходимое для ремонта, начиная от паркета, и заканчивая сантехникой.
+                            Но если у вас уже есть свои <span class="beauty_word">собственные материалы и мебель</span>,
+                            мы можем заняться их установкой.
+                        </p>
+                    </div>
+                    <div class="move_up hidd">
+                        <a href="#headding"><i class="ion-chevron-up icon-big"></i></a>
+                        <p>Вверх</p>
+                    </div>
+            </section>
+            <section class="secrion_test">
+                <div class="row">
+                    <h2>Все наши клиенты всегда остаются довольны!</h2>
+                </div>
+                <div class="row">
+                    <div class="col span-1-of-3">
+                        <blockquote cite="">
+                            Ёпта, ппц ваще ребята могут, сделали так, шо ну прям ва-аще, я прям офигел. короч, мля-буду, просто по-царски всё сделали,
+                            не обломали, прям ну ваще, ну, от души душевно в душу, короч.
+                            <cite><img src="resourses/img/customer-1.jpg" alt="">Реальный пахан ёпта</cite>
+                        </blockquote>
+                    </div>
+                    <div class="col span-1-of-3">
+                        <blockquote cite="">
+                            Отлично теперь живём всем аулом из 100 чернорабочих. спасибо, никогда бы не подумал, что возможно уместить на 10 квадратных
+                            метрах 100 нелегалов. просто, молодцы!
+                            <cite><img src="resourses/img/customer-2.png" alt="">Строим навека</cite>
+                        </blockquote>
+                    </div>
+                    <div class="col span-1-of-3">
+                        <blockquote cite="">
+                            Короч взял ипотеку, купил себе на кредил айфон 8, гелик и хату в центре москвы, продал родителей на органы. зато тёлочка
+                            в восторге, ещё операцию ей на груди сделали, шестой размер - зачёт.
+                            <cite><img src="resourses/img/customer-3.jpg" alt="">Мажор Ибаный</cite>
+                        </blockquote>
+                    </div>
+                </div>
             </section>
             <footer>
-              <p>KvartStroi, &copy;все права сохранены, 2017 <br> Made by TanDS, Redhper, Reo, Familka </p>
-
+                <p>KvartStroi, &copy;все права сохранены, 2017 <br> Made by TanDS, Redhper, Reo, Familka </p>
+                <p class="secret">upd: заказчик всегда мудак</p>
             </footer>
-
-        </section>
-
-
-    </div>
-
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="resourses/js/script.js"></script>
-
-
-
+            </div>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+            <script src="vendors/js/jquery.waypoints.min.js"></script>
+            <script src="resourses/js/script.js"></script>
+            <script src="resourses/js/nav_scroll.js"></script>
+            <script src="resourses/js/running.js"></script>
 </body>
-
-
-
-
-
 
 </html>
