@@ -168,6 +168,13 @@ h3 {
   font-size: 110%;
   margin-bottom: 15px;
 }
+
+.pip a{
+  text-decoration: none;
+  color: wheat;
+}
+
+
 /*---HEADER---*/
 
 header {
@@ -700,7 +707,7 @@ footer p {
 .content:after {
   display: block;
   height: 2px;
-  background-color: #e67e22;
+ 
   content: " ";
   width: 180px;
   margin: 0 auto;
@@ -891,6 +898,30 @@ footer p {
 .our_work{
   background-color: #f8f8f8;
 }
+
+.h_link .h_check a:link,
+.h_link .h_check a:visited{
+  text-decoration: none;
+  color: #555555;
+  border-bottom: none;
+    text-decoration: none;
+  text-transform: uppercase;
+  font-size: 97%;
+   border-bottom: 2px solid transparent;
+  transition: border-bottom 0.2s, color 0.2s, font-size 0.2s;
+}
+
+
+
+
+.h_link .h_check a:hover,
+.h_link .h_check a:active{
+  color: #dd7112;
+  font-size: 100%;
+    border-bottom: 2px solid #e67e22;
+
+}
+
 
 .content_scroll{
   width: 100vw;
