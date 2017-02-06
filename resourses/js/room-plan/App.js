@@ -1,8 +1,9 @@
 var PIXI = require("pixi.js");
-var MainStageController = require("./MainStageController.js");
 var AppState = require("./AppState.js");
-var ToolsView = require("./ToolsView.js");
+var MainStageController = require("./MainStageController.js");
 var GridBackground = require("./GridBackground.js");
+var ToolsView = require("./ToolsView.js");
+var PriceView = require("./PriceView.js");
 
 
 function App() {
@@ -16,16 +17,19 @@ App.prototype.init = function () {
     $(".app").replaceWith($view);
     $view.addClass("app");
 
-    this.state = new AppState();
+    var gridBackground = new GridBackground(800, 600);
+    this.pixiApp.stage.addChild(gridBackground);
 
-    var controller = new MainStageController(this.pixiApp.stage, this.pixiApp.renderer.plugins.interaction, this.state);
+    this.state = new AppState(this);
+
+    var controller = new MainStageController(this.state, this.pixiApp.stage, this.pixiApp.renderer.plugins.interaction);
     controller.init();
+
+    this.state.createStartEnvironment();
 
     var toolsView = new ToolsView(this.state);
     toolsView.init();
 
-    var gridBackground = new GridBackground(800, 600);
-    this.pixiApp.stage.addChild(gridBackground);
-
-    this.state.createStartEnvironment();
+    var priceView = new PriceView(this.state.priceCalculator, this.pixiApp.renderer.plugins.interaction);
+    priceView.init();
 };

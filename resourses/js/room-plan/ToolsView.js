@@ -1,10 +1,10 @@
 function ToolsView(appState) {
     this.appState = appState;
     this.toolsDomIdsToIntIds = {
-        "#app-tool-wall": 0,
-        "#app-tool-wire": 1,
-        "#app-tool-door": 2,
-        "#app-tool-window": 3
+        "#room-plan-tool-wall": 0,
+        "#room-plan-tool-wire": 1,
+        "#room-plan-tool-door": 2,
+        "#room-plan-tool-window": 3
     };
 }
 module.exports = ToolsView;
@@ -32,11 +32,11 @@ ToolsView.prototype._registerToolEvent = function (domId, intId) {
 
 ToolsView.prototype._initModeButtons = function () {
     var self = this;
-    $("#app-tool-mode-add").click(function () {
+    $("#room-plan-tool-mode-add").click(function () {
         self._changeActiveModeButton($(this));
         self.appState.toolMode = "add";
     });
-    $("#app-tool-mode-remove").click(function () {
+    $("#room-plan-tool-mode-remove").click(function () {
         self._changeActiveModeButton($(this));
         self.appState.toolMode = "remove";
     });

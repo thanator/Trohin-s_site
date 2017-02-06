@@ -1,7 +1,7 @@
-function MainStageController(stage, interaction, appState) {
+function MainStageController(appState, stage, interaction) {
+    this.appState = appState;
     this.stage = stage;
     this.interaction = interaction;
-    this.appState = appState;
 }
 module.exports = MainStageController;
 

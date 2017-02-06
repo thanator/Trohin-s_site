@@ -6,10 +6,13 @@ var WindowTool = require("./WindowTool.js");
 var WallModel = require("./WallModel.js");
 var WallView = require("./WallView.js");
 var CellModel = require("./CellModel.js");
+var PriceModel = require("./PriceModel.js");
 
 
-function AppState() {
+function AppState(app) {
+    this.app = app;
     this.wallsCollection = new WallsCollection();
+    this.priceCalculator = new PriceModel(this.wallsCollection);
     this.tools = [
         new WallTool(this),
         new WireTool(this),

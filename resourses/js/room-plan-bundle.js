@@ -37953,10 +37953,11 @@ $(function () {
 
 },{"./room-plan/App.js":251}],251:[function(require,module,exports){
 var PIXI = require("pixi.js");
-var MainStageController = require("./MainStageController.js");
 var AppState = require("./AppState.js");
-var ToolsView = require("./ToolsView.js");
+var MainStageController = require("./MainStageController.js");
 var GridBackground = require("./GridBackground.js");
+var ToolsView = require("./ToolsView.js");
+var PriceView = require("./PriceView.js");
 
 
 function App() {
@@ -37970,21 +37971,24 @@ App.prototype.init = function () {
     $(".app").replaceWith($view);
     $view.addClass("app");
 
-    this.state = new AppState();
+    var gridBackground = new GridBackground(800, 600);
+    this.pixiApp.stage.addChild(gridBackground);
 
-    var controller = new MainStageController(this.pixiApp.stage, this.pixiApp.renderer.plugins.interaction, this.state);
+    this.state = new AppState(this);
+
+    var controller = new MainStageController(this.state, this.pixiApp.stage, this.pixiApp.renderer.plugins.interaction);
     controller.init();
+
+    this.state.createStartEnvironment();
 
     var toolsView = new ToolsView(this.state);
     toolsView.init();
 
-    var gridBackground = new GridBackground(800, 600);
-    this.pixiApp.stage.addChild(gridBackground);
-
-    this.state.createStartEnvironment();
+    var priceView = new PriceView(this.state.priceCalculator, this.pixiApp.renderer.plugins.interaction);
+    priceView.init();
 };
 
-},{"./AppState.js":252,"./GridBackground.js":257,"./MainStageController.js":258,"./ToolsView.js":259,"pixi.js":203}],252:[function(require,module,exports){
+},{"./AppState.js":252,"./GridBackground.js":257,"./MainStageController.js":258,"./PriceView.js":260,"./ToolsView.js":261,"pixi.js":203}],252:[function(require,module,exports){
 var WallsCollection = require("./WallsCollection.js");
 var WallTool = require("./WallTool.js");
 var WireTool = require("./WireTool.js");
@@ -37993,10 +37997,13 @@ var WindowTool = require("./WindowTool.js");
 var WallModel = require("./WallModel.js");
 var WallView = require("./WallView.js");
 var CellModel = require("./CellModel.js");
+var PriceModel = require("./PriceModel.js");
 
 
-function AppState() {
+function AppState(app) {
+    this.app = app;
     this.wallsCollection = new WallsCollection();
+    this.priceCalculator = new PriceModel(this.wallsCollection);
     this.tools = [
         new WallTool(this),
         new WireTool(this),
@@ -38058,7 +38065,7 @@ AppState.prototype.createStartEnvironment = function () {
         console.error("start wall is not okay");
     }
 };
-},{"./CellModel.js":253,"./DoorTool.js":256,"./WallModel.js":261,"./WallTool.js":262,"./WallView.js":263,"./WallsCollection.js":264,"./WindowTool.js":266,"./WireTool.js":268}],253:[function(require,module,exports){
+},{"./CellModel.js":253,"./DoorTool.js":256,"./PriceModel.js":259,"./WallModel.js":263,"./WallTool.js":264,"./WallView.js":265,"./WallsCollection.js":266,"./WindowTool.js":268,"./WireTool.js":270}],253:[function(require,module,exports){
 var Set = require('core-js/library/fn/set');
 
 function CellModel(x, y) {
@@ -38275,7 +38282,7 @@ DoorTool.prototype.onMouseUp = function (x, y) {
     }
 };
 
-},{"./DoorBuilder.js":255,"./WallView.js":263}],257:[function(require,module,exports){
+},{"./DoorBuilder.js":255,"./WallView.js":265}],257:[function(require,module,exports){
 var PIXI = require("pixi.js");
 var WallView = require("./WallView.js");
 
@@ -38306,11 +38313,11 @@ GridBackground.prototype.renderGrid = function () {
     this.endFill();
 };
 
-},{"./WallView.js":263,"pixi.js":203}],258:[function(require,module,exports){
-function MainStageController(stage, interaction, appState) {
+},{"./WallView.js":265,"pixi.js":203}],258:[function(require,module,exports){
+function MainStageController(appState, stage, interaction) {
+    this.appState = appState;
     this.stage = stage;
     this.interaction = interaction;
-    this.appState = appState;
 }
 module.exports = MainStageController;
 
@@ -38350,13 +38357,90 @@ MainStageController.prototype._getMousePos = function (event) {
 };
 
 },{}],259:[function(require,module,exports){
+function PriceModel(wallsCollection) {
+    this.wallsCollection = wallsCollection;
+}
+module.exports = PriceModel;
+
+PriceModel.wallPrice = 100;
+PriceModel.wirePrice = 100;
+PriceModel.doorPrice = 100;
+PriceModel.windowPrice = 100;
+
+PriceModel.prototype.calculate = function () {
+    var price = 0;
+
+    for (var i = 0; i < this.wallsCollection.walls.length; i++) {
+        var wall = this.wallsCollection.walls[i];
+
+        for (var j = 0; j < wall.cells.length; j++) {
+            var cell = wall.cells[j];
+
+            price += PriceModel.wallPrice;
+
+            cell.contents.forEach(function (content) {
+                switch (content) {
+                    case "wire":
+                        price += PriceModel.wirePrice;
+                        break;
+
+                    case "door0":
+                    case "door1":
+                    case "door2":
+                        price += PriceModel.doorPrice;
+                        break;
+
+                    case "window0":
+                    case "window1":
+                    case "window2":
+                        price += PriceModel.windowPrice;
+                        break;
+                }
+            });
+        }
+    }
+
+    return price;
+};
+
+},{}],260:[function(require,module,exports){
+function PriceView(model, interaction) {
+    this.model = model;
+    this.interaction = interaction;
+}
+module.exports = PriceView;
+
+PriceView.prototype.init = function () {
+    this.update();
+
+    this.interaction.on("mousedown", function () {
+        this.isMouseDown = true;
+        this.update();
+    }.bind(this));
+    this.interaction.on("mousemove", function () {
+        if (this.isMouseDown) {
+            this.update();
+        }
+    }.bind(this));
+    this.interaction.on("mouseup", function () {
+        this.isMouseDown = false;
+        this.update();
+    }.bind(this));
+};
+
+PriceView.prototype.update = function () {
+    var price = this.model.calculate();
+    $("#room-plan-price").html(price + "₽");
+};
+
+},{}],261:[function(require,module,exports){
 function ToolsView(appState) {
     this.appState = appState;
     this.toolsDomIdsToIntIds = {
-        "#app-tool-wall": 0,
-        "#app-tool-wire": 1,
-        "#app-tool-door": 2,
-        "#app-tool-window": 3
+        "#room-plan-tool-wall": 0,
+        "#room-plan-tool-wire": 1,
+        "#room-plan-tool-door": 2,
+        "#room-plan-tool-window": 3
     };
 }
 module.exports = ToolsView;
@@ -38384,11 +38468,11 @@ ToolsView.prototype._registerToolEvent = function (domId, intId) {
 
 ToolsView.prototype._initModeButtons = function () {
     var self = this;
-    $("#app-tool-mode-add").click(function () {
+    $("#room-plan-tool-mode-add").click(function () {
         self._changeActiveModeButton($(this));
         self.appState.toolMode = "add";
     });
-    $("#app-tool-mode-remove").click(function () {
+    $("#room-plan-tool-mode-remove").click(function () {
         self._changeActiveModeButton($(this));
         self.appState.toolMode = "remove";
     });
@@ -38416,7 +38500,7 @@ ToolsView.prototype._changeActiveModeButton = function ($nextActive) {
     $nextActive.addClass("app-tools__mode--active");
 };
 
-},{}],260:[function(require,module,exports){
+},{}],262:[function(require,module,exports){
 var WallModel = require("./WallModel.js");
 var WallView = require("./WallView.js");
 var CellModel = require("./CellModel.js");
@@ -38495,7 +38579,7 @@ WallBuilder.prototype._tryJoin = function () {
         }
     }
 };
-},{"./CellModel.js":253,"./WallModel.js":261,"./WallView.js":263}],261:[function(require,module,exports){
+},{"./CellModel.js":253,"./WallModel.js":263,"./WallView.js":265}],263:[function(require,module,exports){
 var CellNeighborhood = require("./CellNeighborhood.js");
 
 
@@ -38694,7 +38778,7 @@ WallModel.prototype._getCellIndex = function (x, y) {
     }
 };
 
-},{"./CellNeighborhood.js":254}],262:[function(require,module,exports){
+},{"./CellNeighborhood.js":254}],264:[function(require,module,exports){
 var WallBuilder = require("./WallBuilder.js");
 var WallView = require("./WallView.js");
 
@@ -38741,7 +38825,7 @@ WallTool.prototype._create = function (x, y) {
     }
 };
 
-},{"./WallBuilder.js":260,"./WallView.js":263}],263:[function(require,module,exports){
+},{"./WallBuilder.js":262,"./WallView.js":265}],265:[function(require,module,exports){
 var PIXI = require("pixi.js");
 
 
@@ -38933,7 +39017,7 @@ WallView.prototype._renderRectInWall = function (x, y, w, h, wallSize, isVertica
     this.endFill();
 };
 
-},{"pixi.js":203}],264:[function(require,module,exports){
+},{"pixi.js":203}],266:[function(require,module,exports){
 var EventEmitter = require("eventemitter3");
 
 
@@ -38990,7 +39074,7 @@ WallsCollection.prototype.findCellAndWall = function (x, y) {
     }
     return {};
 };
-},{"eventemitter3":72}],265:[function(require,module,exports){
+},{"eventemitter3":72}],267:[function(require,module,exports){
 function WindowBuilder(wallsCollection) {
     this.wallsCollection = wallsCollection;
 }
@@ -39106,7 +39190,7 @@ WindowBuilder.prototype._createWindow = function () {
     }
 };
 
-},{}],266:[function(require,module,exports){
+},{}],268:[function(require,module,exports){
 var WindowBuilder = require("./WindowBuilder.js");
 var WallView = require("./WallView.js");
 
@@ -39136,7 +39220,7 @@ WindowTool.prototype.onMouseUp = function (x, y) {
     }
 };
 
-},{"./WallView.js":263,"./WindowBuilder.js":265}],267:[function(require,module,exports){
+},{"./WallView.js":265,"./WindowBuilder.js":267}],269:[function(require,module,exports){
 function WireBuilder(wallsCollection) {
     this.wallsCollection = wallsCollection;
 }
@@ -39170,7 +39254,7 @@ WireBuilder.prototype.tryRemoveWire = function (x, y) {
     return true;
 };
 
-},{}],268:[function(require,module,exports){
+},{}],270:[function(require,module,exports){
 var WireBuilder = require("./WireBuilder.js");
 var WallView = require("./WallView.js");
 
@@ -39205,5 +39289,5 @@ WireTool.prototype.onMouseUp = function () {
     this.isMouseDown = false;
 };
 
-},{"./WallView.js":263,"./WireBuilder.js":267}]},{},[250])
+},{"./WallView.js":265,"./WireBuilder.js":269}]},{},[250])
 //# sourceMappingURL=room-plan-bundle.js.map
