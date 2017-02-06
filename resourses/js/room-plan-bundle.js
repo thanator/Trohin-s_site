@@ -38042,12 +38042,16 @@ function CellNeighborhood() {
 }
 module.exports = CellNeighborhood;
 
-CellNeighborhood.prototype.neighborsCount = function () {
+CellNeighborhood.prototype.getNeighborsCount = function () {
     return (this.left != null) + (this.right != null) + (this.up != null) + (this.down != null);
 };
 
+CellNeighborhood.prototype.hasNeighbors = function () {
+    return this.getNeighborsCount() != 0;
+};
+
 CellNeighborhood.prototype.hasNoNeighbors = function () {
-    return this.neighborsCount() == 0;
+    return this.getNeighborsCount() == 0;
 };
 
 CellNeighborhood.prototype.isVerticalLine = function () {
@@ -38063,7 +38067,7 @@ CellNeighborhood.prototype.isLine = function () {
 };
 
 CellNeighborhood.prototype.isCorner = function () {
-    return this.neighborsCount() == 2 && !this.isLine();
+    return this.getNeighborsCount() == 2 && !this.isLine();
 };
 
 CellNeighborhood.prototype.toFullArray = function () {
@@ -38079,6 +38083,16 @@ CellNeighborhood.prototype.toArray = function () {
     });
     return arr;
 };
+
+CellNeighborhood.prototype.getNeighborhoodByContent = function (content) {
+    var result = new CellNeighborhood();
+    result.left = this.left != null && this.left.contents.has(content) ? this.left : null;
+    result.right = this.right != null && this.right.contents.has(content) ? this.right : null;
+    result.up = this.up != null && this.up.contents.has(content) ? this.up : null;
+    result.down = this.down != null && this.down.contents.has(content) ? this.down : null;
+    return result;
+};
+
 
 },{}],255:[function(require,module,exports){
 function DoorBuilder(wallsCollection) {
@@ -38674,7 +38688,7 @@ module.exports = WallView;
 
 WallView.cellWidth = 32;
 WallView.cellHeight = 32;
-WallView.cellWallSize = 8;
+WallView.cellWallSize = 12;
 
 
 WallView.prototype.renderWall = function () {
@@ -38682,16 +38696,16 @@ WallView.prototype.renderWall = function () {
     for (var i = 0; i < this.model.cells.length; i++) {
         var cell = this.model.cells[i];
 
-        var wallSize = WallView.cellWallSize;
+        var s = WallView.cellWallSize;
         var w = WallView.cellWidth;
         var h = WallView.cellHeight;
         var x = cell.x * w;
         var y = cell.y * h;
         var neighborhood = this.model.getCellNeighborhood(cell);
 
-        this._renderCell(x, y, w, h, wallSize, neighborhood);
+        this._renderCell(x, y, w, h, s, neighborhood);
         cell.contents.forEach(function (content) {
-            this._renderCellContents(x, y, w, h, content, neighborhood);
+            this._renderCellContents(x, y, w, h, s, content, neighborhood);
         }.bind(this));
     }
 };
@@ -38716,11 +38730,27 @@ WallView.prototype._renderCell = function (x, y, w, h, s, neighborhood) {
     this.endFill();
 };
 
-WallView.prototype._renderCellContents = function (x, y, w, h, content, neighborhood) {
+WallView.prototype._renderCellContents = function (x, y, w, h, wallSize, content, neighborhood) {
     switch (content) {
         case "wire":
             this.beginFill(0xff0000);
-            this.drawRect(x + w / 4, y + h / 4, w / 2, h / 2);
+            var centerX = x + w / 2;
+            var centerY = y + h / 2;
+            var s = wallSize / 4;
+            var wireNeighborhood = neighborhood.getNeighborhoodByContent("wire");
+            this.drawRect(centerX - s / 2, centerY - s / 2, s, s);
+            if (wireNeighborhood.left) {
+                this.drawRect(x, centerY - s / 2, w / 2, s);
+            }
+            if (wireNeighborhood.right) {
+                this.drawRect(x + w / 2, centerY - s / 2, w / 2, s);
+            }
+            if (wireNeighborhood.up) {
+                this.drawRect(centerX - s / 2, y, s, h / 2);
+            }
+            if (wireNeighborhood.down) {
+                this.drawRect(centerX - s / 2, y + h / 2, s, h / 2);
+            }
             this.endFill();
             break;
 
@@ -38956,9 +38986,7 @@ WireBuilder.prototype.tryAddWire = function (x, y) {
     if (d.cell == null) {
         return false;
     }
-    var hasConnection = _.some(d.wall.getCellNeighborhood(d.cell).toArray(), function (otherCell) {
-        return otherCell.contents.has("wire");
-    });
+    var hasConnection = d.wall.getCellNeighborhood(d.cell).getNeighborhoodByContent("wire").hasNeighbors();
     if (!hasConnection) {
         return false;
     }
@@ -38972,10 +39000,8 @@ WireBuilder.prototype.tryRemoveWire = function (x, y) {
     if (d.cell == null) {
         return false;
     }
-    var connections = _.filter(d.wall.getCellNeighborhood(d.cell).toArray(), function (otherCell) {
-        return otherCell.contents.has("wire");
-    });
-    if (connections.length != 1) {
+    var connectionsCount = d.wall.getCellNeighborhood(d.cell).getNeighborhoodByContent("wire").getNeighborsCount();
+    if (connectionsCount != 1) {
         return false;
     }
     d.cell.contents.delete("wire");

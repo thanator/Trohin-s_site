@@ -6,12 +6,16 @@ function CellNeighborhood() {
 }
 module.exports = CellNeighborhood;
 
-CellNeighborhood.prototype.neighborsCount = function () {
+CellNeighborhood.prototype.getNeighborsCount = function () {
     return (this.left != null) + (this.right != null) + (this.up != null) + (this.down != null);
 };
 
+CellNeighborhood.prototype.hasNeighbors = function () {
+    return this.getNeighborsCount() != 0;
+};
+
 CellNeighborhood.prototype.hasNoNeighbors = function () {
-    return this.neighborsCount() == 0;
+    return this.getNeighborsCount() == 0;
 };
 
 CellNeighborhood.prototype.isVerticalLine = function () {
@@ -27,7 +31,7 @@ CellNeighborhood.prototype.isLine = function () {
 };
 
 CellNeighborhood.prototype.isCorner = function () {
-    return this.neighborsCount() == 2 && !this.isLine();
+    return this.getNeighborsCount() == 2 && !this.isLine();
 };
 
 CellNeighborhood.prototype.toFullArray = function () {
@@ -43,3 +47,13 @@ CellNeighborhood.prototype.toArray = function () {
     });
     return arr;
 };
+
+CellNeighborhood.prototype.getNeighborhoodByContent = function (content) {
+    var result = new CellNeighborhood();
+    result.left = this.left != null && this.left.contents.has(content) ? this.left : null;
+    result.right = this.right != null && this.right.contents.has(content) ? this.right : null;
+    result.up = this.up != null && this.up.contents.has(content) ? this.up : null;
+    result.down = this.down != null && this.down.contents.has(content) ? this.down : null;
+    return result;
+};
+

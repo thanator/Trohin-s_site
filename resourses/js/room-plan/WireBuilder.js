@@ -8,9 +8,7 @@ WireBuilder.prototype.tryAddWire = function (x, y) {
     if (d.cell == null) {
         return false;
     }
-    var hasConnection = _.some(d.wall.getCellNeighborhood(d.cell).toArray(), function (otherCell) {
-        return otherCell.contents.has("wire");
-    });
+    var hasConnection = d.wall.getCellNeighborhood(d.cell).getNeighborhoodByContent("wire").hasNeighbors();
     if (!hasConnection) {
         return false;
     }
@@ -24,10 +22,8 @@ WireBuilder.prototype.tryRemoveWire = function (x, y) {
     if (d.cell == null) {
         return false;
     }
-    var connections = _.filter(d.wall.getCellNeighborhood(d.cell).toArray(), function (otherCell) {
-        return otherCell.contents.has("wire");
-    });
-    if (connections.length != 1) {
+    var connectionsCount = d.wall.getCellNeighborhood(d.cell).getNeighborhoodByContent("wire").getNeighborsCount();
+    if (connectionsCount != 1) {
         return false;
     }
     d.cell.contents.delete("wire");
