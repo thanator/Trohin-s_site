@@ -23,5 +23,5 @@ App.prototype.init = function () {
     var toolsView = new ToolsView(this.state);
     toolsView.init();
 
-    this.appState.createStartEnvironment();
+    this.state.createStartEnvironment();
 };

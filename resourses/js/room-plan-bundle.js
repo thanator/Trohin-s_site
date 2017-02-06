@@ -37976,6 +37976,8 @@ App.prototype.init = function () {
 
     var toolsView = new ToolsView(this.state);
     toolsView.init();
+
+    this.state.createStartEnvironment();
 };
 
 },{"./AppState.js":252,"./MainStageController.js":257,"./ToolsView.js":258,"pixi.js":203}],252:[function(require,module,exports){
@@ -38672,7 +38674,7 @@ module.exports = WallView;
 
 WallView.cellWidth = 32;
 WallView.cellHeight = 32;
-WallView.cellBorderSize = 4;
+WallView.cellWallSize = 8;
 
 
 WallView.prototype.renderWall = function () {
@@ -38680,52 +38682,36 @@ WallView.prototype.renderWall = function () {
     for (var i = 0; i < this.model.cells.length; i++) {
         var cell = this.model.cells[i];
 
-        var border = WallView.cellBorderSize;
+        var wallSize = WallView.cellWallSize;
         var w = WallView.cellWidth;
         var h = WallView.cellHeight;
         var x = cell.x * w;
         var y = cell.y * h;
         var neighborhood = this.model.getCellNeighborhood(cell);
 
-        this._renderCellBackground(x, y, w, h);
-        this._renderCellBorder(x, y, w, h, border, neighborhood);
+        this._renderCell(x, y, w, h, wallSize, neighborhood);
         cell.contents.forEach(function (content) {
             this._renderCellContents(x, y, w, h, content, neighborhood);
         }.bind(this));
     }
 };
 
-WallView.prototype._renderCellBackground = function (x, y, w, h) {
-    this.beginFill(0xbbcccc);
-    this.drawRect(x, y, w, h);
-    this.endFill();
-};
-
-WallView.prototype._renderCellBorder = function (x, y, w, h, border, neighborhood) {
-    this.beginFill(0xff700b);
-    if (!neighborhood.left) {
-        this.drawRect(x, y, border, h);
-    } else {
-        this.drawRect(x, y, border, border);
-        this.drawRect(x, y + h - border, border, border);
+WallView.prototype._renderCell = function (x, y, w, h, s, neighborhood) {
+    this.beginFill(0x34332c);
+    var centerX = x + w / 2;
+    var centerY = y + h / 2;
+    this.drawRect(centerX - s / 2, centerY - s / 2, s, s);
+    if (neighborhood.left) {
+        this.drawRect(x, centerY - s / 2, w / 2, s);
     }
-    if (!neighborhood.right) {
-        this.drawRect(x + w - border, y, border, h);
-    } else {
-        this.drawRect(x + w - border, y, border, border);
-        this.drawRect(x + w - border, y + h - border, border, border);
+    if (neighborhood.right) {
+        this.drawRect(x + w / 2, centerY - s / 2, w / 2, s);
     }
-    if (!neighborhood.up) {
-        this.drawRect(x, y, w, border);
-    } else {
-        this.drawRect(x, y, border, border);
-        this.drawRect(x + w - border, y, border, border);
+    if (neighborhood.up) {
+        this.drawRect(centerX - s / 2, y, s, h / 2);
     }
-    if (!neighborhood.down) {
-        this.drawRect(x, y + h - border, w, border);
-    } else {
-        this.drawRect(x, y + h - border, border, border);
-        this.drawRect(x + w - border, y + h - border, border, border);
+    if (neighborhood.down) {
+        this.drawRect(centerX - s / 2, y + h / 2, s, h / 2);
     }
     this.endFill();
 };
