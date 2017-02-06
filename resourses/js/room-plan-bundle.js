@@ -37956,6 +37956,7 @@ var PIXI = require("pixi.js");
 var MainStageController = require("./MainStageController.js");
 var AppState = require("./AppState.js");
 var ToolsView = require("./ToolsView.js");
+var GridBackground = require("./GridBackground.js");
 
 
 function App() {
@@ -37977,10 +37978,13 @@ App.prototype.init = function () {
     var toolsView = new ToolsView(this.state);
     toolsView.init();
 
+    var gridBackground = new GridBackground(800, 600);
+    this.pixiApp.stage.addChild(gridBackground);
+
     this.state.createStartEnvironment();
 };
 
-},{"./AppState.js":252,"./MainStageController.js":257,"./ToolsView.js":258,"pixi.js":203}],252:[function(require,module,exports){
+},{"./AppState.js":252,"./GridBackground.js":257,"./MainStageController.js":258,"./ToolsView.js":259,"pixi.js":203}],252:[function(require,module,exports){
 var WallsCollection = require("./WallsCollection.js");
 var WallTool = require("./WallTool.js");
 var WireTool = require("./WireTool.js");
@@ -38007,23 +38011,54 @@ module.exports = AppState;
 AppState.prototype.createStartEnvironment = function () {
     var wall = new WallModel();
 
-    for (var x = 18; x <= 24; x++) {
-        wall.cells.push(new CellModel(x, 0));
+    for (var x = 4; x <= 20; x++) {
+        wall.cells.push(new CellModel(x, 4));
+        wall.cells.push(new CellModel(x, 16));
     }
-    for (var y = 1; y <= 7; y++) {
-        wall.cells.push(new CellModel(24, y));
+    for (var x = 14; x <= 19; x++) {
+        wall.cells.push(new CellModel(x, 9));
     }
 
-    wall.getCell(24, 2).contents.add("door0");
-    wall.getCell(24, 3).contents.add("door1");
-    wall.getCell(24, 4).contents.add("door2");
+    for (var y = 5; y <= 15; y++) {
+        wall.cells.push(new CellModel(4, y));
+        wall.cells.push(new CellModel(11, y));
+        wall.cells.push(new CellModel(20, y));
+    }
+    for (var y = 10; y <= 15; y++) {
+        wall.cells.push(new CellModel(14, y));
+    }
 
-    wall.getCell(23, 0).contents.add("wire");
-    wall.getCell(24, 0).contents.add("wire");
+    wall.getCell(20, 6).contents.add("door0");
+    wall.getCell(20, 7).contents.add("door1");
+    wall.getCell(20, 8).contents.add("door2");
 
-    this.wallsCollection.addWall(wall, new WallView(wall));
+    wall.getCell(14, 13).contents.add("door0");
+    wall.getCell(14, 14).contents.add("door1");
+    wall.getCell(14, 15).contents.add("door2");
+
+    wall.getCell(11, 10).contents.add("door0");
+    wall.getCell(11, 11).contents.add("door1");
+    wall.getCell(11, 12).contents.add("door2");
+
+    wall.getCell(4, 12).contents.add("window0");
+    wall.getCell(4, 13).contents.add("window1");
+    wall.getCell(4, 14).contents.add("window2");
+
+    wall.getCell(6, 16).contents.add("window0");
+    wall.getCell(7, 16).contents.add("window1");
+    wall.getCell(8, 16).contents.add("window2");
+
+    for (var x = 16; x <= 20; x++) {
+        wall.getCell(x, 4).contents.add("wire");
+    }
+
+    if (wall.isOkay()) {
+        this.wallsCollection.addWall(wall, new WallView(wall));
+    } else {
+        console.error("start wall is not okay");
+    }
 };
-},{"./CellModel.js":253,"./DoorTool.js":256,"./WallModel.js":260,"./WallTool.js":261,"./WallView.js":262,"./WallsCollection.js":263,"./WindowTool.js":265,"./WireTool.js":267}],253:[function(require,module,exports){
+},{"./CellModel.js":253,"./DoorTool.js":256,"./WallModel.js":261,"./WallTool.js":262,"./WallView.js":263,"./WallsCollection.js":264,"./WindowTool.js":266,"./WireTool.js":268}],253:[function(require,module,exports){
 var Set = require('core-js/library/fn/set');
 
 function CellModel(x, y) {
@@ -38240,7 +38275,38 @@ DoorTool.prototype.onMouseUp = function (x, y) {
     }
 };
 
-},{"./DoorBuilder.js":255,"./WallView.js":262}],257:[function(require,module,exports){
+},{"./DoorBuilder.js":255,"./WallView.js":263}],257:[function(require,module,exports){
+var PIXI = require("pixi.js");
+var WallView = require("./WallView.js");
+
+
+function GridBackground(screenWidth, screenHeight) {
+    PIXI.Graphics.call(this);
+    this.screenWidth = screenWidth;
+    this.screenHeight = screenHeight;
+    this.renderGrid();
+}
+GridBackground.prototype = Object.create(PIXI.Graphics.prototype);
+GridBackground.prototype.constructor = GridBackground;
+module.exports = GridBackground;
+
+GridBackground.prototype.renderGrid = function () {
+    this.clear();
+    this.beginFill(0xdddddd);
+    var cw = WallView.cellWidth;
+    var ch = WallView.cellHeight;
+    for (var x = 0; x < this.screenWidth / cw; x++) {
+        for (var y = 0; y < this.screenHeight / ch; y++) {
+            this.drawRect(x * cw - 1, y * ch - 1, cw, 1);
+            this.drawRect(x * cw - 1, y * ch - 1, 1, ch);
+            this.drawRect(x * cw + cw - 1, y * ch - 1, cw, 1);
+            this.drawRect(x * cw - 1, y * ch + ch - 1, 1, ch);
+        }
+    }
+    this.endFill();
+};
+
+},{"./WallView.js":263,"pixi.js":203}],258:[function(require,module,exports){
 function MainStageController(stage, interaction, appState) {
     this.stage = stage;
     this.interaction = interaction;
@@ -38283,7 +38349,7 @@ MainStageController.prototype._getMousePos = function (event) {
     return event.data.getLocalPosition(this.stage, undefined, this.interaction.mouse.global);
 };
 
-},{}],258:[function(require,module,exports){
+},{}],259:[function(require,module,exports){
 function ToolsView(appState) {
     this.appState = appState;
     this.toolsDomIdsToIntIds = {
@@ -38350,7 +38416,7 @@ ToolsView.prototype._changeActiveModeButton = function ($nextActive) {
     $nextActive.addClass("app-tools__mode--active");
 };
 
-},{}],259:[function(require,module,exports){
+},{}],260:[function(require,module,exports){
 var WallModel = require("./WallModel.js");
 var WallView = require("./WallView.js");
 var CellModel = require("./CellModel.js");
@@ -38429,7 +38495,7 @@ WallBuilder.prototype._tryJoin = function () {
         }
     }
 };
-},{"./CellModel.js":253,"./WallModel.js":260,"./WallView.js":262}],260:[function(require,module,exports){
+},{"./CellModel.js":253,"./WallModel.js":261,"./WallView.js":263}],261:[function(require,module,exports){
 var CellNeighborhood = require("./CellNeighborhood.js");
 
 
@@ -38588,6 +38654,9 @@ WallModel.prototype._areAllCellsLinkedOkay = function () {
 };
 
 WallModel.prototype._isCellGraphOkay = function () {
+    if (this.cells.length == 0) {
+        return true;
+    }
     var checkedCells = new Array(this.cells.length);
     this._cellDfs(this.cells[0].x, this.cells[0].y, checkedCells);
     return _.every(checkedCells, function (it) {
@@ -38625,7 +38694,7 @@ WallModel.prototype._getCellIndex = function (x, y) {
     }
 };
 
-},{"./CellNeighborhood.js":254}],261:[function(require,module,exports){
+},{"./CellNeighborhood.js":254}],262:[function(require,module,exports){
 var WallBuilder = require("./WallBuilder.js");
 var WallView = require("./WallView.js");
 
@@ -38672,12 +38741,12 @@ WallTool.prototype._create = function (x, y) {
     }
 };
 
-},{"./WallBuilder.js":259,"./WallView.js":262}],262:[function(require,module,exports){
+},{"./WallBuilder.js":260,"./WallView.js":263}],263:[function(require,module,exports){
 var PIXI = require("pixi.js");
 
 
 function WallView(model) {
-    PIXI.Graphics.apply(this, arguments);
+    PIXI.Graphics.call(this);
     this.model = model;
     this.renderWall();
 }
@@ -38704,9 +38773,7 @@ WallView.prototype.renderWall = function () {
         var neighborhood = this.model.getCellNeighborhood(cell);
 
         this._renderCell(x, y, w, h, wallSize, neighborhood);
-        cell.contents.forEach(function (content) {
-            this._renderCellContents(x, y, w, h, wallSize, content, neighborhood);
-        }.bind(this));
+        this._renderCellContents(cell, x, y, w, h, wallSize, neighborhood);
     }
 };
 
@@ -38730,7 +38797,18 @@ WallView.prototype._renderCell = function (x, y, w, h, s, neighborhood) {
     this.endFill();
 };
 
-WallView.prototype._renderCellContents = function (x, y, w, h, wallSize, content, neighborhood) {
+WallView.prototype._renderCellContents = function (cell, x, y, w, h, wallSize, neighborhood) {
+    cell.contents.forEach(function (content) {
+        if (content != "wire") {
+            this._renderCellContent(x, y, w, h, wallSize, content, neighborhood);
+        }
+    }.bind(this));
+    if (cell.contents.has("wire")) {
+        this._renderCellContent(x, y, w, h, wallSize, "wire", neighborhood);
+    }
+};
+
+WallView.prototype._renderCellContent = function (x, y, w, h, wallSize, content, neighborhood) {
     switch (content) {
         case "wire":
             this._renderWire(x, y, w, h, wallSize, neighborhood);
@@ -38855,7 +38933,7 @@ WallView.prototype._renderRectInWall = function (x, y, w, h, wallSize, isVertica
     this.endFill();
 };
 
-},{"pixi.js":203}],263:[function(require,module,exports){
+},{"pixi.js":203}],264:[function(require,module,exports){
 var EventEmitter = require("eventemitter3");
 
 
@@ -38912,7 +38990,7 @@ WallsCollection.prototype.findCellAndWall = function (x, y) {
     }
     return {};
 };
-},{"eventemitter3":72}],264:[function(require,module,exports){
+},{"eventemitter3":72}],265:[function(require,module,exports){
 function WindowBuilder(wallsCollection) {
     this.wallsCollection = wallsCollection;
 }
@@ -39028,7 +39106,7 @@ WindowBuilder.prototype._createWindow = function () {
     }
 };
 
-},{}],265:[function(require,module,exports){
+},{}],266:[function(require,module,exports){
 var WindowBuilder = require("./WindowBuilder.js");
 var WallView = require("./WallView.js");
 
@@ -39058,7 +39136,7 @@ WindowTool.prototype.onMouseUp = function (x, y) {
     }
 };
 
-},{"./WallView.js":262,"./WindowBuilder.js":264}],266:[function(require,module,exports){
+},{"./WallView.js":263,"./WindowBuilder.js":265}],267:[function(require,module,exports){
 function WireBuilder(wallsCollection) {
     this.wallsCollection = wallsCollection;
 }
@@ -39092,7 +39170,7 @@ WireBuilder.prototype.tryRemoveWire = function (x, y) {
     return true;
 };
 
-},{}],267:[function(require,module,exports){
+},{}],268:[function(require,module,exports){
 var WireBuilder = require("./WireBuilder.js");
 var WallView = require("./WallView.js");
 
@@ -39127,5 +39205,5 @@ WireTool.prototype.onMouseUp = function () {
     this.isMouseDown = false;
 };
 
-},{"./WallView.js":262,"./WireBuilder.js":266}]},{},[250])
+},{"./WallView.js":263,"./WireBuilder.js":267}]},{},[250])
 //# sourceMappingURL=room-plan-bundle.js.map

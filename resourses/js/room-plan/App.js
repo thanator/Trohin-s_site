@@ -2,6 +2,7 @@ var PIXI = require("pixi.js");
 var MainStageController = require("./MainStageController.js");
 var AppState = require("./AppState.js");
 var ToolsView = require("./ToolsView.js");
+var GridBackground = require("./GridBackground.js");
 
 
 function App() {
@@ -22,6 +23,9 @@ App.prototype.init = function () {
 
     var toolsView = new ToolsView(this.state);
     toolsView.init();
+
+    var gridBackground = new GridBackground(800, 600);
+    this.pixiApp.stage.addChild(gridBackground);
 
     this.state.createStartEnvironment();
 };

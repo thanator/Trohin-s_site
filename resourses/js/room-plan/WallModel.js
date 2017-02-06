@@ -156,6 +156,9 @@ WallModel.prototype._areAllCellsLinkedOkay = function () {
 };
 
 WallModel.prototype._isCellGraphOkay = function () {
+    if (this.cells.length == 0) {
+        return true;
+    }
     var checkedCells = new Array(this.cells.length);
     this._cellDfs(this.cells[0].x, this.cells[0].y, checkedCells);
     return _.every(checkedCells, function (it) {

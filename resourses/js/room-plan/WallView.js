@@ -2,7 +2,7 @@ var PIXI = require("pixi.js");
 
 
 function WallView(model) {
-    PIXI.Graphics.apply(this, arguments);
+    PIXI.Graphics.call(this);
     this.model = model;
     this.renderWall();
 }
@@ -29,9 +29,7 @@ WallView.prototype.renderWall = function () {
         var neighborhood = this.model.getCellNeighborhood(cell);
 
         this._renderCell(x, y, w, h, wallSize, neighborhood);
-        cell.contents.forEach(function (content) {
-            this._renderCellContents(x, y, w, h, wallSize, content, neighborhood);
-        }.bind(this));
+        this._renderCellContents(cell, x, y, w, h, wallSize, neighborhood);
     }
 };
 
@@ -55,7 +53,18 @@ WallView.prototype._renderCell = function (x, y, w, h, s, neighborhood) {
     this.endFill();
 };
 
-WallView.prototype._renderCellContents = function (x, y, w, h, wallSize, content, neighborhood) {
+WallView.prototype._renderCellContents = function (cell, x, y, w, h, wallSize, neighborhood) {
+    cell.contents.forEach(function (content) {
+        if (content != "wire") {
+            this._renderCellContent(x, y, w, h, wallSize, content, neighborhood);
+        }
+    }.bind(this));
+    if (cell.contents.has("wire")) {
+        this._renderCellContent(x, y, w, h, wallSize, "wire", neighborhood);
+    }
+};
+
+WallView.prototype._renderCellContent = function (x, y, w, h, wallSize, content, neighborhood) {
     switch (content) {
         case "wire":
             this._renderWire(x, y, w, h, wallSize, neighborhood);
