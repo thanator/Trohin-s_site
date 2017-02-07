@@ -651,7 +651,21 @@ footer p {
  margin: 0 15%;
  line-height: 29px;
 }
+#page03 .sticky {
+    background-color: #fff;
+}
+#page03 .sticky .tree_nav {
+    height: 70px;
+    padding-bottom: 10px;
+    margin: 0;
+}
+#page03 .logo_name {
+    margin-bottom: 10px;
+}
 
+#page03 .menu ul li ul li a {
+    text-align: left;
+}
 
 
 /* -------------------------------------------------- */
