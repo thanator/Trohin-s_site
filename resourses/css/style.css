@@ -721,6 +721,20 @@ footer p {
   padding: 0 5%;
 }
 
+.tree_body .sticky {
+   background-color: #fff;
+    box-shadow: 1px 1px 5px #919191;
+}
+
+.tree_body .sticky .tree_nav {
+    height: 70px;
+    padding-bottom: 10px;
+    margin: 0;
+}
+
+.tree_body .sticky .tree_nav .logo_name {
+    margin-bottom: 10px;
+}
 .main {
   margin: 0 0 100px; /* bottom = footer height */
 }
