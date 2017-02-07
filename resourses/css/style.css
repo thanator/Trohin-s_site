@@ -531,6 +531,26 @@ footer p {
   text-align: center;
 }
 
+#page02 .sticky {
+    position:fixed;
+    background-color: #fff;
+    box-shadow: 1px 1px 5px #919191;
+}
+
+#page02 .sticky .tree_nav {
+    height: 70px;
+    padding-bottom: 10px;
+    margin: 0;
+}
+
+#page02 .app_page {
+    margin-top: 100px;
+}
+
+#page02 .tree_nav .logo_name {
+    margin-bottom: 10px;
+}
+
 .header_app {
   padding-bottom: 20px;
 }
