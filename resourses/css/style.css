@@ -890,6 +890,8 @@ footer p {
 
 
 .sticky .tree_nav {
+    background-color: #fff;
+    box-shadow: 1px 1px 5px #919191;
 }
 
 .sticky .tree_nav li a:link,
@@ -898,8 +900,17 @@ footer p {
     padding-bottom: 14px;
 }
 
+.sticky .tree_nav .menu ul li ul {
+    box-shadow: 1px 1px 5px #919191;
+}
+
 .sticky .tree_nav .menu ul li ul a {
+    background-color: #fff;
     padding: 3px 10px;
+}
+
+.sticky .tree_nav .menu ul li ul li a {
+    margin: 0;
 }
 
 .sticky .logo {
@@ -908,6 +919,10 @@ footer p {
 
 .sticky .logo_img {
   display: block;
+}
+
+.sticky p {
+    color: inherit;
 }
 
 /* -------------------------------------------------- */
