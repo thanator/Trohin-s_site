@@ -623,7 +623,7 @@ footer p {
     background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(img/back-cont-min.jpg);
   background-size: cover;
   background-position: center;
-  height: 60vh;
+  height: auto;
   background-attachment: fixed;
   color: white;
 }
