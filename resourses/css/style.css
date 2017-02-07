@@ -618,6 +618,16 @@ footer p {
     background: linear-gradient(to top, #e0e0e0, #fff);
   opacity: 0.9;
 }
+
+.descr{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(img/back-cont-min.jpg);
+  background-size: cover;
+  background-position: center;
+  height: 60vh;
+  background-attachment: fixed;
+  color: white;
+}
+
 /*MAP*/
 
 .map {
@@ -637,6 +647,10 @@ footer p {
   width: 100%;
 }
 
+#page03 .row{
+ margin: 0 15%;
+ line-height: 29px;
+}
 
 
 
@@ -1160,3 +1174,4 @@ input[type=checkbox] {
   margin: 0 auto;
   padding-bottom: 40px;
 }
+
