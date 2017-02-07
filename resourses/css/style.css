@@ -600,16 +600,24 @@ footer p {
 /* --- PAGE WITH CONTACTS --- */
 /* -------------------------------------------------- */
 
+.pays h4{
+  margin: 10px 0;
+  font-size: 125%;
+}
 
 
-
-
+.cont {
+  padding: 0;
+}
 .conts p {
   font-size: 85%;
   font-style: italic;
 }
 
-
+.FAQ{
+    background: linear-gradient(to top, #e0e0e0, #fff);
+  opacity: 0.9;
+}
 /*MAP*/
 
 .map {
@@ -623,8 +631,7 @@ footer p {
 }
 
 .map_box {
-  background: linear-gradient(to top, #e0e0e0, #fff);
-  opacity: 0.9;
+
   height: 500px;
   padding-top: 40px;
   width: 100%;
@@ -781,9 +788,7 @@ footer p {
     padding: 3px 10px;
 }
 
-.tree_nav {
-    margin-top: 2px;
-}
+
 
 
 /* -------------------------------------------------- */
