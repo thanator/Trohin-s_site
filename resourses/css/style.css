@@ -743,20 +743,20 @@ footer p {
 
 .full {
   text-align: center;
-  width: 60%;
+  /*width: 60%;
   margin-bottom: 100px;
   margin-right: 20%;
-  margin-left: 20%;
+  margin-left: 20%;*/
   margin-top: 80px;
-  background-color: white;
-  border-radius: 5%;
+  background-color: #fff;
+  /*border-radius: 5%;*/
 }
 
 .tree_body {
   position: relative;
   min-height: 100%;
-  background-color: #f1f1f1;
-  padding: 0 5%;
+  /*background-color: #f1f1f1;
+  padding: 0 5%;*/
 }
 
 .tree_body .sticky {
@@ -787,7 +787,8 @@ footer p {
   padding-bottom: 40px;
 }
 
-.content {
+.content_white,
+.content_gray {
   padding: 10px 0;
   margin-bottom: 10px;
 }
@@ -801,13 +802,24 @@ footer p {
   margin-top: 30px;
 }
 
-.content h3 {
+.content_white h3,
+.content_gray h3 {
   font-size: 200%;
   word-spacing: 2px;
   text-align: center;
-  margin-top: 50px;
+  margin-top: 20px;
   margin-bottom: 30px;
   letter-spacing: 1px;
+}
+
+.content_white,
+.content_gray {
+    padding-bottom: 50px;
+    margin-bottom: 0;
+}
+
+.content_gray {
+    background-color: #f2f2f2;
 }
 
 .full:last-child {
