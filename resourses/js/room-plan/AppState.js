@@ -1,26 +1,17 @@
 var WallsCollection = require("./WallsCollection.js");
-var WallTool = require("./WallTool.js");
-var WireTool = require("./WireTool.js");
-var DoorTool = require("./DoorTool.js");
-var WindowTool = require("./WindowTool.js");
+var WorldObjectsCollection = require("./WorldObjectsCollection.js");
+var PriceCalculator = require("./PriceCalculator.js");
 var WallModel = require("./WallModel.js");
-var WallView = require("./WallView.js");
 var CellModel = require("./CellModel.js");
-var PriceModel = require("./PriceModel.js");
+var ToolsModel = require("./ToolsModel.js");
 
 
 function AppState(app) {
     this.app = app;
     this.wallsCollection = new WallsCollection();
-    this.priceCalculator = new PriceModel(this.wallsCollection);
-    this.tools = [
-        new WallTool(this),
-        new WireTool(this),
-        new DoorTool(this),
-        new WindowTool(this)
-    ];
-    this.currentTool = this.tools[0];
-    this.toolMode = "add";
+    this.wallsCollection = new WorldObjectsCollection();
+    this.priceCalculator = new PriceCalculator(this.wallsCollection);
+    this.toolState = new ToolsModel(this);
 }
 module.exports = AppState;
 

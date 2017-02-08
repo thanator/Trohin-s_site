@@ -1,10 +1,11 @@
-function ToolsView(appState) {
-    this.appState = appState;
+function ToolsView(toolState) {
+    this.toolState = toolState;
     this.toolsDomIdsToIntIds = {
         "#room-plan-tool-wall": 0,
         "#room-plan-tool-wire": 1,
         "#room-plan-tool-door": 2,
-        "#room-plan-tool-window": 3
+        "#room-plan-tool-window": 3,
+        "#room-plan-tool-sink": 4
     };
 }
 module.exports = ToolsView;
@@ -26,7 +27,7 @@ ToolsView.prototype._registerToolEvent = function (domId, intId) {
     var self = this;
     $(domId).click(function () {
         self._changeActiveToolButton($(this));
-        self.appState.currentTool = self.appState.tools[intId];
+        self.toolState.currentTool = self.toolState.tools[intId];
     });
 };
 
@@ -34,11 +35,11 @@ ToolsView.prototype._initModeButtons = function () {
     var self = this;
     $("#room-plan-tool-mode-add").click(function () {
         self._changeActiveModeButton($(this));
-        self.appState.toolMode = "add";
+        self.toolState.toolMode = "add";
     });
     $("#room-plan-tool-mode-remove").click(function () {
         self._changeActiveModeButton($(this));
-        self.appState.toolMode = "remove";
+        self.toolState.toolMode = "remove";
     });
 };
 

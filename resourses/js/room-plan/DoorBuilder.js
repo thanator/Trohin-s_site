@@ -39,7 +39,7 @@ DoorBuilder.prototype.tryAddDoor = function (x, y) {
         return false;
     }
     this._createDoor(cell0, cell1, cell2);
-    d.wallViews[0].renderWall();
+    d.wallView.renderWall();
     return true;
 };
 
@@ -87,7 +87,7 @@ DoorBuilder.prototype.tryRemoveDoor = function (x, y) {
             }
             break;
     }
-    d.wallViews[0].renderWall();
+    d.wallView.renderWall();
     return true;
 };
 

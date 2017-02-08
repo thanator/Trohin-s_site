@@ -15,17 +15,17 @@ MainStageController.prototype.init = function () {
 
 MainStageController.prototype._onMouseDown = function (event) {
     var pos = this._getMousePos(event);
-    this.appState.currentTool.onMouseDown(pos.x, pos.y);
+    this.appState.appState.currentTool.onMouseDown(pos.x, pos.y);
 };
 
 MainStageController.prototype._onMouseMove = function (event) {
     var pos = this._getMousePos(event);
-    this.appState.currentTool.onMouseMove(pos.x, pos.y);
+    this.appState.appState.currentTool.onMouseMove(pos.x, pos.y);
 };
 
 MainStageController.prototype._onMouseUp = function (event) {
     var pos = this._getMousePos(event);
-    this.appState.currentTool.onMouseUp(pos.x, pos.y);
+    this.appState.appState.currentTool.onMouseUp(pos.x, pos.y);
 };
 
 MainStageController.prototype._onAddWallView = function (view) {

@@ -1,4 +1,4 @@
-var Set = require('core-js/library/fn/set');
+var Set = require("core-js/library/fn/set");
 
 function CellModel(x, y) {
     this.x = x;

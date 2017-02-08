@@ -45,7 +45,7 @@ WallBuilder.prototype.tryRemoveCell = function (x, y) {
     d.wall.cells.splice(d.wall.cells.indexOf(d.cell), 1);
     var newWalls = d.wall.split();
     if (newWalls.length <= 1) {
-        d.wallViews[0].renderWall();
+        d.wallView.renderWall();
         return true;
     }
     this.wallsCollection.removeWall(d.wall);

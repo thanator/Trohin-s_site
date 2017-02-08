@@ -1,14 +1,14 @@
-function PriceModel(wallsCollection) {
+function PriceCalculator(wallsCollection) {
     this.wallsCollection = wallsCollection;
 }
-module.exports = PriceModel;
+module.exports = PriceCalculator;
 
-PriceModel.wallPrice = 100;
-PriceModel.wirePrice = 100;
-PriceModel.doorPrice = 100;
-PriceModel.windowPrice = 100;
+PriceCalculator.wallPrice = 100;
+PriceCalculator.wirePrice = 100;
+PriceCalculator.doorPrice = 100;
+PriceCalculator.windowPrice = 100;
 
-PriceModel.prototype.calculate = function () {
+PriceCalculator.prototype.calculate = function () {
     var price = 0;
 
     for (var i = 0; i < this.wallsCollection.walls.length; i++) {
@@ -17,20 +17,20 @@ PriceModel.prototype.calculate = function () {
         for (var j = 0; j < wall.cells.length; j++) {
             var cell = wall.cells[j];
 
-            price += PriceModel.wallPrice;
+            price += PriceCalculator.wallPrice;
 
             cell.contents.forEach(function (content) {
                 switch (content) {
                     case "wire":
-                        price += PriceModel.wirePrice;
+                        price += PriceCalculator.wirePrice;
                         break;
 
                     case "door1":
-                        price += PriceModel.doorPrice;
+                        price += PriceCalculator.doorPrice;
                         break;
 
                     case "window1":
-                        price += PriceModel.windowPrice;
+                        price += PriceCalculator.windowPrice;
                         break;
                 }
             });
