@@ -545,26 +545,26 @@ footer p {
 }
 
 #page02 .sticky {
-    position:fixed;
-    background-color: #fff;
+  position: fixed;
+  background-color: #fff;
 }
 
 #page02 .sticky .tree_nav {
-    height: 70px;
-    padding-bottom: 10px;
-    margin: 0;
+  height: 70px;
+  padding-bottom: 10px;
+  margin: 0;
 }
 
 #page02 .sticky .tree_nav ul li ul a {
-    text-align: left;
+  text-align: left;
 }
 
 #page02 .app_page {
-    margin-top: 100px;
+  margin-top: 100px;
 }
 
 #page02 .tree_nav .logo_name {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .header_app {
@@ -690,21 +690,25 @@ footer p {
   margin: 0 15%;
   line-height: 29px;
 }
+
 #page03 .sticky {
-    background-color: #fff;
+  background-color: #fff;
 }
+
 #page03 .sticky .tree_nav {
-    height: 70px;
-    padding-bottom: 10px;
-    margin: 0;
+  height: 70px;
+  padding-bottom: 10px;
+  margin: 0;
 }
+
 #page03 .logo_name {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 #page03 .menu ul li ul li a {
-    text-align: left;
+  text-align: left;
 }
+
 
 /* -------------------------------------------------- */
 
@@ -764,19 +768,20 @@ footer p {
 }
 
 .tree_body .sticky {
-   background-color: #fff;
-    box-shadow: 1px 1px 5px #919191;
+  background-color: #fff;
+  box-shadow: 1px 1px 5px #919191;
 }
 
 .tree_body .sticky .tree_nav {
-    height: 70px;
-    padding-bottom: 10px;
-    margin: 0;
+  height: 70px;
+  padding-bottom: 10px;
+  margin: 0;
 }
 
 .tree_body .sticky .tree_nav .logo_name {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
+
 .main {
   margin: 0 0 100px;
   /* bottom = footer height */
@@ -818,12 +823,12 @@ footer p {
 
 .content_white,
 .content_gray {
-    padding-bottom: 50px;
-    margin-bottom: 0;
+  padding-bottom: 50px;
+  margin-bottom: 0;
 }
 
 .content_gray {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
 .full:last-child {
@@ -875,7 +880,7 @@ footer p {
 }
 
 .tree_nav .menu ul li ul a {
-    padding-bottom: 7px;
+  padding-bottom: 7px;
 }
 
 .tree_nav .menu ul li ul a:hover,
@@ -885,7 +890,7 @@ footer p {
   background-color: #343434;
   color: #d37522;
   padding: 3px 10px;
-    padding-bottom: 7px;
+  padding-bottom: 7px;
 }
 
 
@@ -997,7 +1002,7 @@ footer p {
 .sticky .tree_nav .menu ul li ul a {
   background-color: #fff;
   padding: 3px 10px;
-    padding-bottom: 7px;
+  padding-bottom: 7px;
 }
 
 .sticky .tree_nav .menu ul li ul li a {
@@ -1091,15 +1096,14 @@ footer p {
 .exam_box_3,
 .exam_box_4,
 .exam_box_5,
-.exam_box_6{
-    transition: all 0.2s linear;
+.exam_box_6 {
+  transition: all 0.2s linear;
 }
 
 .example_showcase {
   list-style: none;
   width: 100%;
   display: inline-table;
-
 }
 
 .example_showcase li {
@@ -1181,25 +1185,29 @@ footer p {
   background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)), url(img/4.jpg);
 }
 
-.text_work_1_1{
+.text_work_1_1 {
   background-image: url(img/apartments/1.jpg);
 }
-.text_work_2_1{
+
+.text_work_2_1 {
   background-image: url(img/apartments/2.jpg);
 }
-.text_work_3_1{
+
+.text_work_3_1 {
   background-image: url(img/apartments/3.jpg);
 }
-.text_work_4_1{
+
+.text_work_4_1 {
   background-image: url(img/apartments/4.jpg);
 }
-.text_work_5_1{
+
+.text_work_5_1 {
   background-image: url(img/apartments/5.jpg);
 }
-.text_work_6_1{
+
+.text_work_6_1 {
   background-image: url(img/apartments/6.jpg);
 }
-
 
 .text_work_1 p,
 .text_work_2 p,
@@ -1226,7 +1234,7 @@ footer p {
 .text_work_3_1:hover p,
 .text_work_4_1:hover p,
 .text_work_5_1:hover p,
-.text_work_6_1:hover p{
+.text_work_6_1:hover p {
   opacity: 1;
   background: rgba(0, 0, 0, 0.65);
 }
@@ -1252,13 +1260,15 @@ footer p {
 .text_work_3_1 .p1,
 .text_work_4_1 .p1,
 .text_work_5_1 .p1,
-.text_work_6_1 .p1{
-color: #e6b68e;
+.text_work_6_1 .p1 {
+  color: #e6b68e;
 }
 
-.visuallyhidden{
-   opacity: 0;
+.visuallyhidden {
+  opacity: 0;
 }
+
+
 /* -------------------------------------------------- */
 
 
@@ -1379,3 +1389,12 @@ input[type=checkbox] {
   margin: 0 auto;
   padding-bottom: 40px;
 }
+
+
+/*----------*/
+
+
+/*----- PRICES PAGE -----*/
+
+
+/*----------*/
