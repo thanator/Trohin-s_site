@@ -1070,7 +1070,7 @@ footer p {
 .exam_box_4,
 .exam_box_5,
 .exam_box_6{
-    transition: all 0.2s linear;
+    transition: all 0.3s linear;
 }
 
 .example_showcase {
@@ -1225,13 +1225,13 @@ footer p {
   padding: 0 5px;
 }
 
-.text_work_1_1 .p2,
-.text_work_2_1 .p2,
-.text_work_3_1 .p2,
-.text_work_4_1 .p2,
-.text_work_5_1 .p2,
-.text_work_6_1 .p2{
-  padding-top: 30%;
+.text_work_1_1 .p1,
+.text_work_2_1 .p1,
+.text_work_3_1 .p1,
+.text_work_4_1 .p1,
+.text_work_5_1 .p1,
+.text_work_6_1 .p1{
+color: #e6b68e;
 }
 
 .visuallyhidden{

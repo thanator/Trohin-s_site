@@ -1,12 +1,6 @@
 $(document).ready(function () {
 
     var box = $('.exam_box');
-    var box_1 = $('.exam_box_1');
-    var box_2 = $('.exam_box_2');
-    var box_3 = $('.exam_box_3');
-    var box_4 = $('.exam_box_4');
-    var box_5 = $('.exam_box_5');
-    var box_6 = $('.exam_box_6');
 
     $('.js__work_0_to_1').click(function () {
 
@@ -15,7 +9,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 20);
+            }, 30);
 
         } else {
 
@@ -37,7 +31,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 20);
+            }, 30);
 
         } else {
 
@@ -60,7 +54,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 20);
+            }, 30);
 
         } else {
 
@@ -81,7 +75,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 20);
+            }, 30);
 
         } else {
 
@@ -104,7 +98,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 20);
+            }, 30);
 
         } else {
 
@@ -126,7 +120,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 20);
+            }, 30);
 
         } else {
 
@@ -149,7 +143,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 20);
+            }, 30);
 
         } else {
 
@@ -171,7 +165,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 20);
+            }, 30);
 
         } else {
 
@@ -193,7 +187,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 20);
+            }, 30);
 
         } else {
 
@@ -216,7 +210,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 20);
+            }, 30);
 
         } else {
 
@@ -238,7 +232,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 20);
+            }, 30);
 
         } else {
 
@@ -261,7 +255,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 20);
+            }, 30);
 
         } else {
 
