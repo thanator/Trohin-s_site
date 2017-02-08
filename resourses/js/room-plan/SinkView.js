@@ -7,13 +7,13 @@ function SinkView(model) {
     this.model = model;
     this.renderSink();
 }
-SinkView.prototype = Object.create(PIXI.Graphics);
+SinkView.prototype = Object.create(PIXI.Graphics.prototype);
 SinkView.prototype.constructor = SinkView;
 module.exports = SinkView;
 
 SinkView.prototype.renderSink = function () {
     this.clear();
-    this.beginFill(0xff00ff);
+    this.beginFill(0x1faee9);
     this.drawRect(this.model.x * WallView.cellWidth + 4, this.model.y * WallView.cellHeight + 4, WallView.cellWidth - 8, WallView.cellHeight - 8);
     this.endFill();
 };

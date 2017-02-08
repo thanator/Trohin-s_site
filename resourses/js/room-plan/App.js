@@ -27,7 +27,7 @@ App.prototype.init = function () {
 
     this.state.createStartEnvironment();
 
-    var toolsView = new ToolsView(this.state);
+    var toolsView = new ToolsView(this.state.toolState);
     toolsView.init();
 
     var priceView = new PriceView(this.state.priceCalculator, this.pixiApp.renderer.plugins.interaction);

@@ -11,21 +11,23 @@ MainStageController.prototype.init = function () {
     this.interaction.on("mouseup", this._onMouseUp.bind(this));
     this.appState.wallsCollection.on("addWallView", this._onAddWallView.bind(this));
     this.appState.wallsCollection.on("removeWallView", this._onRemoveWallView.bind(this));
+    this.appState.worldObjectsCollection.on("addCellView", this._onAddCellView.bind(this));
+    this.appState.worldObjectsCollection.on("removeCellView", this._onRemoveCellView.bind(this));
 };
 
 MainStageController.prototype._onMouseDown = function (event) {
     var pos = this._getMousePos(event);
-    this.appState.appState.currentTool.onMouseDown(pos.x, pos.y);
+    this.appState.toolState.currentTool.onMouseDown(pos.x, pos.y);
 };
 
 MainStageController.prototype._onMouseMove = function (event) {
     var pos = this._getMousePos(event);
-    this.appState.appState.currentTool.onMouseMove(pos.x, pos.y);
+    this.appState.toolState.currentTool.onMouseMove(pos.x, pos.y);
 };
 
 MainStageController.prototype._onMouseUp = function (event) {
     var pos = this._getMousePos(event);
-    this.appState.appState.currentTool.onMouseUp(pos.x, pos.y);
+    this.appState.toolState.currentTool.onMouseUp(pos.x, pos.y);
 };
 
 MainStageController.prototype._onAddWallView = function (view) {
@@ -33,6 +35,14 @@ MainStageController.prototype._onAddWallView = function (view) {
 };
 
 MainStageController.prototype._onRemoveWallView = function (view) {
+    this.stage.removeChild(view);
+};
+
+MainStageController.prototype._onAddCellView = function (view) {
+    this.stage.addChild(view);
+};
+
+MainStageController.prototype._onRemoveCellView = function (view) {
     this.stage.removeChild(view);
 };
 

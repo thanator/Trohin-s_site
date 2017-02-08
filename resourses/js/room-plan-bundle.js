@@ -2923,6 +2923,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
+
 },{"_process":240}],81:[function(require,module,exports){
 var EMPTY_ARRAY_BUFFER = new ArrayBuffer(0);
 
@@ -28171,6 +28172,7 @@ exports.loader = loader;
 global.PIXI = exports; // eslint-disable-line
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"./accessibility":99,"./core":122,"./deprecation":181,"./extract":183,"./extras":192,"./filters":203,"./interaction":210,"./loaders":213,"./mesh":222,"./particles":225,"./polyfill":231,"./prepare":235}],207:[function(require,module,exports){
 'use strict';
 
@@ -33332,6 +33334,7 @@ if (!global.cancelAnimationFrame) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],233:[function(require,module,exports){
 'use strict';
 
@@ -34903,6 +34906,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],242:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -38007,7 +38011,7 @@ App.prototype.init = function () {
 
     this.state.createStartEnvironment();
 
-    var toolsView = new ToolsView(this.state);
+    var toolsView = new ToolsView(this.state.toolState);
     toolsView.init();
 
     var priceView = new PriceView(this.state.priceCalculator, this.pixiApp.renderer.plugins.interaction);
@@ -38019,6 +38023,7 @@ var WallsCollection = require("./WallsCollection.js");
 var WorldObjectsCollection = require("./WorldObjectsCollection.js");
 var PriceCalculator = require("./PriceCalculator.js");
 var WallModel = require("./WallModel.js");
+var WallView = require("./WallView.js");
 var CellModel = require("./CellModel.js");
 var ToolsModel = require("./ToolsModel.js");
 
@@ -38026,8 +38031,8 @@ var ToolsModel = require("./ToolsModel.js");
 function AppState(app) {
     this.app = app;
     this.wallsCollection = new WallsCollection();
-    this.wallsCollection = new WorldObjectsCollection();
-    this.priceCalculator = new PriceCalculator(this.wallsCollection);
+    this.worldObjectsCollection = new WorldObjectsCollection();
+    this.priceCalculator = new PriceCalculator(this.wallsCollection, this.worldObjectsCollection);
     this.toolState = new ToolsModel(this);
 }
 module.exports = AppState;
@@ -38082,7 +38087,7 @@ AppState.prototype.createStartEnvironment = function () {
         console.error("start wall is not okay");
     }
 };
-},{"./CellModel.js":256,"./PriceCalculator.js":262,"./ToolsModel.js":267,"./WallModel.js":270,"./WallsCollection.js":273,"./WorldObjectsCollection.js":278}],256:[function(require,module,exports){
+},{"./CellModel.js":256,"./PriceCalculator.js":262,"./ToolsModel.js":267,"./WallModel.js":270,"./WallView.js":272,"./WallsCollection.js":273,"./WorldObjectsCollection.js":278}],256:[function(require,module,exports){
 var Set = require("core-js/library/fn/set");
 
 function CellModel(x, y) {
@@ -38344,21 +38349,23 @@ MainStageController.prototype.init = function () {
     this.interaction.on("mouseup", this._onMouseUp.bind(this));
     this.appState.wallsCollection.on("addWallView", this._onAddWallView.bind(this));
     this.appState.wallsCollection.on("removeWallView", this._onRemoveWallView.bind(this));
+    this.appState.worldObjectsCollection.on("addCellView", this._onAddCellView.bind(this));
+    this.appState.worldObjectsCollection.on("removeCellView", this._onRemoveCellView.bind(this));
 };
 
 MainStageController.prototype._onMouseDown = function (event) {
     var pos = this._getMousePos(event);
-    this.appState.appState.currentTool.onMouseDown(pos.x, pos.y);
+    this.appState.toolState.currentTool.onMouseDown(pos.x, pos.y);
 };
 
 MainStageController.prototype._onMouseMove = function (event) {
     var pos = this._getMousePos(event);
-    this.appState.appState.currentTool.onMouseMove(pos.x, pos.y);
+    this.appState.toolState.currentTool.onMouseMove(pos.x, pos.y);
 };
 
 MainStageController.prototype._onMouseUp = function (event) {
     var pos = this._getMousePos(event);
-    this.appState.appState.currentTool.onMouseUp(pos.x, pos.y);
+    this.appState.toolState.currentTool.onMouseUp(pos.x, pos.y);
 };
 
 MainStageController.prototype._onAddWallView = function (view) {
@@ -38369,13 +38376,22 @@ MainStageController.prototype._onRemoveWallView = function (view) {
     this.stage.removeChild(view);
 };
 
+MainStageController.prototype._onAddCellView = function (view) {
+    this.stage.addChild(view);
+};
+
+MainStageController.prototype._onRemoveCellView = function (view) {
+    this.stage.removeChild(view);
+};
+
 MainStageController.prototype._getMousePos = function (event) {
     return event.data.getLocalPosition(this.stage, undefined, this.interaction.mouse.global);
 };
 
 },{}],262:[function(require,module,exports){
-function PriceCalculator(wallsCollection) {
+function PriceCalculator(wallsCollection, worldObjectsCollection) {
     this.wallsCollection = wallsCollection;
+    this.worldObjectsCollection = worldObjectsCollection;
 }
 module.exports = PriceCalculator;
 
@@ -38383,6 +38399,7 @@ PriceCalculator.wallPrice = 100;
 PriceCalculator.wirePrice = 100;
 PriceCalculator.doorPrice = 100;
 PriceCalculator.windowPrice = 100;
+PriceCalculator.sinkPrice = 100;
 
 PriceCalculator.prototype.calculate = function () {
     var price = 0;
@@ -38411,6 +38428,18 @@ PriceCalculator.prototype.calculate = function () {
                 }
             });
         }
+    }
+
+    for (var i = 0; i < this.worldObjectsCollection.cells.length; i++) {
+        var cell = this.worldObjectsCollection.cells[i];
+
+        cell.contents.forEach(function (content) {
+            switch (content) {
+                case "sink":
+                    price += PriceCalculator.sinkPrice;
+                    break;
+            }
+        });
     }
 
     return price;
@@ -38469,7 +38498,7 @@ SinkBuilder.prototype.tryAddSink = function (x, y) {
 
 SinkBuilder.prototype.tryRemoveSink = function (x, y) {
     var cell = this.worldObjectsCollection.getCell(x, y);
-    if (cell == null || !cell.content.has("sink")) {
+    if (cell == null || !cell.contents.has("sink")) {
         return false;
     }
     this.worldObjectsCollection.removeCell(cell);
@@ -38490,10 +38519,10 @@ module.exports = SinkTool;
 SinkTool.prototype.onMouseDown = function () {
 };
 
-SinkTool.prototype.onMouseMove = function (x, y) {
+SinkTool.prototype.onMouseMove = function () {
 };
 
-SinkTool.prototype.onMouseUp = function () {
+SinkTool.prototype.onMouseUp = function (x, y) {
     var cellX = Math.floor(x / WallView.cellWidth);
     var cellY = Math.floor(y / WallView.cellHeight);
     switch (this.appState.toolState.toolMode) {
@@ -38516,13 +38545,13 @@ function SinkView(model) {
     this.model = model;
     this.renderSink();
 }
-SinkView.prototype = Object.create(PIXI.Graphics);
+SinkView.prototype = Object.create(PIXI.Graphics.prototype);
 SinkView.prototype.constructor = SinkView;
 module.exports = SinkView;
 
 SinkView.prototype.renderSink = function () {
     this.clear();
-    this.beginFill(0xff00ff);
+    this.beginFill(0x1faee9);
     this.drawRect(this.model.x * WallView.cellWidth + 4, this.model.y * WallView.cellHeight + 4, WallView.cellWidth - 8, WallView.cellHeight - 8);
     this.endFill();
 };
@@ -39415,7 +39444,7 @@ WorldObjectsCollection.prototype.addCell = function (cell, view) {
     }
 };
 
-WorldObjectsCollection.prototype.addCellView = function (cell, view) {
+WorldObjectsCollection.prototype.addCellView = function (view) {
     this.cellViews.set(view.model, view);
     this.emit("addCellView", view);
 };
@@ -39448,4 +39477,5 @@ WorldObjectsCollection.prototype.getCell = function (x, y) {
         return cell.x == x && cell.y == y;
     });
 };
-},{"core-js/library/fn/map":2,"eventemitter3":75}]},{},[253]);
+},{"core-js/library/fn/map":2,"eventemitter3":75}]},{},[253])
+//# sourceMappingURL=room-plan-bundle.js.map

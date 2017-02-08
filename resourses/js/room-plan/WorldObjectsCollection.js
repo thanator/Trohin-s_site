@@ -20,7 +20,7 @@ WorldObjectsCollection.prototype.addCell = function (cell, view) {
     }
 };
 
-WorldObjectsCollection.prototype.addCellView = function (cell, view) {
+WorldObjectsCollection.prototype.addCellView = function (view) {
     this.cellViews.set(view.model, view);
     this.emit("addCellView", view);
 };

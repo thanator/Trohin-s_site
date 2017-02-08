@@ -11,10 +11,10 @@ module.exports = SinkTool;
 SinkTool.prototype.onMouseDown = function () {
 };
 
-SinkTool.prototype.onMouseMove = function (x, y) {
+SinkTool.prototype.onMouseMove = function () {
 };
 
-SinkTool.prototype.onMouseUp = function () {
+SinkTool.prototype.onMouseUp = function (x, y) {
     var cellX = Math.floor(x / WallView.cellWidth);
     var cellY = Math.floor(y / WallView.cellHeight);
     switch (this.appState.toolState.toolMode) {

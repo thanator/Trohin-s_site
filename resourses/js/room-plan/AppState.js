@@ -2,6 +2,7 @@ var WallsCollection = require("./WallsCollection.js");
 var WorldObjectsCollection = require("./WorldObjectsCollection.js");
 var PriceCalculator = require("./PriceCalculator.js");
 var WallModel = require("./WallModel.js");
+var WallView = require("./WallView.js");
 var CellModel = require("./CellModel.js");
 var ToolsModel = require("./ToolsModel.js");
 
@@ -9,8 +10,8 @@ var ToolsModel = require("./ToolsModel.js");
 function AppState(app) {
     this.app = app;
     this.wallsCollection = new WallsCollection();
-    this.wallsCollection = new WorldObjectsCollection();
-    this.priceCalculator = new PriceCalculator(this.wallsCollection);
+    this.worldObjectsCollection = new WorldObjectsCollection();
+    this.priceCalculator = new PriceCalculator(this.wallsCollection, this.worldObjectsCollection);
     this.toolState = new ToolsModel(this);
 }
 module.exports = AppState;

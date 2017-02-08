@@ -20,7 +20,7 @@ SinkBuilder.prototype.tryAddSink = function (x, y) {
 
 SinkBuilder.prototype.tryRemoveSink = function (x, y) {
     var cell = this.worldObjectsCollection.getCell(x, y);
-    if (cell == null || !cell.content.has("sink")) {
+    if (cell == null || !cell.contents.has("sink")) {
         return false;
     }
     this.worldObjectsCollection.removeCell(cell);
