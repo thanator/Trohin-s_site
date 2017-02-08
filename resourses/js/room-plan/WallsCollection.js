@@ -1,5 +1,6 @@
 var EventEmitter = require("eventemitter3");
 var Map = require("core-js/library/fn/map");
+var CellNeighborhood = require("./CellNeighborhood.js");
 
 
 function WallsCollection() {
@@ -48,4 +49,36 @@ WallsCollection.prototype.findCellAndWall = function (x, y) {
         }
     }
     return {};
+};
+
+WallsCollection.prototype.hasCell = function (cell) {
+    return this.hasCellWithCoords(cell.x, cell.y);
+};
+
+WallsCollection.prototype.hasCellWithCoords = function (x, y) {
+    return this.findCellAndWall(x, y).cell != null;
+};
+
+WallsCollection.prototype.getCellNeighborhood = function (cell) {
+    return this.getCellWithCoordsNeighborhood(cell.x, cell.y);
+};
+
+WallsCollection.prototype.getCellWithCoordsNeighborhood = function (x, y) {
+    var r = new CellNeighborhood();
+    for (var i = 0; i < this.walls.length; i++) {
+        var n = this.walls[i].getCellWithCoordsNeighborhood(x, y);
+        if (n.left) {
+            r.left = n.left;
+        }
+        if (n.right) {
+            r.right = n.right;
+        }
+        if (n.up) {
+            r.up = n.up;
+        }
+        if (n.down) {
+            r.down = n.down;
+        }
+    }
+    return r;
 };

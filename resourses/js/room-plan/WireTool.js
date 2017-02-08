@@ -17,7 +17,7 @@ WireTool.prototype.onMouseMove = function (x, y) {
     if (this.isMouseDown) {
         var cellX = Math.floor(x / WallView.cellWidth);
         var cellY = Math.floor(y / WallView.cellHeight);
-        switch (this.appState.toolMode) {
+        switch (this.appState.toolState.toolMode) {
             case "add":
                 this.wireBuilder.tryAddWire(cellX, cellY);
                 break;

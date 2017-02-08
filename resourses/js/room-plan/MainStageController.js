@@ -39,7 +39,14 @@ MainStageController.prototype._onRemoveWallView = function (view) {
 };
 
 MainStageController.prototype._onAddCellView = function (view) {
-    this.stage.addChild(view);
+    switch (view.__proto__.constructor.name) {
+        case "FloorView":
+            this.stage.addChildAt(view, 1);
+            break;
+        default:
+            this.stage.addChild(view);
+            break;
+    }
 };
 
 MainStageController.prototype._onRemoveCellView = function (view) {

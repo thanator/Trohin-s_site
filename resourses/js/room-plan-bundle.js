@@ -38018,7 +38018,7 @@ App.prototype.init = function () {
     priceView.init();
 };
 
-},{"./AppState.js":255,"./GridBackground.js":260,"./MainStageController.js":261,"./PriceView.js":263,"./ToolsView.js":268,"pixi.js":206}],255:[function(require,module,exports){
+},{"./AppState.js":255,"./GridBackground.js":263,"./MainStageController.js":264,"./PriceView.js":266,"./ToolsView.js":271,"pixi.js":206}],255:[function(require,module,exports){
 var WallsCollection = require("./WallsCollection.js");
 var WorldObjectsCollection = require("./WorldObjectsCollection.js");
 var PriceCalculator = require("./PriceCalculator.js");
@@ -38087,7 +38087,7 @@ AppState.prototype.createStartEnvironment = function () {
         console.error("start wall is not okay");
     }
 };
-},{"./CellModel.js":256,"./PriceCalculator.js":262,"./ToolsModel.js":267,"./WallModel.js":270,"./WallView.js":272,"./WallsCollection.js":273,"./WorldObjectsCollection.js":278}],256:[function(require,module,exports){
+},{"./CellModel.js":256,"./PriceCalculator.js":265,"./ToolsModel.js":270,"./WallModel.js":273,"./WallView.js":275,"./WallsCollection.js":276,"./WorldObjectsCollection.js":281}],256:[function(require,module,exports){
 var Set = require("core-js/library/fn/set");
 
 function CellModel(x, y) {
@@ -38294,7 +38294,7 @@ DoorTool.prototype.onMouseMove = function () {
 DoorTool.prototype.onMouseUp = function (x, y) {
     var cellX = Math.floor(x / WallView.cellWidth);
     var cellY = Math.floor(y / WallView.cellHeight);
-    switch (this.appState.toolMode) {
+    switch (this.appState.toolState.toolMode) {
         case "add":
             this.doorBuilder.tryAddDoor(cellX, cellY);
             break;
@@ -38304,7 +38304,137 @@ DoorTool.prototype.onMouseUp = function (x, y) {
     }
 };
 
-},{"./DoorBuilder.js":258,"./WallView.js":272}],260:[function(require,module,exports){
+},{"./DoorBuilder.js":258,"./WallView.js":275}],260:[function(require,module,exports){
+var CellModel = require("./CellModel.js");
+var FloorView = require("./FloorView.js");
+
+
+function FloorBuilder(wallsCollection, worldObjectsCollection) {
+    this.wallsCollection = wallsCollection;
+    this.worldObjectsCollection = worldObjectsCollection;
+}
+module.exports = FloorBuilder;
+
+FloorBuilder.prototype.tryAddFloor = function (x, y) {
+    if (this.wallsCollection.hasCellWithCoords(x, y)) {
+        return false;
+    }
+    if (this.worldObjectsCollection.hasCellWithCoords(x, y) && this.worldObjectsCollection.getCell(x, y).contents.has("floor")) {
+        return false;
+    }
+    var cell = new CellModel(x, y);
+    cell.contents.add("floor");
+    var view = new FloorView(cell, this.wallsCollection);
+    this.worldObjectsCollection.addCell(cell, view);
+    return true;
+};
+
+FloorBuilder.prototype.tryRemoveFloor = function (x, y) {
+    var cell = this.worldObjectsCollection.getCell(x, y);
+    if (cell == null || !cell.contents.has("floor")) {
+        return false;
+    }
+    this.worldObjectsCollection.removeCell(cell);
+    return true;
+};
+
+},{"./CellModel.js":256,"./FloorView.js":262}],261:[function(require,module,exports){
+var FloorBuilder = require("./FloorBuilder.js");
+var WallView = require("./WallView.js");
+
+
+function FloorTool(appState) {
+    this.appState = appState;
+    this.floorBuilder = new FloorBuilder(this.appState.wallsCollection, this.appState.worldObjectsCollection);
+    this.isMouseDown = false;
+}
+module.exports = FloorTool;
+
+FloorTool.prototype.onMouseDown = function () {
+    this.isMouseDown = true;
+};
+
+FloorTool.prototype.onMouseMove = function (x, y) {
+    if (!this.isMouseDown) {
+        return false;
+    }
+    this._create(x, y);
+};
+
+FloorTool.prototype.onMouseUp = function (x, y) {
+    this.isMouseDown = false;
+    this._create(x, y);
+};
+
+FloorTool.prototype._create = function (x, y) {
+    var cellX = Math.floor(x / WallView.cellWidth);
+    var cellY = Math.floor(y / WallView.cellHeight);
+    switch (this.appState.toolState.toolMode) {
+        case "add":
+            this.floorBuilder.tryAddFloor(cellX, cellY);
+            break;
+        case "remove":
+            this.floorBuilder.tryRemoveFloor(cellX, cellY);
+            break;
+    }
+};
+},{"./FloorBuilder.js":260,"./WallView.js":275}],262:[function(require,module,exports){
+var PIXI = require("pixi.js");
+var WallView = require("./WallView.js");
+
+
+function FloorView(model, wallsCollection) {
+    PIXI.Graphics.call(this);
+    this.model = model;
+    this.wallsCollection = wallsCollection;
+    this.renderFloor();
+}
+FloorView.prototype = Object.create(PIXI.Graphics.prototype);
+FloorView.prototype.constructor = FloorView;
+module.exports = FloorView;
+
+FloorView.prototype.renderFloor = function () {
+    var x = this.model.x;
+    var y = this.model.y;
+    var cw = WallView.cellWidth;
+    var ch = WallView.cellHeight;
+    var neighborhood = this.wallsCollection.getCellNeighborhood(this.model);
+
+    this.clear();
+    this.beginFill(0xf09816);
+
+    this.drawRect(x * cw, y * ch, cw, ch);
+
+    if (neighborhood.left) {
+        this.drawRect((x - 0.5) * cw, y * ch, cw / 2, ch);
+    }
+    if (neighborhood.right) {
+        this.drawRect((x + 1) * cw, y * ch, cw / 2, ch);
+    }
+    if (neighborhood.up) {
+        this.drawRect(x * cw, (y - 0.5) * ch, cw, ch / 2);
+    }
+    if (neighborhood.down) {
+        this.drawRect(x * cw, (y + 1) * ch, cw, ch / 2);
+    }
+
+    if (neighborhood.left && neighborhood.up) {
+        this.drawRect((x - 0.5) * cw, (y - 0.5) * ch, cw / 2, ch / 2);
+    }
+    if (neighborhood.right && neighborhood.up) {
+        this.drawRect((x + 1) * cw, (y - 0.5) * ch, cw / 2, ch / 2);
+    }
+    if (neighborhood.left && neighborhood.down) {
+        this.drawRect((x - 0.5) * cw, (y + 1) * ch, cw / 2, ch / 2);
+    }
+    if (neighborhood.right && neighborhood.down) {
+        this.drawRect((x + 1) * cw, (y + 1) * ch, cw / 2, ch / 2);
+    }
+
+    this.endFill();
+};
+
+},{"./WallView.js":275,"pixi.js":206}],263:[function(require,module,exports){
 var PIXI = require("pixi.js");
 var WallView = require("./WallView.js");
 
@@ -38335,7 +38465,7 @@ GridBackground.prototype.renderGrid = function () {
     this.endFill();
 };
 
-},{"./WallView.js":272,"pixi.js":206}],261:[function(require,module,exports){
+},{"./WallView.js":275,"pixi.js":206}],264:[function(require,module,exports){
 function MainStageController(appState, stage, interaction) {
     this.appState = appState;
     this.stage = stage;
@@ -38377,7 +38507,14 @@ MainStageController.prototype._onRemoveWallView = function (view) {
 };
 
 MainStageController.prototype._onAddCellView = function (view) {
-    this.stage.addChild(view);
+    switch (view.__proto__.constructor.name) {
+        case "FloorView":
+            this.stage.addChildAt(view, 1);
+            break;
+        default:
+            this.stage.addChild(view);
+            break;
+    }
 };
 
 MainStageController.prototype._onRemoveCellView = function (view) {
@@ -38388,7 +38525,7 @@ MainStageController.prototype._getMousePos = function (event) {
     return event.data.getLocalPosition(this.stage, undefined, this.interaction.mouse.global);
 };
 
-},{}],262:[function(require,module,exports){
+},{}],265:[function(require,module,exports){
 function PriceCalculator(wallsCollection, worldObjectsCollection) {
     this.wallsCollection = wallsCollection;
     this.worldObjectsCollection = worldObjectsCollection;
@@ -38445,7 +38582,7 @@ PriceCalculator.prototype.calculate = function () {
     return price;
 };
 
-},{}],263:[function(require,module,exports){
+},{}],266:[function(require,module,exports){
 function PriceView(model, interaction) {
     this.model = model;
     this.interaction = interaction;
@@ -38475,18 +38612,22 @@ PriceView.prototype.update = function () {
     $("#room-plan-price").html(price);
 };
 
-},{}],264:[function(require,module,exports){
+},{}],267:[function(require,module,exports){
 var CellModel = require("./CellModel.js");
 var SinkView = require("./SinkView.js");
 
 
-function SinkBuilder(worldObjectsCollection) {
+function SinkBuilder(wallsCollection, worldObjectsCollection) {
+    this.wallsCollection = wallsCollection;
     this.worldObjectsCollection = worldObjectsCollection;
 }
 module.exports = SinkBuilder;
 
 SinkBuilder.prototype.tryAddSink = function (x, y) {
-    if (this.worldObjectsCollection.hasCell(x, y)) {
+    if (this.wallsCollection.hasCellWithCoords(x, y)) {
+        return false;
+    }
+    if (this.worldObjectsCollection.hasCellWithCoords(x, y) && !this.worldObjectsCollection.getCell(x, y).contents.has("floor")) {
         return false;
     }
     var cell = new CellModel(x, y);
@@ -38505,14 +38646,14 @@ SinkBuilder.prototype.tryRemoveSink = function (x, y) {
     return true;
 };
 
-},{"./CellModel.js":256,"./SinkView.js":266}],265:[function(require,module,exports){
+},{"./CellModel.js":256,"./SinkView.js":269}],268:[function(require,module,exports){
 var SinkBuilder = require("./SinkBuilder.js");
 var WallView = require("./WallView.js");
 
 
 function SinkTool(appState) {
     this.appState = appState;
-    this.sinkBuilder = new SinkBuilder(this.appState.worldObjectsCollection);
+    this.sinkBuilder = new SinkBuilder(this.appState.wallsCollection, this.appState.worldObjectsCollection);
 }
 module.exports = SinkTool;
 
@@ -38535,7 +38676,7 @@ SinkTool.prototype.onMouseUp = function (x, y) {
     }
 };
 
-},{"./SinkBuilder.js":264,"./WallView.js":272}],266:[function(require,module,exports){
+},{"./SinkBuilder.js":267,"./WallView.js":275}],269:[function(require,module,exports){
 var PIXI = require("pixi.js");
 var WallView = require("./WallView.js");
 
@@ -38556,11 +38697,12 @@ SinkView.prototype.renderSink = function () {
     this.endFill();
 };
 
-},{"./WallView.js":272,"pixi.js":206}],267:[function(require,module,exports){
+},{"./WallView.js":275,"pixi.js":206}],270:[function(require,module,exports){
 var WallTool = require("./WallTool.js");
 var WireTool = require("./WireTool.js");
 var DoorTool = require("./DoorTool.js");
 var WindowTool = require("./WindowTool.js");
+var FloorTool = require("./FloorTool.js");
 var SinkTool = require("./SinkTool.js");
 
 
@@ -38571,6 +38713,7 @@ function ToolsModel(appState) {
         new WireTool(appState),
         new DoorTool(appState),
         new WindowTool(appState),
+        new FloorTool(appState),
         new SinkTool(appState)
     ];
     this.currentTool = this.tools[0];
@@ -38578,7 +38721,7 @@ function ToolsModel(appState) {
 }
 module.exports = ToolsModel;
 
-},{"./DoorTool.js":259,"./SinkTool.js":265,"./WallTool.js":271,"./WindowTool.js":275,"./WireTool.js":277}],268:[function(require,module,exports){
+},{"./DoorTool.js":259,"./FloorTool.js":261,"./SinkTool.js":268,"./WallTool.js":274,"./WindowTool.js":278,"./WireTool.js":280}],271:[function(require,module,exports){
 function ToolsView(toolState) {
     this.toolState = toolState;
     this.toolsDomIdsToIntIds = {
@@ -38586,7 +38729,8 @@ function ToolsView(toolState) {
         "#room-plan-tool-wire": 1,
         "#room-plan-tool-door": 2,
         "#room-plan-tool-window": 3,
-        "#room-plan-tool-sink": 4
+        "#room-plan-tool-floor": 4,
+        "#room-plan-tool-sink": 5
     };
 }
 module.exports = ToolsView;
@@ -38634,14 +38778,15 @@ ToolsView.prototype._changeActiveModeButton = function ($nextActive) {
     $nextActive.removeClass("app-tools__mode--inactive").addClass("app-tools__mode--active");
 };
 
-},{}],269:[function(require,module,exports){
+},{}],272:[function(require,module,exports){
 var WallModel = require("./WallModel.js");
 var WallView = require("./WallView.js");
 var CellModel = require("./CellModel.js");
 
 
-function WallBuilder(wallsCollection) {
+function WallBuilder(wallsCollection, worldObjectsCollection) {
     this.wallsCollection = wallsCollection;
+    this.worldObjectsCollection = worldObjectsCollection;
 }
 module.exports = WallBuilder;
 
@@ -38661,7 +38806,7 @@ WallBuilder.prototype.isBuilding = function () {
 };
 
 WallBuilder.prototype.tryAddCell = function (x, y) {
-    if (this.isBuilding() && this._isCellOkWithThisWall(x, y) && this._isCellOkWithOtherWalls(x, y)) {
+    if (this.isBuilding() && this._isCellOkWithThisWall(x, y) && this._isCellOkWithOther(x, y)) {
         var cell = new CellModel(x, y);
         this.wall.cells.push(cell);
         this._tryJoin();
@@ -38694,10 +38839,8 @@ WallBuilder.prototype.tryRemoveCell = function (x, y) {
     return true;
 };
 
-WallBuilder.prototype._isCellOkWithOtherWalls = function (x, y) {
-    return _.every(this.wallsCollection.walls, function (wall) {
-        return !wall.hasCellWithCoords(x, y);
-    });
+WallBuilder.prototype._isCellOkWithOther = function (x, y) {
+    return this.wallsCollection.hasCellWithCoords(x, y) && this.worldObjectsCollection.hasCellWithCoords(x, y);
 };
 
 WallBuilder.prototype._isCellOkWithThisWall = function (x, y) {
@@ -38716,7 +38859,7 @@ WallBuilder.prototype._tryJoin = function () {
         }
     }
 };
-},{"./CellModel.js":256,"./WallModel.js":270,"./WallView.js":272}],270:[function(require,module,exports){
+},{"./CellModel.js":256,"./WallModel.js":273,"./WallView.js":275}],273:[function(require,module,exports){
 var CellNeighborhood = require("./CellNeighborhood.js");
 
 
@@ -38915,21 +39058,21 @@ WallModel.prototype._getCellIndex = function (x, y) {
     }
 };
 
-},{"./CellNeighborhood.js":257}],271:[function(require,module,exports){
+},{"./CellNeighborhood.js":257}],274:[function(require,module,exports){
 var WallBuilder = require("./WallBuilder.js");
 var WallView = require("./WallView.js");
 
 
 function WallTool(appState) {
     this.appState = appState;
-    this.wallBuilder = new WallBuilder(this.appState.wallsCollection);
+    this.wallBuilder = new WallBuilder(this.appState.wallsCollection, this.appState.worldObjectsCollection);
     this.isMouseDown = false;
 }
 module.exports = WallTool;
 
 WallTool.prototype.onMouseDown = function () {
     this.isMouseDown = true;
-    if (this.appState.toolMode == "add") {
+    if (this.appState.toolState.toolMode == "add") {
         this.wallBuilder.beginNewWall();
     }
 };
@@ -38943,7 +39086,7 @@ WallTool.prototype.onMouseMove = function (x, y) {
 
 WallTool.prototype.onMouseUp = function (x, y) {
     this.isMouseDown = false;
-    if (this.appState.toolMode == "add") {
+    if (this.appState.toolState.toolMode == "add") {
         this.wallBuilder.endWall();
     }
     this._create(x, y);
@@ -38952,7 +39095,7 @@ WallTool.prototype.onMouseUp = function (x, y) {
 WallTool.prototype._create = function (x, y) {
     var cellX = Math.floor(x / WallView.cellWidth);
     var cellY = Math.floor(y / WallView.cellHeight);
-    switch (this.appState.toolMode) {
+    switch (this.appState.toolState.toolMode) {
         case "add":
             this.wallBuilder.tryAddCell(cellX, cellY);
             break;
@@ -38962,7 +39105,7 @@ WallTool.prototype._create = function (x, y) {
     }
 };
 
-},{"./WallBuilder.js":269,"./WallView.js":272}],272:[function(require,module,exports){
+},{"./WallBuilder.js":272,"./WallView.js":275}],275:[function(require,module,exports){
 var PIXI = require("pixi.js");
 
 
@@ -39154,9 +39297,10 @@ WallView.prototype._renderRectInWall = function (x, y, w, h, wallSize, isVertica
     this.endFill();
 };
 
-},{"pixi.js":206}],273:[function(require,module,exports){
+},{"pixi.js":206}],276:[function(require,module,exports){
 var EventEmitter = require("eventemitter3");
 var Map = require("core-js/library/fn/map");
+var CellNeighborhood = require("./CellNeighborhood.js");
 
 
 function WallsCollection() {
@@ -39206,7 +39350,39 @@ WallsCollection.prototype.findCellAndWall = function (x, y) {
     }
     return {};
 };
-},{"core-js/library/fn/map":2,"eventemitter3":75}],274:[function(require,module,exports){
+
+WallsCollection.prototype.hasCell = function (cell) {
+    return this.hasCellWithCoords(cell.x, cell.y);
+};
+
+WallsCollection.prototype.hasCellWithCoords = function (x, y) {
+    return this.findCellAndWall(x, y).cell != null;
+};
+
+WallsCollection.prototype.getCellNeighborhood = function (cell) {
+    return this.getCellWithCoordsNeighborhood(cell.x, cell.y);
+};
+
+WallsCollection.prototype.getCellWithCoordsNeighborhood = function (x, y) {
+    var r = new CellNeighborhood();
+    for (var i = 0; i < this.walls.length; i++) {
+        var n = this.walls[i].getCellWithCoordsNeighborhood(x, y);
+        if (n.left) {
+            r.left = n.left;
+        }
+        if (n.right) {
+            r.right = n.right;
+        }
+        if (n.up) {
+            r.up = n.up;
+        }
+        if (n.down) {
+            r.down = n.down;
+        }
+    }
+    return r;
+};
+},{"./CellNeighborhood.js":257,"core-js/library/fn/map":2,"eventemitter3":75}],277:[function(require,module,exports){
 function WindowBuilder(wallsCollection) {
     this.wallsCollection = wallsCollection;
 }
@@ -39322,7 +39498,7 @@ WindowBuilder.prototype._createWindow = function () {
     }
 };
 
-},{}],275:[function(require,module,exports){
+},{}],278:[function(require,module,exports){
 var WindowBuilder = require("./WindowBuilder.js");
 var WallView = require("./WallView.js");
 
@@ -39342,7 +39518,7 @@ WindowTool.prototype.onMouseMove = function () {
 WindowTool.prototype.onMouseUp = function (x, y) {
     var cellX = Math.floor(x / WallView.cellWidth);
     var cellY = Math.floor(y / WallView.cellHeight);
-    switch (this.appState.toolMode) {
+    switch (this.appState.toolState.toolMode) {
         case "add":
             this.windowBuilder.tryAddWindow(cellX, cellY);
             break;
@@ -39352,7 +39528,7 @@ WindowTool.prototype.onMouseUp = function (x, y) {
     }
 };
 
-},{"./WallView.js":272,"./WindowBuilder.js":274}],276:[function(require,module,exports){
+},{"./WallView.js":275,"./WindowBuilder.js":277}],279:[function(require,module,exports){
 function WireBuilder(wallsCollection) {
     this.wallsCollection = wallsCollection;
 }
@@ -39386,7 +39562,7 @@ WireBuilder.prototype.tryRemoveWire = function (x, y) {
     return true;
 };
 
-},{}],277:[function(require,module,exports){
+},{}],280:[function(require,module,exports){
 var WireBuilder = require("./WireBuilder.js");
 var WallView = require("./WallView.js");
 
@@ -39406,7 +39582,7 @@ WireTool.prototype.onMouseMove = function (x, y) {
     if (this.isMouseDown) {
         var cellX = Math.floor(x / WallView.cellWidth);
         var cellY = Math.floor(y / WallView.cellHeight);
-        switch (this.appState.toolMode) {
+        switch (this.appState.toolState.toolMode) {
             case "add":
                 this.wireBuilder.tryAddWire(cellX, cellY);
                 break;
@@ -39421,7 +39597,7 @@ WireTool.prototype.onMouseUp = function () {
     this.isMouseDown = false;
 };
 
-},{"./WallView.js":272,"./WireBuilder.js":276}],278:[function(require,module,exports){
+},{"./WallView.js":275,"./WireBuilder.js":279}],281:[function(require,module,exports){
 var EventEmitter = require("eventemitter3");
 var Map = require("core-js/library/fn/map");
 

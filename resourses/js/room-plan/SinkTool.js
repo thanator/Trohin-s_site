@@ -4,7 +4,7 @@ var WallView = require("./WallView.js");
 
 function SinkTool(appState) {
     this.appState = appState;
-    this.sinkBuilder = new SinkBuilder(this.appState.worldObjectsCollection);
+    this.sinkBuilder = new SinkBuilder(this.appState.wallsCollection, this.appState.worldObjectsCollection);
 }
 module.exports = SinkTool;
 

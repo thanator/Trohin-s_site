@@ -17,7 +17,7 @@ WindowTool.prototype.onMouseMove = function () {
 WindowTool.prototype.onMouseUp = function (x, y) {
     var cellX = Math.floor(x / WallView.cellWidth);
     var cellY = Math.floor(y / WallView.cellHeight);
-    switch (this.appState.toolMode) {
+    switch (this.appState.toolState.toolMode) {
         case "add":
             this.windowBuilder.tryAddWindow(cellX, cellY);
             break;

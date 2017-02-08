@@ -3,8 +3,9 @@ var WallView = require("./WallView.js");
 var CellModel = require("./CellModel.js");
 
 
-function WallBuilder(wallsCollection) {
+function WallBuilder(wallsCollection, worldObjectsCollection) {
     this.wallsCollection = wallsCollection;
+    this.worldObjectsCollection = worldObjectsCollection;
 }
 module.exports = WallBuilder;
 
@@ -24,7 +25,7 @@ WallBuilder.prototype.isBuilding = function () {
 };
 
 WallBuilder.prototype.tryAddCell = function (x, y) {
-    if (this.isBuilding() && this._isCellOkWithThisWall(x, y) && this._isCellOkWithOtherWalls(x, y)) {
+    if (this.isBuilding() && this._isCellOkWithThisWall(x, y) && this._isCellOkWithOther(x, y)) {
         var cell = new CellModel(x, y);
         this.wall.cells.push(cell);
         this._tryJoin();
@@ -57,10 +58,8 @@ WallBuilder.prototype.tryRemoveCell = function (x, y) {
     return true;
 };
 
-WallBuilder.prototype._isCellOkWithOtherWalls = function (x, y) {
-    return _.every(this.wallsCollection.walls, function (wall) {
-        return !wall.hasCellWithCoords(x, y);
-    });
+WallBuilder.prototype._isCellOkWithOther = function (x, y) {
+    return this.wallsCollection.hasCellWithCoords(x, y) && this.worldObjectsCollection.hasCellWithCoords(x, y);
 };
 
 WallBuilder.prototype._isCellOkWithThisWall = function (x, y) {

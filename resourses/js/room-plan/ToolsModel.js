@@ -2,6 +2,7 @@ var WallTool = require("./WallTool.js");
 var WireTool = require("./WireTool.js");
 var DoorTool = require("./DoorTool.js");
 var WindowTool = require("./WindowTool.js");
+var FloorTool = require("./FloorTool.js");
 var SinkTool = require("./SinkTool.js");
 
 
@@ -12,6 +13,7 @@ function ToolsModel(appState) {
         new WireTool(appState),
         new DoorTool(appState),
         new WindowTool(appState),
+        new FloorTool(appState),
         new SinkTool(appState)
     ];
     this.currentTool = this.tools[0];

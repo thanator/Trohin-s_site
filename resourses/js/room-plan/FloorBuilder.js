@@ -1,30 +1,30 @@
 var CellModel = require("./CellModel.js");
-var SinkView = require("./SinkView.js");
+var FloorView = require("./FloorView.js");
 
 
-function SinkBuilder(wallsCollection, worldObjectsCollection) {
+function FloorBuilder(wallsCollection, worldObjectsCollection) {
     this.wallsCollection = wallsCollection;
     this.worldObjectsCollection = worldObjectsCollection;
 }
-module.exports = SinkBuilder;
+module.exports = FloorBuilder;
 
-SinkBuilder.prototype.tryAddSink = function (x, y) {
+FloorBuilder.prototype.tryAddFloor = function (x, y) {
     if (this.wallsCollection.hasCellWithCoords(x, y)) {
         return false;
     }
-    if (this.worldObjectsCollection.hasCellWithCoords(x, y) && !this.worldObjectsCollection.getCell(x, y).contents.has("floor")) {
+    if (this.worldObjectsCollection.hasCellWithCoords(x, y) && this.worldObjectsCollection.getCell(x, y).contents.has("floor")) {
         return false;
     }
     var cell = new CellModel(x, y);
-    cell.contents.add("sink");
-    var view = new SinkView(cell);
+    cell.contents.add("floor");
+    var view = new FloorView(cell, this.wallsCollection);
     this.worldObjectsCollection.addCell(cell, view);
     return true;
 };
 
-SinkBuilder.prototype.tryRemoveSink = function (x, y) {
+FloorBuilder.prototype.tryRemoveFloor = function (x, y) {
     var cell = this.worldObjectsCollection.getCell(x, y);
-    if (cell == null || !cell.contents.has("sink")) {
+    if (cell == null || !cell.contents.has("floor")) {
         return false;
     }
     this.worldObjectsCollection.removeCell(cell);

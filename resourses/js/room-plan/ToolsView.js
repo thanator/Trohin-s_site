@@ -5,7 +5,8 @@ function ToolsView(toolState) {
         "#room-plan-tool-wire": 1,
         "#room-plan-tool-door": 2,
         "#room-plan-tool-window": 3,
-        "#room-plan-tool-sink": 4
+        "#room-plan-tool-floor": 4,
+        "#room-plan-tool-sink": 5
     };
 }
 module.exports = ToolsView;
