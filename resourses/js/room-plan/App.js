@@ -22,7 +22,8 @@ App.prototype.init = function () {
 
     this.state = new AppState(this);
 
-    var controller = new MainStageController(this.state, this.pixiApp.stage, this.pixiApp.renderer.plugins.interaction);
+    var controller = new MainStageController(
+        this.state, this.pixiApp.stage, this.pixiApp.renderer.plugins.interaction, {width: 800, height: 600});
     controller.init();
 
     this.state.createStartEnvironment();

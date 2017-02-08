@@ -1,7 +1,8 @@
-function MainStageController(appState, stage, interaction) {
+function MainStageController(appState, stage, interaction, screenSize) {
     this.appState = appState;
     this.stage = stage;
     this.interaction = interaction;
+    this.screenSize = screenSize;
 }
 module.exports = MainStageController;
 
@@ -22,6 +23,9 @@ MainStageController.prototype._onMouseDown = function (event) {
 
 MainStageController.prototype._onMouseMove = function (event) {
     var pos = this._getMousePos(event);
+    if (pos.x < 0 || pos.x > this.screenSize.width || pos.y < 0 || pos.y > this.screenSize.height) {
+        return;
+    }
     this.appState.toolState.currentTool.onMouseMove(pos.x, pos.y);
 };
 

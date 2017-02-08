@@ -38006,7 +38006,8 @@ App.prototype.init = function () {
 
     this.state = new AppState(this);
 
-    var controller = new MainStageController(this.state, this.pixiApp.stage, this.pixiApp.renderer.plugins.interaction);
+    var controller = new MainStageController(
+        this.state, this.pixiApp.stage, this.pixiApp.renderer.plugins.interaction, {width: 800, height: 600});
     controller.init();
 
     this.state.createStartEnvironment();
@@ -38478,10 +38479,11 @@ GridBackground.prototype.renderGrid = function () {
 };
 
 },{"./WallView.js":275,"pixi.js":206}],264:[function(require,module,exports){
-function MainStageController(appState, stage, interaction) {
+function MainStageController(appState, stage, interaction, screenSize) {
     this.appState = appState;
     this.stage = stage;
     this.interaction = interaction;
+    this.screenSize = screenSize;
 }
 module.exports = MainStageController;
 
@@ -38502,6 +38504,9 @@ MainStageController.prototype._onMouseDown = function (event) {
 
 MainStageController.prototype._onMouseMove = function (event) {
     var pos = this._getMousePos(event);
+    if (pos.x < 0 || pos.x > this.screenSize.width || pos.y < 0 || pos.y > this.screenSize.height) {
+        return;
+    }
     this.appState.toolState.currentTool.onMouseMove(pos.x, pos.y);
 };
 
