@@ -1398,3 +1398,27 @@ input[type=checkbox] {
 
 
 /*----------*/
+
+
+.h_otbel{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(img/price/dem.jpg);
+  background-size: cover;
+  background-position: center;
+  height: 70vh;
+  background-attachment: fixed;
+}
+
+.h_elec{
+      background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(img/price/electr.jpg);
+  background-size: cover;
+  background-position: center;
+  height: 70vh;
+  background-attachment: fixed;
+
+}
+
+.h_otbel h1,
+.h_elec h1{
+margin-left: 40%;
+padding-top: 20vh;
+}
