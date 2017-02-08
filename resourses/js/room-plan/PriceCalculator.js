@@ -9,6 +9,7 @@ PriceCalculator.wirePrice = 100;
 PriceCalculator.doorPrice = 100;
 PriceCalculator.windowPrice = 100;
 PriceCalculator.sinkPrice = 100;
+PriceCalculator.floorPrice = 100;
 
 PriceCalculator.prototype.calculate = function () {
     var price = 0;
@@ -46,6 +47,9 @@ PriceCalculator.prototype.calculate = function () {
             switch (content) {
                 case "sink":
                     price += PriceCalculator.sinkPrice;
+                    break;
+                case "floor":
+                    price += PriceCalculator.floorPrice;
                     break;
             }
         });
