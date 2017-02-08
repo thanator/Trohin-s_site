@@ -2,6 +2,7 @@ $(document).ready(function () {
 
     var box = $('.exam_box');
 
+
     $('.js__work_0_to_1').click(function () {
 
         if (box.hasClass('disp')) {
@@ -9,7 +10,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 30);
+            }, 20);
 
         } else {
 
@@ -31,7 +32,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 30);
+            }, 20);
 
         } else {
 
@@ -54,7 +55,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 30);
+            }, 20);
 
         } else {
 
@@ -75,7 +76,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 30);
+            }, 20);
 
         } else {
 
@@ -98,7 +99,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 30);
+            }, 20);
 
         } else {
 
@@ -120,7 +121,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 30);
+            }, 20);
 
         } else {
 
@@ -143,7 +144,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 30);
+            }, 20);
 
         } else {
 
@@ -165,7 +166,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 30);
+            }, 20);
 
         } else {
 
@@ -187,7 +188,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 30);
+            }, 20);
 
         } else {
 
@@ -210,7 +211,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 30);
+            }, 20);
 
         } else {
 
@@ -232,7 +233,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 30);
+            }, 20);
 
         } else {
 
@@ -255,7 +256,7 @@ $(document).ready(function () {
             box.removeClass('disp');
             setTimeout(function () {
                 box.removeClass('visuallyhidden');
-            }, 30);
+            }, 20);
 
         } else {
 
