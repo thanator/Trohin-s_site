@@ -3,6 +3,12 @@
 
 <head>
     <meta charset="utf-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+
+    <link rel="stylesheet" type="text/css" href="vendors/css/normalize_prices.css" />
+    <link rel="stylesheet" type="text/css" href="vendors/css/demo.css" />
+	<link rel="stylesheet" type="text/css" href="vendors/css/cs-select.css" />
+	<link rel="stylesheet" type="text/css" href="vendors/css/cs-skin-slide.css" />
     <link rel="stylesheet" type="text/css" href="vendors/css/normalize.css">
     <link rel="stylesheet" type="text/css" href="vendors/css/ionicons.min.css">
     <link rel="stylesheet" type="text/css" href="vendors/css/grid.css">
@@ -60,9 +66,31 @@
         <div class="h_otbel">
 <h1>демонтажные работы</h1>
         </div>
+<<<<<<< HEAD
         <div class="">
-<p>PISOS</p>
+
+        <div class="container">
+            <section>
+				<label class="select-label">Тип поездки</label>
+				<select class="cs-select cs-skin-slide">
+					<option value="sightseeing" data-class="icon-camera">Посмотреть виды</option>
+					<option value="business" data-class="icon-money">Бизнес</option>
+					<option value="honeymoon" data-class="icon-heart">Медовый месяц</option>
+					<option value="food" data-class="icon-food">Покушать</option>
+					<option value="shopping" data-class="icon-shirt">За покупками</option>
+				</select>
+			</section>
+>>>>>>> 5500cfbd4b7a88d825fcbbdf60e59619891371b7
         </div>
+        <script src="vendors/js/classie.js"></script>
+		<script src="vendors/js/selectFx.js"></script>
+		<script>
+			(function() {
+				[].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {
+					new SelectFx(el);
+				} );
+			})();
+		</script>
     </section>
     <section class="" id="elec_rab">
         <div class="h_elec">
