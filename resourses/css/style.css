@@ -869,6 +869,7 @@ footer p {
 .tree_nav .menu ul li ul a:hover,
 .tree_nav .menu ul li ul a:active {
 <<<<<<< HEAD
+<<<<<<< HEAD
     border: 0;
     border-left: 2px solid #d37522;
     background-color: #343434;
@@ -876,11 +877,16 @@ footer p {
     padding: 3px 10px;
     padding-top: 7px;
 =======
+=======
+>>>>>>> origin/master
   border: 0;
   border-left: 2px solid #d37522;
   background-color: #343434;
   color: #d37522;
   padding: 3px 10px;
+<<<<<<< HEAD
+>>>>>>> origin/master
+=======
 >>>>>>> origin/master
 }
 
@@ -992,9 +998,14 @@ footer p {
 
 .sticky .tree_nav .menu ul li ul a {
 <<<<<<< HEAD
+<<<<<<< HEAD
     background-color: #fff;
     padding: 3px 10px;
     padding-top: 7px;
+=======
+  background-color: #fff;
+  padding: 3px 10px;
+>>>>>>> origin/master
 =======
   background-color: #fff;
   padding: 3px 10px;
@@ -1365,4 +1376,8 @@ input[type=checkbox] {
   max-width: 1140px;
   margin: 0 auto;
   padding-bottom: 40px;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/master
