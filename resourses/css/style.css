@@ -542,6 +542,10 @@ footer p {
     margin: 0;
 }
 
+#page02 .sticky .tree_nav ul li ul a {
+    text-align: left;
+}
+
 #page02 .app_page {
     margin-top: 100px;
 }
@@ -840,6 +844,10 @@ footer p {
   border-bottom: 2px solid #d37522;
 }
 
+.tree_nav .menu ul li ul a {
+    padding-top: 7px;
+}
+
 .tree_nav .menu ul li ul a:hover,
 .tree_nav .menu ul li ul a:active {
     border: 0;
@@ -847,6 +855,7 @@ footer p {
     background-color: #343434;
     color: #d37522;
     padding: 3px 10px;
+    padding-top: 7px;
 }
 
 
@@ -954,6 +963,7 @@ footer p {
 .sticky .tree_nav .menu ul li ul a {
     background-color: #fff;
     padding: 3px 10px;
+    padding-top: 7px;
 }
 
 .sticky .tree_nav .menu ul li ul li a {
