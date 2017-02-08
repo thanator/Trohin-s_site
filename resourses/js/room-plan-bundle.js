@@ -38026,6 +38026,7 @@ var WallModel = require("./WallModel.js");
 var WallView = require("./WallView.js");
 var CellModel = require("./CellModel.js");
 var ToolsModel = require("./ToolsModel.js");
+var FloorView = require("./FloorView.js");
 
 
 function AppState(app) {
@@ -38084,10 +38085,21 @@ AppState.prototype.createStartEnvironment = function () {
     if (wall.isOkay()) {
         this.wallsCollection.addWall(wall, new WallView(wall));
     } else {
-        console.error("start wall is not okay");
+        throw "start wall is not okay";
+    }
+
+    for (var x = 5; x <= 19; x++) {
+        for (var y = 5; y <= 15; y++) {
+            if (!wall.hasCellWithCoords(x, y)) {
+                var cell = new CellModel(x, y);
+                cell.contents.add("floor");
+                var view = new FloorView(cell, this.wallsCollection);
+                this.worldObjectsCollection.addCell(cell, view);
+            }
+        }
     }
 };
-},{"./CellModel.js":256,"./PriceCalculator.js":265,"./ToolsModel.js":270,"./WallModel.js":273,"./WallView.js":275,"./WallsCollection.js":276,"./WorldObjectsCollection.js":281}],256:[function(require,module,exports){
+},{"./CellModel.js":256,"./FloorView.js":262,"./PriceCalculator.js":265,"./ToolsModel.js":270,"./WallModel.js":273,"./WallView.js":275,"./WallsCollection.js":276,"./WorldObjectsCollection.js":281}],256:[function(require,module,exports){
 var Set = require("core-js/library/fn/set");
 
 function CellModel(x, y) {

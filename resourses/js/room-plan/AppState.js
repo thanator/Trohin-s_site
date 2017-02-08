@@ -5,6 +5,7 @@ var WallModel = require("./WallModel.js");
 var WallView = require("./WallView.js");
 var CellModel = require("./CellModel.js");
 var ToolsModel = require("./ToolsModel.js");
+var FloorView = require("./FloorView.js");
 
 
 function AppState(app) {
@@ -63,6 +64,17 @@ AppState.prototype.createStartEnvironment = function () {
     if (wall.isOkay()) {
         this.wallsCollection.addWall(wall, new WallView(wall));
     } else {
-        console.error("start wall is not okay");
+        throw "start wall is not okay";
+    }
+
+    for (var x = 5; x <= 19; x++) {
+        for (var y = 5; y <= 15; y++) {
+            if (!wall.hasCellWithCoords(x, y)) {
+                var cell = new CellModel(x, y);
+                cell.contents.add("floor");
+                var view = new FloorView(cell, this.wallsCollection);
+                this.worldObjectsCollection.addCell(cell, view);
+            }
+        }
     }
 };
