@@ -555,6 +555,10 @@ footer p {
     margin: 0;
 }
 
+#page02 .sticky .tree_nav ul li ul a {
+    text-align: left;
+}
+
 #page02 .app_page {
     margin-top: 100px;
 }
