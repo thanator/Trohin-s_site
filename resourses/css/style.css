@@ -1406,6 +1406,7 @@ input[type=checkbox] {
   background-position: center;
   height: 70vh;
   background-attachment: fixed;
+  
 }
 
 .h_elec{
@@ -1414,6 +1415,7 @@ input[type=checkbox] {
   background-position: center;
   height: 70vh;
   background-attachment: fixed;
+  margin-top: 100px;
 
 }
 
