@@ -1063,10 +1063,21 @@ footer p {
 
 /*--------------------*/
 
+.exam_box,
+.exam_box_1,
+.exam_box_2,
+.exam_box_3,
+.exam_box_4,
+.exam_box_5,
+.exam_box_6{
+    transition: all 0.2s linear;
+}
+
 .example_showcase {
   list-style: none;
   width: 100%;
   display: inline-table;
+
 }
 
 .example_showcase li {
@@ -1223,6 +1234,9 @@ footer p {
   padding-top: 30%;
 }
 
+.visuallyhidden{
+   opacity: 0;
+}
 /* -------------------------------------------------- */
 
 
