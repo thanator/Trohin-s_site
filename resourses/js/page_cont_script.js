@@ -27,7 +27,7 @@ $(document).ready(function () {
         
 setTimeout(function() {
       $('.exam_box_1').removeClass('disp');
-}, 200);
+}, 300);
        
     });
 
@@ -75,7 +75,7 @@ setTimeout(function() {
         }
 setTimeout(function() {
         $('.exam_box_2').removeClass('disp');
-}, 200);
+}, 300);
 
     });
 
@@ -125,7 +125,7 @@ setTimeout(function() {
         }
                setTimeout(function() {
         $('.exam_box_3').removeClass('disp');
-}, 200);
+}, 300);
     });
 
     $('.js__work_3_to_0').click(function () {
@@ -172,7 +172,7 @@ setTimeout(function() {
         }
         setTimeout(function() {
         $('.exam_box_4').removeClass('disp');
-}, 200);
+}, 300);
        
     });
 
@@ -220,7 +220,7 @@ setTimeout(function() {
 
                setTimeout(function() {
         $('.exam_box_5').removeClass('disp');
-}, 200);
+}, 300);
     });
 
     $('.js__work_5_to_0').click(function () {
@@ -267,7 +267,7 @@ setTimeout(function() {
 
                setTimeout(function() {
         $('.exam_box_6').removeClass('disp');
-}, 200);
+}, 300);
     });
 
     $('.js__work_6_to_0').click(function () {

@@ -1090,6 +1090,12 @@ footer p {
 
 /*--------------------*/
 
+.exam{
+  height: 1000px;
+  max-height: 1000px;
+  min-height: 1000px;
+}
+
 .exam_box,
 .exam_box_1,
 .exam_box_2,
