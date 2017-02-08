@@ -858,6 +858,10 @@ footer p {
   border-bottom: 2px solid #d37522;
 }
 
+.tree_nav .menu ul li ul a {
+    padding-bottom: 7px;
+}
+
 .tree_nav .menu ul li ul a:hover,
 .tree_nav .menu ul li ul a:active {
   border: 0;
@@ -865,6 +869,7 @@ footer p {
   background-color: #343434;
   color: #d37522;
   padding: 3px 10px;
+    padding-bottom: 7px;
 }
 
 
@@ -976,6 +981,7 @@ footer p {
 .sticky .tree_nav .menu ul li ul a {
   background-color: #fff;
   padding: 3px 10px;
+    padding-bottom: 7px;
 }
 
 .sticky .tree_nav .menu ul li ul li a {
