@@ -1456,3 +1456,40 @@ margin-top: 100px;
 margin-left: 20%;
 padding-top: 20vh;
 }
+
+
+/* -------------------------------------------------- */
+
+
+/* --- AKCII --- */
+
+
+/* -------------------------------------------------- */
+
+
+.akcii_pic_l{
+  height: auto;
+  width: auto;
+  float: left;
+  margin-left: 5%;
+}
+
+.akcii_pic_r{
+  height: auto;
+  width: auto;
+  float: right;
+  margin-right: 5%;
+}
+.akcii h1{
+
+padding-top: 6vh;
+color: #555555;
+float: center;
+margin-right: 13%;
+}
+
+.skcii_h{
+
+opacity: 0.9;
+
+}
