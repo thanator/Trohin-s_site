@@ -1481,33 +1481,60 @@ padding-top: 20vh;
 
 /* -------------------------------------------------- */
 
+.skcii_h{
+
+  position: relative;
+  padding-bottom: 75px;
+}
+
+.skcii_h h2{
+  margin-top: 100px;
+}
 
 .akcii h1{
-
+text-align: center;
 padding-top: 10vh;
 color: #555555;
 float: center;
+margin-left: 25%; 
+margin-right: 10%;
 
 }
 
-.skcii_h{
-  background-size: cover;
-  background-position: center;
-  height: 40vh;
-  background-attachment: fixed; 
-  }
+.skcii_h .row{
+  padding: 10px 10px;
+  margin-left: 25%;
+  margin-right: 10%;
+  padding-left: 5%;
+  text-align: justify;
+  
+}
 
+.skcii_h:first-child{
+  height: 100%;
+}
 .side_acc{
  
   position: absolute;
   top: 0;
-  left: 0;  
-
+  left: 0; 
+  bottom: 0;
+  right: 0; 
+  min-height: 100%;
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)),  url(img/side_acc.jpg);
-  height: 300%;
+  height: auto;
   width: 25%;
 
 }
+
+.accii_foot{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+}
+
 /*----------*/
 
 
