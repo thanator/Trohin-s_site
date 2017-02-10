@@ -15,7 +15,10 @@ DoorTool.prototype.onMouseDown = function () {
 DoorTool.prototype.onMouseMove = function () {
 };
 
-DoorTool.prototype.onMouseUp = function (x, y) {
+DoorTool.prototype.onMouseUp = function (x, y, isMousePosOk) {
+    if (!isMousePosOk) {
+        return;
+    }
     var cellX = Math.floor(x / WallView.cellWidth);
     var cellY = Math.floor(y / WallView.cellHeight);
     switch (this.appState.toolState.toolMode) {

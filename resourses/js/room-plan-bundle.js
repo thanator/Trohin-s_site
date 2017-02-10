@@ -38262,7 +38262,10 @@ DoorTool.prototype.onMouseDown = function () {
 DoorTool.prototype.onMouseMove = function () {
 };
 
-DoorTool.prototype.onMouseUp = function (x, y) {
+DoorTool.prototype.onMouseUp = function (x, y, isMousePosOk) {
+    if (!isMousePosOk) {
+        return;
+    }
     var cellX = Math.floor(x / WallView.cellWidth);
     var cellY = Math.floor(y / WallView.cellHeight);
     switch (this.appState.toolState.toolMode) {
@@ -38348,9 +38351,11 @@ FloorTool.prototype.onMouseMove = function (x, y) {
     this._create(x, y);
 };
 
-FloorTool.prototype.onMouseUp = function (x, y) {
+FloorTool.prototype.onMouseUp = function (x, y, isMousePosOk) {
     this.isMouseDown = false;
-    this._create(x, y);
+    if (isMousePosOk) {
+        this._create(x, y);
+    }
 };
 
 FloorTool.prototype._create = function (x, y) {
@@ -38481,12 +38486,12 @@ MainStageController.prototype.init = function () {
 
 MainStageController.prototype._onMouseDown = function (event) {
     var pos = this._getMousePos(event);
-    this.appState.toolState.currentTool.onMouseDown(pos.x, pos.y);
+    this.appState.toolState.currentTool.onMouseDown(pos.x, pos.y, this._isMousePosOk(pos));
 };
 
 MainStageController.prototype._onMouseMove = function (event) {
     var pos = this._getMousePos(event);
-    if (pos.x < 0 || pos.x > this.screenSize.width || pos.y < 0 || pos.y > this.screenSize.height) {
+    if (this._isMousePosOk(pos)) {
         return;
     }
     this.appState.toolState.currentTool.onMouseMove(pos.x, pos.y);
@@ -38494,7 +38499,7 @@ MainStageController.prototype._onMouseMove = function (event) {
 
 MainStageController.prototype._onMouseUp = function (event) {
     var pos = this._getMousePos(event);
-    this.appState.toolState.currentTool.onMouseUp(pos.x, pos.y);
+    this.appState.toolState.currentTool.onMouseUp(pos.x, pos.y, this._isMousePosOk(pos));
 };
 
 MainStageController.prototype._onAddWallView = function (view) {
@@ -38522,6 +38527,10 @@ MainStageController.prototype._onRemoveCellView = function (view) {
 
 MainStageController.prototype._getMousePos = function (event) {
     return event.data.getLocalPosition(this.stage, undefined, this.interaction.mouse.global);
+};
+
+MainStageController.prototype._isMousePosOk = function (pos) {
+    return pos.x >= 0 && pos.x <= this.screenSize.width && pos.y >= 0 && pos.y <= this.screenSize.height;
 };
 
 },{}],265:[function(require,module,exports){
@@ -38667,7 +38676,10 @@ SinkTool.prototype.onMouseDown = function () {
 SinkTool.prototype.onMouseMove = function () {
 };
 
-SinkTool.prototype.onMouseUp = function (x, y) {
+SinkTool.prototype.onMouseUp = function (x, y, isMousePosOk) {
+    if (!isMousePosOk) {
+        return;
+    }
     var cellX = Math.floor(x / WallView.cellWidth);
     var cellY = Math.floor(y / WallView.cellHeight);
     switch (this.appState.toolState.toolMode) {
@@ -39160,12 +39172,14 @@ WallTool.prototype.onMouseMove = function (x, y) {
     this._create(x, y);
 };
 
-WallTool.prototype.onMouseUp = function (x, y) {
+WallTool.prototype.onMouseUp = function (x, y, isMousePosOk) {
     this.isMouseDown = false;
     if (this.appState.toolState.toolMode == "add") {
         this.wallBuilder.endWall();
     }
-    this._create(x, y);
+    if (isMousePosOk) {
+        this._create(x, y);
+    }
 };
 
 WallTool.prototype._create = function (x, y) {

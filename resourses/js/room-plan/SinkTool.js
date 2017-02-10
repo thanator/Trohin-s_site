@@ -14,7 +14,10 @@ SinkTool.prototype.onMouseDown = function () {
 SinkTool.prototype.onMouseMove = function () {
 };
 
-SinkTool.prototype.onMouseUp = function (x, y) {
+SinkTool.prototype.onMouseUp = function (x, y, isMousePosOk) {
+    if (!isMousePosOk) {
+        return;
+    }
     var cellX = Math.floor(x / WallView.cellWidth);
     var cellY = Math.floor(y / WallView.cellHeight);
     switch (this.appState.toolState.toolMode) {

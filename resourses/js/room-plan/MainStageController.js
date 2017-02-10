@@ -18,12 +18,12 @@ MainStageController.prototype.init = function () {
 
 MainStageController.prototype._onMouseDown = function (event) {
     var pos = this._getMousePos(event);
-    this.appState.toolState.currentTool.onMouseDown(pos.x, pos.y);
+    this.appState.toolState.currentTool.onMouseDown(pos.x, pos.y, this._isMousePosOk(pos));
 };
 
 MainStageController.prototype._onMouseMove = function (event) {
     var pos = this._getMousePos(event);
-    if (pos.x < 0 || pos.x > this.screenSize.width || pos.y < 0 || pos.y > this.screenSize.height) {
+    if (this._isMousePosOk(pos)) {
         return;
     }
     this.appState.toolState.currentTool.onMouseMove(pos.x, pos.y);
@@ -31,7 +31,7 @@ MainStageController.prototype._onMouseMove = function (event) {
 
 MainStageController.prototype._onMouseUp = function (event) {
     var pos = this._getMousePos(event);
-    this.appState.toolState.currentTool.onMouseUp(pos.x, pos.y);
+    this.appState.toolState.currentTool.onMouseUp(pos.x, pos.y, this._isMousePosOk(pos));
 };
 
 MainStageController.prototype._onAddWallView = function (view) {
@@ -59,4 +59,8 @@ MainStageController.prototype._onRemoveCellView = function (view) {
 
 MainStageController.prototype._getMousePos = function (event) {
     return event.data.getLocalPosition(this.stage, undefined, this.interaction.mouse.global);
+};
+
+MainStageController.prototype._isMousePosOk = function (pos) {
+    return pos.x >= 0 && pos.x <= this.screenSize.width && pos.y >= 0 && pos.y <= this.screenSize.height;
 };

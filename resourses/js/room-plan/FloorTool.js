@@ -21,9 +21,11 @@ FloorTool.prototype.onMouseMove = function (x, y) {
     this._create(x, y);
 };
 
-FloorTool.prototype.onMouseUp = function (x, y) {
+FloorTool.prototype.onMouseUp = function (x, y, isMousePosOk) {
     this.isMouseDown = false;
-    this._create(x, y);
+    if (isMousePosOk) {
+        this._create(x, y);
+    }
 };
 
 FloorTool.prototype._create = function (x, y) {

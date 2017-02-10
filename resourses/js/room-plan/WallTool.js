@@ -24,12 +24,14 @@ WallTool.prototype.onMouseMove = function (x, y) {
     this._create(x, y);
 };
 
-WallTool.prototype.onMouseUp = function (x, y) {
+WallTool.prototype.onMouseUp = function (x, y, isMousePosOk) {
     this.isMouseDown = false;
     if (this.appState.toolState.toolMode == "add") {
         this.wallBuilder.endWall();
     }
-    this._create(x, y);
+    if (isMousePosOk) {
+        this._create(x, y);
+    }
 };
 
 WallTool.prototype._create = function (x, y) {
