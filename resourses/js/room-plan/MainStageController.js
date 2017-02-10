@@ -24,9 +24,8 @@ MainStageController.prototype._onMouseDown = function (event) {
 MainStageController.prototype._onMouseMove = function (event) {
     var pos = this._getMousePos(event);
     if (this._isMousePosOk(pos)) {
-        return;
+        this.appState.toolState.currentTool.onMouseMove(pos.x, pos.y);
     }
-    this.appState.toolState.currentTool.onMouseMove(pos.x, pos.y);
 };
 
 MainStageController.prototype._onMouseUp = function (event) {

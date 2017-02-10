@@ -18,10 +18,9 @@ WallTool.prototype.onMouseDown = function () {
 };
 
 WallTool.prototype.onMouseMove = function (x, y) {
-    if (!this.isMouseDown) {
-        return;
+    if (this.isMouseDown) {
+        this._create(x, y);
     }
-    this._create(x, y);
 };
 
 WallTool.prototype.onMouseUp = function (x, y, isMousePosOk) {
