@@ -639,6 +639,10 @@ footer p {
 
 /* -------------------------------------------------- */
 
+.pays{
+  background-color:#f8f8f8;
+}
+
 .pays h4 {
   margin: 10px 0;
   font-size: 125%;
@@ -646,15 +650,18 @@ footer p {
 
 .cont {
   padding: 0;
+  
 }
-
+.cont h2{
+  padding-top: 40px;
+}
 .conts p {
   font-size: 85%;
   font-style: italic;
 }
 
 .FAQ {
-  background: linear-gradient(to top, #e0e0e0, #fff);
+  background: linear-gradient(to top, #e0e0e0, #f8f8f8);
   opacity: 0.9;
 }
 
