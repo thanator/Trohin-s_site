@@ -38826,16 +38826,14 @@ ToolsView.prototype._registerToolEvent = function (domId, intId) {
     $(domId).click(function () {
         self._changeActiveToolButton($(this));
         self.toolState.currentTool = self.toolState.tools[intId];
-        if (self.intIdsToStyleDomId[intId]) {
-            self._registerStyleItemEvent(self.intIdsToStyleDomId[intId], intId);
-        }
+        self._changeActiveStyleButton($(self.intIdsToStyleDomId[intId]));
     });
 };
 
 ToolsView.prototype._registerStyleItemEvent = function (domId, intId) {
     var self = this;
     $(domId).click(function () {
-        self._changeActiveStyleItemButton($(this));
+        self._changeActiveStyleItemButton($(this), $(this).parent());
         self.toolState.currentTool.style = intId;
     });
 };
@@ -38867,8 +38865,8 @@ ToolsView.prototype._changeActiveStyleButton = function ($nextActive) {
     $nextActive.removeClass("app-tools-style--inactive").addClass("app-tools-style--active");
 };
 
-ToolsView.prototype._changeActiveStyleItemButton = function ($nextActive) {
-    $(".app-tools-style__item--active").removeClass("app-tools-style__item--active").addClass("app-tools-style__item--inactive");
+ToolsView.prototype._changeActiveStyleItemButton = function ($nextActive, $container) {
+    $container.find(".app-tools-style__item--active").removeClass("app-tools-style__item--active").addClass("app-tools-style__item--inactive");
     $nextActive.removeClass("app-tools-style__item--inactive").addClass("app-tools-style__item--active");
 };
 
