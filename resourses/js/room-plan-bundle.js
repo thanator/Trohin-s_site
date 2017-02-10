@@ -38061,32 +38061,27 @@ AppState.prototype.createStartEnvironment = function () {
         wall.addCell(new CellModel(14, y));
     }
 
-    wall.getCell(20, 6).contents.add("door0");
-    wall.getCell(20, 7).contents.add("door1");
-    wall.getCell(20, 8).contents.add("door2");
+    wall.getCell(20, 7).contents.add("door");
+    wall.getCell(20, 7).contentsData.set("door-size", 3);
 
-    wall.getCell(14, 13).contents.add("door0");
-    wall.getCell(14, 14).contents.add("door1");
-    wall.getCell(14, 15).contents.add("door2");
+    wall.getCell(14, 14).contents.add("door");
+    wall.getCell(14, 14).contentsData.set("door-size", 3);
 
-    wall.getCell(11, 10).contents.add("door0");
-    wall.getCell(11, 11).contents.add("door1");
-    wall.getCell(11, 12).contents.add("door2");
+    wall.getCell(11, 11).contents.add("door");
+    wall.getCell(11, 11).contentsData.set("door-size", 3);
 
-    wall.getCell(4, 12).contents.add("window0");
-    wall.getCell(4, 13).contents.add("window1");
-    wall.getCell(4, 14).contents.add("window2");
+    wall.getCell(4, 13).contents.add("window");
+    wall.getCell(4, 13).contentsData.set("window-size", 3);
 
-    wall.getCell(6, 16).contents.add("window0");
-    wall.getCell(7, 16).contents.add("window1");
-    wall.getCell(8, 16).contents.add("window2");
+    wall.getCell(7, 16).contents.add("window");
+    wall.getCell(7, 16).contentsData.set("window-size", 3);
 
     for (var x = 16; x <= 20; x++) {
         wall.getCell(x, 4).contents.add("wire");
     }
 
     for (var i = 0; i < wall.cells.length; i++) {
-        wall.cells[i].contents.add("wall-style0");
+        wall.cells[i].contentsData.set("wall-style", 0);
     }
 
     var shiftX = 6;
@@ -38108,7 +38103,7 @@ AppState.prototype.createStartEnvironment = function () {
             if (!wall.hasCellWithCoords(x + shiftX, y + shiftY)) {
                 var cell = new CellModel(x + shiftX, y + shiftY);
                 cell.contents.add("floor");
-                cell.contents.add("floor-style0");
+                cell.contentsData.set("floor-style", 0);
                 var view = new FloorView(cell, this.wallsCollection);
                 this.worldObjectsCollection.addCell(cell, view);
             }
@@ -38117,15 +38112,17 @@ AppState.prototype.createStartEnvironment = function () {
 };
 },{"./CellModel.js":256,"./FloorView.js":262,"./PriceCalculator.js":265,"./ToolsModel.js":270,"./WallModel.js":273,"./WallView.js":275,"./WallsCollection.js":276,"./WorldObjectsCollection.js":281}],256:[function(require,module,exports){
 var Set = require("core-js/library/fn/set");
+var Map = require("core-js/library/fn/map");
 
 function CellModel(x, y) {
     this.x = x;
     this.y = y;
     this.contents = new Set();
+    this.contentsData = new Map();
 }
 module.exports = CellModel;
 
-},{"core-js/library/fn/set":3}],257:[function(require,module,exports){
+},{"core-js/library/fn/map":2,"core-js/library/fn/set":3}],257:[function(require,module,exports){
 function CellNeighborhood() {
     this.left = null;
     this.right = null;
@@ -38227,7 +38224,8 @@ DoorBuilder.prototype.tryAddDoor = function (x, y) {
     if (this._hasWindowOrDoor(cell0) || this._hasWindowOrDoor(cell1) || this._hasWindowOrDoor(cell2)) {
         return false;
     }
-    this._createDoor(cell0, cell1, cell2);
+    cell1.contents.add("door");
+    cell1.contentsData.set("door-size", 3);
     d.wallView.renderWall();
     return true;
 };
@@ -38237,71 +38235,15 @@ DoorBuilder.prototype.tryRemoveDoor = function (x, y) {
     if (d.cell == null) {
         return false;
     }
-    var doorType = this._getDoorType(d.cell);
-    if (doorType == null) {
-        return false;
-    }
-    var neighborhood = d.wall.getCellNeighborhood(d.cell);
-    switch (doorType) {
-        case "door0":
-            d.cell.contents.delete("door0");
-            if (neighborhood.right) {
-                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.delete("door1");
-                d.wall.getCell(d.cell.x + 2, d.cell.y).contents.delete("door2");
-            } else if (neighborhood.down) {
-                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.delete("door1");
-                d.wall.getCell(d.cell.x, d.cell.y + 2).contents.delete("door2");
-            }
-            break;
-
-        case "door1":
-            d.cell.contents.delete("door1");
-            if (neighborhood.right) {
-                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.delete("door0");
-                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.delete("door2");
-            } else if (neighborhood.down) {
-                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.delete("door0");
-                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.delete("door2");
-            }
-            break;
-
-        case "door2":
-            d.cell.contents.delete("door2");
-            if (neighborhood.left) {
-                d.wall.getCell(d.cell.x - 2, d.cell.y).contents.delete("door0");
-                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.delete("door1");
-            } else if (neighborhood.up) {
-                d.wall.getCell(d.cell.x, d.cell.y - 2).contents.delete("door0");
-                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.delete("door1");
-            }
-            break;
-    }
+    d.cell.contents.delete("door");
+    d.cell.contentsData.delete("door-size");
     d.wallView.renderWall();
     return true;
 };
 
 DoorBuilder.prototype._hasWindowOrDoor = function (cell) {
-    return _.some([0, 1, 2], function (i) {
-        return cell.contents.has("window" + i) || cell.contents.has("door" + i);
-    });
+    return cell.contents.has("window") || cell.contents.has("door");
 };
-
-DoorBuilder.prototype._getDoorType = function (cell) {
-    var i = _.find([0, 1, 2], function (i) {
-        return cell.contents.has("door" + i);
-    });
-    if (i == null) {
-        return null;
-    }
-    return "door" + i;
-};
-
-DoorBuilder.prototype._createDoor = function () {
-    for (var i = 0; i < 3; i++) {
-        arguments[i].contents.add("door" + i);
-    }
-};
-
 },{}],259:[function(require,module,exports){
 var DoorBuilder = require("./DoorBuilder.js");
 var WallView = require("./WallView.js");
@@ -38352,7 +38294,7 @@ FloorBuilder.prototype.tryAddFloor = function (x, y, style) {
     }
     var cell = new CellModel(x, y);
     cell.contents.add("floor");
-    cell.contents.add("floor-style" + style);
+    cell.contentsData.set("floor-style", style);
     var view = new FloorView(cell, this.wallsCollection);
     this.worldObjectsCollection.addCell(cell, view);
     return true;
@@ -38464,14 +38406,8 @@ FloorView.prototype.renderFloor = function () {
     this.endFill();
 };
 
-FloorView.prototype._getFloorStyle = function () {
-    return _.find([0, 1], function (i) {
-        return this.model.contents.has("floor-style" + i);
-    }.bind(this));
-};
-
 FloorView.prototype._getFloorColor = function () {
-    switch (this._getFloorStyle()) {
+    switch (this.model.contentsData.get("floor-style")) {
         case 0:
             return 0xf09816;
         case 1:
@@ -38604,11 +38540,11 @@ PriceCalculator.prototype.calculate = function () {
                         price += PriceCalculator.wirePrice;
                         break;
 
-                    case "door1":
+                    case "door":
                         price += PriceCalculator.doorPrice;
                         break;
 
-                    case "window1":
+                    case "window":
                         price += PriceCalculator.windowPrice;
                         break;
                 }
@@ -38624,6 +38560,7 @@ PriceCalculator.prototype.calculate = function () {
                 case "sink":
                     price += PriceCalculator.sinkPrice;
                     break;
+
                 case "floor":
                     price += PriceCalculator.floorPrice;
                     break;
@@ -38901,7 +38838,7 @@ WallBuilder.prototype.isBuilding = function () {
 WallBuilder.prototype.tryAddCell = function (x, y, style) {
     if (this.isBuilding() && this._isCellOkWithThisWall(x, y) && this._isCellOkWithOther(x, y)) {
         var cell = new CellModel(x, y);
-        cell.contents.add("wall-style" + style);
+        cell.contentsData.set("wall-style", style);
         this.wall.addCell(cell);
         this._tryJoin();
         this.wallView.renderWall();
@@ -38915,7 +38852,7 @@ WallBuilder.prototype.tryRemoveCell = function (x, y) {
     if (d.cell == null) {
         return false;
     }
-    if (this._hasContentsExceptWall(d.cell)) {
+    if (d.cell.contents.length != 0) {
         return false;
     }
     d.wall.cells.splice(d.wall.cells.indexOf(d.cell), 1);
@@ -38931,16 +38868,6 @@ WallBuilder.prototype.tryRemoveCell = function (x, y) {
         this.wallsCollection.addWall(wall, wallView);
     }
     return true;
-};
-
-WallBuilder.prototype._hasContentsExceptWall = function (cell) {
-    var result = false;
-    cell.contents.forEach(function (content) {
-        if (content.indexOf("wall") != 0) {
-            result = true;
-        }
-    });
-    return result;
 };
 
 WallBuilder.prototype._isCellOkWithOther = function (x, y) {
@@ -39250,6 +39177,17 @@ WallView.prototype.renderWall = function () {
         var neighborhood = this.model.getCellNeighborhood(cell);
 
         this._renderCell(cell, x, y, w, h, wallSize, neighborhood);
+    }
+    for (var i = 0; i < this.model.cells.length; i++) {
+        var cell = this.model.cells[i];
+
+        var wallSize = WallView.cellWallSize;
+        var w = WallView.cellWidth;
+        var h = WallView.cellHeight;
+        var x = cell.x * w;
+        var y = cell.y * h;
+        var neighborhood = this.model.getCellNeighborhood(cell);
+
         this._renderCellContents(cell, x, y, w, h, wallSize, neighborhood);
     }
 };
@@ -39274,14 +39212,8 @@ WallView.prototype._renderCell = function (cell, x, y, w, h, s, neighborhood) {
     this.endFill();
 };
 
-WallView.prototype._getCellStyle = function (cell) {
-    return _.find([0, 1], function (i) {
-        return cell.contents.has("wall-style" + i);
-    });
-};
-
 WallView.prototype._getCellColor = function (cell) {
-    switch (this._getCellStyle(cell)) {
+    switch (cell.contentsData.get("wall-style")) {
         case 0:
             return 0x34332c;
         case 1:
@@ -39292,36 +39224,24 @@ WallView.prototype._getCellColor = function (cell) {
 WallView.prototype._renderCellContents = function (cell, x, y, w, h, wallSize, neighborhood) {
     cell.contents.forEach(function (content) {
         if (content != "wire") {
-            this._renderCellContent(x, y, w, h, wallSize, content, neighborhood);
+            this._renderCellContent(cell, x, y, w, h, wallSize, content, neighborhood);
         }
     }.bind(this));
     if (cell.contents.has("wire")) {
-        this._renderCellContent(x, y, w, h, wallSize, "wire", neighborhood);
+        this._renderCellContent(cell, x, y, w, h, wallSize, "wire", neighborhood);
     }
 };
 
-WallView.prototype._renderCellContent = function (x, y, w, h, wallSize, content, neighborhood) {
+WallView.prototype._renderCellContent = function (cell, x, y, w, h, wallSize, content, neighborhood) {
     switch (content) {
         case "wire":
             this._renderWire(x, y, w, h, wallSize, neighborhood);
             break;
-        case "door0":
-            this._renderDoor(0, x, y, w, h, wallSize, neighborhood);
+        case "door":
+            this._renderDoor(x, y, w, h, cell.contentsData.get("door-size"), wallSize, neighborhood);
             break;
-        case "door1":
-            this._renderDoor(1, x, y, w, h, wallSize, neighborhood);
-            break;
-        case "door2":
-            this._renderDoor(2, x, y, w, h, wallSize, neighborhood);
-            break;
-        case "window0":
-            this._renderWindow(0, x, y, w, h, wallSize, neighborhood);
-            break;
-        case "window1":
-            this._renderWindow(1, x, y, w, h, wallSize, neighborhood);
-            break;
-        case "window2":
-            this._renderWindow(2, x, y, w, h, wallSize, neighborhood);
+        case "window":
+            this._renderWindow(x, y, w, h, cell.contentsData.get("window-size"), wallSize, neighborhood);
             break;
     }
 };
@@ -39348,80 +39268,42 @@ WallView.prototype._renderWire = function (x, y, w, h, wallSize, neighborhood) {
     this.endFill();
 };
 
-WallView.prototype._renderDoor = function (index, x, y, w, h, wallSize, neighborhood) {
-    this._renderRectInWall(x, y, w, h, wallSize, neighborhood.up || neighborhood.down, index, 0xc76700, 0x7b3f00);
+WallView.prototype._renderDoor = function (x, y, w, h, thingSize, wallSize, neighborhood) {
+    this._renderThingInWall(x, y, w, h, thingSize, wallSize, neighborhood.up || neighborhood.down, 0xc76700, 0x7b3f00);
 };
 
-WallView.prototype._renderWindow = function (index, x, y, w, h, wallSize, neighborhood) {
-    this._renderRectInWall(x, y, w, h, wallSize, neighborhood.up || neighborhood.down, index, 0xbfefff, 0x3bceff);
+WallView.prototype._renderWindow = function (x, y, w, h, thingSize, wallSize, neighborhood) {
+    this._renderThingInWall(x, y, w, h, thingSize, wallSize, neighborhood.up || neighborhood.down, 0xbfefff, 0x3bceff);
 };
 
-WallView.prototype._renderRectInWall = function (x, y, w, h, wallSize, isVerticalNeighborhood, index, color, borderColor) {
-    var centerX = x + w / 2;
-    var centerY = y + h / 2;
+WallView.prototype._renderThingInWall = function (x, y, w, h, thingSize, wallSize, isVerticalNeighborhood, color, borderColor) {
     var s = wallSize * 1.25;
     var borderSize = wallSize * 0.25;
 
-    this.beginFill(color);
-    switch (index) {
-        case 0:
-            if (isVerticalNeighborhood) {
-                this.drawRect(centerX - s / 2, y + h * 0.25, s, h * 0.75);
-            } else {
-                this.drawRect(x + w * 0.25, centerY - s / 2, w * 0.75, s);
-            }
-            break;
-        case 1:
-            if (isVerticalNeighborhood) {
-                this.drawRect(centerX - s / 2, y, s, h);
-            } else {
-                this.drawRect(x, centerY - s / 2, w, s);
-            }
-            break;
-        case 2:
-            if (isVerticalNeighborhood) {
-                this.drawRect(centerX - s / 2, y, s, h * 0.75);
-            } else {
-                this.drawRect(x, centerY - s / 2, w * 0.75, s);
-            }
-            break;
+    var centerX = x + w / 2;
+    var centerY = y + h / 2;
+    var leftX, rightX, upY, downY;
+    if (isVerticalNeighborhood) {
+        leftX = centerX - s / 2;
+        rightX = centerX + s / 2;
+        upY = centerY - (thingSize * h) / 2 + s / 2;
+        downY = centerY + (thingSize * h) / 2 - s / 2;
+    } else {
+        leftX = centerX - (thingSize * w) / 2 + s / 2;
+        rightX = centerX + (thingSize * w) / 2 - s / 2;
+        upY = centerY - s / 2;
+        downY = centerY + s / 2;
     }
+
+    this.beginFill(color);
+    this.drawRect(leftX, upY, rightX - leftX, downY - upY);
     this.endFill();
 
     this.beginFill(borderColor);
-    switch (index) {
-        case 0:
-            if (isVerticalNeighborhood) {
-                this.drawRect(centerX - s / 2, y + h * 0.25, s, borderSize);
-                this.drawRect(centerX - s / 2, y + h * 0.25, borderSize, h * 0.75);
-                this.drawRect(centerX + s / 2 - borderSize, y + h * 0.25, borderSize, h * 0.75);
-            } else {
-                this.drawRect(x + w * 0.25, centerY - s / 2, borderSize, s);
-                this.drawRect(x + w * 0.25, centerY - s / 2, w * 0.75, borderSize);
-                this.drawRect(x + w * 0.25, centerY + s / 2 - borderSize, w * 0.75, borderSize);
-            }
-            break;
-        case 1:
-            if (isVerticalNeighborhood) {
-                this.drawRect(centerX - s / 2, y, borderSize, h);
-                this.drawRect(centerX + s / 2 - borderSize, y, borderSize, h);
-            } else {
-                this.drawRect(x, centerY - s / 2, w, borderSize);
-                this.drawRect(x, centerY + s / 2 - borderSize, w, borderSize);
-            }
-            break;
-        case 2:
-            if (isVerticalNeighborhood) {
-                this.drawRect(centerX - s / 2, y + h * 0.75 - borderSize, s, borderSize);
-                this.drawRect(centerX - s / 2, y, borderSize, h * 0.75);
-                this.drawRect(centerX + s / 2 - borderSize, y, borderSize, h * 0.75);
-            } else {
-                this.drawRect(x + w * 0.75 - borderSize, centerY - s / 2, borderSize, s);
-                this.drawRect(x, centerY - s / 2, w * 0.75, borderSize);
-                this.drawRect(x, centerY + s / 2 - borderSize, w * 0.75, borderSize);
-            }
-            break;
-    }
+    this.drawRect(leftX, upY, borderSize, downY - upY);
+    this.drawRect(leftX, upY, rightX - leftX, borderSize);
+    this.drawRect(rightX - borderSize, upY, borderSize, downY - upY);
+    this.drawRect(leftX, downY - borderSize, rightX - leftX, borderSize);
     this.endFill();
 };
 
@@ -39551,7 +39433,8 @@ WindowBuilder.prototype.tryAddWindow = function (x, y) {
     if (this._hasWindowOrDoor(cell0) || this._hasWindowOrDoor(cell1) || this._hasWindowOrDoor(cell2)) {
         return false;
     }
-    this._createWindow(cell0, cell1, cell2);
+    cell1.contents.add("window");
+    cell1.contentsData.set("window-size", 3);
     d.wallView.renderWall();
     return true;
 };
@@ -39561,71 +39444,15 @@ WindowBuilder.prototype.tryRemoveWindow = function (x, y) {
     if (d.cell == null) {
         return false;
     }
-    var windowType = this._getWindowType(d.cell);
-    if (windowType == null) {
-        return false;
-    }
-    var neighborhood = d.wall.getCellNeighborhood(d.cell);
-    switch (windowType) {
-        case "window0":
-            d.cell.contents.delete("window0");
-            if (neighborhood.right) {
-                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.delete("window1");
-                d.wall.getCell(d.cell.x + 2, d.cell.y).contents.delete("window2");
-            } else if (neighborhood.down) {
-                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.delete("window1");
-                d.wall.getCell(d.cell.x, d.cell.y + 2).contents.delete("window2");
-            }
-            break;
-
-        case "window1":
-            d.cell.contents.delete("window1");
-            if (neighborhood.right) {
-                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.delete("window0");
-                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.delete("window2");
-            } else if (neighborhood.down) {
-                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.delete("window0");
-                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.delete("window2");
-            }
-            break;
-
-        case "window2":
-            d.cell.contents.delete("window2");
-            if (neighborhood.left) {
-                d.wall.getCell(d.cell.x - 2, d.cell.y).contents.delete("window0");
-                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.delete("window1");
-            } else if (neighborhood.up) {
-                d.wall.getCell(d.cell.x, d.cell.y - 2).contents.delete("window0");
-                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.delete("window1");
-            }
-            break;
-    }
+    d.cell.contents.delete("window");
+    d.cell.contentsData.delete("window-size");
     d.wallView.renderWall();
     return true;
 };
 
 WindowBuilder.prototype._hasWindowOrDoor = function (cell) {
-    return _.some([0, 1, 2], function (i) {
-        return cell.contents.has("window" + i) || cell.contents.has("door" + i);
-    });
+    return cell.contents.has("window") || cell.contents.has("door");
 };
-
-WindowBuilder.prototype._getWindowType = function (cell) {
-    var i = _.find([0, 1, 2], function (i) {
-        return cell.contents.has("window" + i);
-    });
-    if (i == null) {
-        return null;
-    }
-    return "window" + i;
-};
-
-WindowBuilder.prototype._createWindow = function () {
-    for (var i = 0; i < 3; i++) {
-        arguments[i].contents.add("window" + i);
-    }
-};
-
 },{}],278:[function(require,module,exports){
 var WindowBuilder = require("./WindowBuilder.js");
 var WallView = require("./WallView.js");

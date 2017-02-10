@@ -29,6 +29,17 @@ WallView.prototype.renderWall = function () {
         var neighborhood = this.model.getCellNeighborhood(cell);
 
         this._renderCell(cell, x, y, w, h, wallSize, neighborhood);
+    }
+    for (var i = 0; i < this.model.cells.length; i++) {
+        var cell = this.model.cells[i];
+
+        var wallSize = WallView.cellWallSize;
+        var w = WallView.cellWidth;
+        var h = WallView.cellHeight;
+        var x = cell.x * w;
+        var y = cell.y * h;
+        var neighborhood = this.model.getCellNeighborhood(cell);
+
         this._renderCellContents(cell, x, y, w, h, wallSize, neighborhood);
     }
 };
@@ -53,14 +64,8 @@ WallView.prototype._renderCell = function (cell, x, y, w, h, s, neighborhood) {
     this.endFill();
 };
 
-WallView.prototype._getCellStyle = function (cell) {
-    return _.find([0, 1], function (i) {
-        return cell.contents.has("wall-style" + i);
-    });
-};
-
 WallView.prototype._getCellColor = function (cell) {
-    switch (this._getCellStyle(cell)) {
+    switch (cell.contentsData.get("wall-style")) {
         case 0:
             return 0x34332c;
         case 1:
@@ -71,36 +76,24 @@ WallView.prototype._getCellColor = function (cell) {
 WallView.prototype._renderCellContents = function (cell, x, y, w, h, wallSize, neighborhood) {
     cell.contents.forEach(function (content) {
         if (content != "wire") {
-            this._renderCellContent(x, y, w, h, wallSize, content, neighborhood);
+            this._renderCellContent(cell, x, y, w, h, wallSize, content, neighborhood);
         }
     }.bind(this));
     if (cell.contents.has("wire")) {
-        this._renderCellContent(x, y, w, h, wallSize, "wire", neighborhood);
+        this._renderCellContent(cell, x, y, w, h, wallSize, "wire", neighborhood);
     }
 };
 
-WallView.prototype._renderCellContent = function (x, y, w, h, wallSize, content, neighborhood) {
+WallView.prototype._renderCellContent = function (cell, x, y, w, h, wallSize, content, neighborhood) {
     switch (content) {
         case "wire":
             this._renderWire(x, y, w, h, wallSize, neighborhood);
             break;
-        case "door0":
-            this._renderDoor(0, x, y, w, h, wallSize, neighborhood);
+        case "door":
+            this._renderDoor(x, y, w, h, cell.contentsData.get("door-size"), wallSize, neighborhood);
             break;
-        case "door1":
-            this._renderDoor(1, x, y, w, h, wallSize, neighborhood);
-            break;
-        case "door2":
-            this._renderDoor(2, x, y, w, h, wallSize, neighborhood);
-            break;
-        case "window0":
-            this._renderWindow(0, x, y, w, h, wallSize, neighborhood);
-            break;
-        case "window1":
-            this._renderWindow(1, x, y, w, h, wallSize, neighborhood);
-            break;
-        case "window2":
-            this._renderWindow(2, x, y, w, h, wallSize, neighborhood);
+        case "window":
+            this._renderWindow(x, y, w, h, cell.contentsData.get("window-size"), wallSize, neighborhood);
             break;
     }
 };
@@ -127,79 +120,41 @@ WallView.prototype._renderWire = function (x, y, w, h, wallSize, neighborhood) {
     this.endFill();
 };
 
-WallView.prototype._renderDoor = function (index, x, y, w, h, wallSize, neighborhood) {
-    this._renderRectInWall(x, y, w, h, wallSize, neighborhood.up || neighborhood.down, index, 0xc76700, 0x7b3f00);
+WallView.prototype._renderDoor = function (x, y, w, h, thingSize, wallSize, neighborhood) {
+    this._renderThingInWall(x, y, w, h, thingSize, wallSize, neighborhood.up || neighborhood.down, 0xc76700, 0x7b3f00);
 };
 
-WallView.prototype._renderWindow = function (index, x, y, w, h, wallSize, neighborhood) {
-    this._renderRectInWall(x, y, w, h, wallSize, neighborhood.up || neighborhood.down, index, 0xbfefff, 0x3bceff);
+WallView.prototype._renderWindow = function (x, y, w, h, thingSize, wallSize, neighborhood) {
+    this._renderThingInWall(x, y, w, h, thingSize, wallSize, neighborhood.up || neighborhood.down, 0xbfefff, 0x3bceff);
 };
 
-WallView.prototype._renderRectInWall = function (x, y, w, h, wallSize, isVerticalNeighborhood, index, color, borderColor) {
-    var centerX = x + w / 2;
-    var centerY = y + h / 2;
+WallView.prototype._renderThingInWall = function (x, y, w, h, thingSize, wallSize, isVerticalNeighborhood, color, borderColor) {
     var s = wallSize * 1.25;
     var borderSize = wallSize * 0.25;
 
-    this.beginFill(color);
-    switch (index) {
-        case 0:
-            if (isVerticalNeighborhood) {
-                this.drawRect(centerX - s / 2, y + h * 0.25, s, h * 0.75);
-            } else {
-                this.drawRect(x + w * 0.25, centerY - s / 2, w * 0.75, s);
-            }
-            break;
-        case 1:
-            if (isVerticalNeighborhood) {
-                this.drawRect(centerX - s / 2, y, s, h);
-            } else {
-                this.drawRect(x, centerY - s / 2, w, s);
-            }
-            break;
-        case 2:
-            if (isVerticalNeighborhood) {
-                this.drawRect(centerX - s / 2, y, s, h * 0.75);
-            } else {
-                this.drawRect(x, centerY - s / 2, w * 0.75, s);
-            }
-            break;
+    var centerX = x + w / 2;
+    var centerY = y + h / 2;
+    var leftX, rightX, upY, downY;
+    if (isVerticalNeighborhood) {
+        leftX = centerX - s / 2;
+        rightX = centerX + s / 2;
+        upY = centerY - (thingSize * h) / 2 + s / 2;
+        downY = centerY + (thingSize * h) / 2 - s / 2;
+    } else {
+        leftX = centerX - (thingSize * w) / 2 + s / 2;
+        rightX = centerX + (thingSize * w) / 2 - s / 2;
+        upY = centerY - s / 2;
+        downY = centerY + s / 2;
     }
+
+    this.beginFill(color);
+    this.drawRect(leftX, upY, rightX - leftX, downY - upY);
     this.endFill();
 
     this.beginFill(borderColor);
-    switch (index) {
-        case 0:
-            if (isVerticalNeighborhood) {
-                this.drawRect(centerX - s / 2, y + h * 0.25, s, borderSize);
-                this.drawRect(centerX - s / 2, y + h * 0.25, borderSize, h * 0.75);
-                this.drawRect(centerX + s / 2 - borderSize, y + h * 0.25, borderSize, h * 0.75);
-            } else {
-                this.drawRect(x + w * 0.25, centerY - s / 2, borderSize, s);
-                this.drawRect(x + w * 0.25, centerY - s / 2, w * 0.75, borderSize);
-                this.drawRect(x + w * 0.25, centerY + s / 2 - borderSize, w * 0.75, borderSize);
-            }
-            break;
-        case 1:
-            if (isVerticalNeighborhood) {
-                this.drawRect(centerX - s / 2, y, borderSize, h);
-                this.drawRect(centerX + s / 2 - borderSize, y, borderSize, h);
-            } else {
-                this.drawRect(x, centerY - s / 2, w, borderSize);
-                this.drawRect(x, centerY + s / 2 - borderSize, w, borderSize);
-            }
-            break;
-        case 2:
-            if (isVerticalNeighborhood) {
-                this.drawRect(centerX - s / 2, y + h * 0.75 - borderSize, s, borderSize);
-                this.drawRect(centerX - s / 2, y, borderSize, h * 0.75);
-                this.drawRect(centerX + s / 2 - borderSize, y, borderSize, h * 0.75);
-            } else {
-                this.drawRect(x + w * 0.75 - borderSize, centerY - s / 2, borderSize, s);
-                this.drawRect(x, centerY - s / 2, w * 0.75, borderSize);
-                this.drawRect(x, centerY + s / 2 - borderSize, w * 0.75, borderSize);
-            }
-            break;
-    }
+    this.drawRect(leftX, upY, borderSize, downY - upY);
+    this.drawRect(leftX, upY, rightX - leftX, borderSize);
+    this.drawRect(rightX - borderSize, upY, borderSize, downY - upY);
+    this.drawRect(leftX, downY - borderSize, rightX - leftX, borderSize);
     this.endFill();
 };

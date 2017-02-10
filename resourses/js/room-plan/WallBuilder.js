@@ -28,7 +28,7 @@ WallBuilder.prototype.isBuilding = function () {
 WallBuilder.prototype.tryAddCell = function (x, y, style) {
     if (this.isBuilding() && this._isCellOkWithThisWall(x, y) && this._isCellOkWithOther(x, y)) {
         var cell = new CellModel(x, y);
-        cell.contents.add("wall-style" + style);
+        cell.contentsData.set("wall-style", style);
         this.wall.addCell(cell);
         this._tryJoin();
         this.wallView.renderWall();
@@ -42,7 +42,7 @@ WallBuilder.prototype.tryRemoveCell = function (x, y) {
     if (d.cell == null) {
         return false;
     }
-    if (this._hasContentsExceptWall(d.cell)) {
+    if (d.cell.contents.length != 0) {
         return false;
     }
     d.wall.cells.splice(d.wall.cells.indexOf(d.cell), 1);
@@ -58,16 +58,6 @@ WallBuilder.prototype.tryRemoveCell = function (x, y) {
         this.wallsCollection.addWall(wall, wallView);
     }
     return true;
-};
-
-WallBuilder.prototype._hasContentsExceptWall = function (cell) {
-    var result = false;
-    cell.contents.forEach(function (content) {
-        if (content.indexOf("wall") != 0) {
-            result = true;
-        }
-    });
-    return result;
 };
 
 WallBuilder.prototype._isCellOkWithOther = function (x, y) {

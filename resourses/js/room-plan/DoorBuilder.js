@@ -38,7 +38,8 @@ DoorBuilder.prototype.tryAddDoor = function (x, y) {
     if (this._hasWindowOrDoor(cell0) || this._hasWindowOrDoor(cell1) || this._hasWindowOrDoor(cell2)) {
         return false;
     }
-    this._createDoor(cell0, cell1, cell2);
+    cell1.contents.add("door");
+    cell1.contentsData.set("door-size", 3);
     d.wallView.renderWall();
     return true;
 };
@@ -48,67 +49,12 @@ DoorBuilder.prototype.tryRemoveDoor = function (x, y) {
     if (d.cell == null) {
         return false;
     }
-    var doorType = this._getDoorType(d.cell);
-    if (doorType == null) {
-        return false;
-    }
-    var neighborhood = d.wall.getCellNeighborhood(d.cell);
-    switch (doorType) {
-        case "door0":
-            d.cell.contents.delete("door0");
-            if (neighborhood.right) {
-                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.delete("door1");
-                d.wall.getCell(d.cell.x + 2, d.cell.y).contents.delete("door2");
-            } else if (neighborhood.down) {
-                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.delete("door1");
-                d.wall.getCell(d.cell.x, d.cell.y + 2).contents.delete("door2");
-            }
-            break;
-
-        case "door1":
-            d.cell.contents.delete("door1");
-            if (neighborhood.right) {
-                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.delete("door0");
-                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.delete("door2");
-            } else if (neighborhood.down) {
-                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.delete("door0");
-                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.delete("door2");
-            }
-            break;
-
-        case "door2":
-            d.cell.contents.delete("door2");
-            if (neighborhood.left) {
-                d.wall.getCell(d.cell.x - 2, d.cell.y).contents.delete("door0");
-                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.delete("door1");
-            } else if (neighborhood.up) {
-                d.wall.getCell(d.cell.x, d.cell.y - 2).contents.delete("door0");
-                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.delete("door1");
-            }
-            break;
-    }
+    d.cell.contents.delete("door");
+    d.cell.contentsData.delete("door-size");
     d.wallView.renderWall();
     return true;
 };
 
 DoorBuilder.prototype._hasWindowOrDoor = function (cell) {
-    return _.some([0, 1, 2], function (i) {
-        return cell.contents.has("window" + i) || cell.contents.has("door" + i);
-    });
-};
-
-DoorBuilder.prototype._getDoorType = function (cell) {
-    var i = _.find([0, 1, 2], function (i) {
-        return cell.contents.has("door" + i);
-    });
-    if (i == null) {
-        return null;
-    }
-    return "door" + i;
-};
-
-DoorBuilder.prototype._createDoor = function () {
-    for (var i = 0; i < 3; i++) {
-        arguments[i].contents.add("door" + i);
-    }
+    return cell.contents.has("window") || cell.contents.has("door");
 };

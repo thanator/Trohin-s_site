@@ -37,32 +37,27 @@ AppState.prototype.createStartEnvironment = function () {
         wall.addCell(new CellModel(14, y));
     }
 
-    wall.getCell(20, 6).contents.add("door0");
-    wall.getCell(20, 7).contents.add("door1");
-    wall.getCell(20, 8).contents.add("door2");
+    wall.getCell(20, 7).contents.add("door");
+    wall.getCell(20, 7).contentsData.set("door-size", 3);
 
-    wall.getCell(14, 13).contents.add("door0");
-    wall.getCell(14, 14).contents.add("door1");
-    wall.getCell(14, 15).contents.add("door2");
+    wall.getCell(14, 14).contents.add("door");
+    wall.getCell(14, 14).contentsData.set("door-size", 3);
 
-    wall.getCell(11, 10).contents.add("door0");
-    wall.getCell(11, 11).contents.add("door1");
-    wall.getCell(11, 12).contents.add("door2");
+    wall.getCell(11, 11).contents.add("door");
+    wall.getCell(11, 11).contentsData.set("door-size", 3);
 
-    wall.getCell(4, 12).contents.add("window0");
-    wall.getCell(4, 13).contents.add("window1");
-    wall.getCell(4, 14).contents.add("window2");
+    wall.getCell(4, 13).contents.add("window");
+    wall.getCell(4, 13).contentsData.set("window-size", 3);
 
-    wall.getCell(6, 16).contents.add("window0");
-    wall.getCell(7, 16).contents.add("window1");
-    wall.getCell(8, 16).contents.add("window2");
+    wall.getCell(7, 16).contents.add("window");
+    wall.getCell(7, 16).contentsData.set("window-size", 3);
 
     for (var x = 16; x <= 20; x++) {
         wall.getCell(x, 4).contents.add("wire");
     }
 
     for (var i = 0; i < wall.cells.length; i++) {
-        wall.cells[i].contents.add("wall-style0");
+        wall.cells[i].contentsData.set("wall-style", 0);
     }
 
     var shiftX = 6;
@@ -84,7 +79,7 @@ AppState.prototype.createStartEnvironment = function () {
             if (!wall.hasCellWithCoords(x + shiftX, y + shiftY)) {
                 var cell = new CellModel(x + shiftX, y + shiftY);
                 cell.contents.add("floor");
-                cell.contents.add("floor-style0");
+                cell.contentsData.set("floor-style", 0);
                 var view = new FloorView(cell, this.wallsCollection);
                 this.worldObjectsCollection.addCell(cell, view);
             }

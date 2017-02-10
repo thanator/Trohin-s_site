@@ -53,14 +53,8 @@ FloorView.prototype.renderFloor = function () {
     this.endFill();
 };
 
-FloorView.prototype._getFloorStyle = function () {
-    return _.find([0, 1], function (i) {
-        return this.model.contents.has("floor-style" + i);
-    }.bind(this));
-};
-
 FloorView.prototype._getFloorColor = function () {
-    switch (this._getFloorStyle()) {
+    switch (this.model.contentsData.get("floor-style")) {
         case 0:
             return 0xf09816;
         case 1:

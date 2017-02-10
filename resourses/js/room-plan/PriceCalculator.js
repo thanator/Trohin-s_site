@@ -28,11 +28,11 @@ PriceCalculator.prototype.calculate = function () {
                         price += PriceCalculator.wirePrice;
                         break;
 
-                    case "door1":
+                    case "door":
                         price += PriceCalculator.doorPrice;
                         break;
 
-                    case "window1":
+                    case "window":
                         price += PriceCalculator.windowPrice;
                         break;
                 }
@@ -48,6 +48,7 @@ PriceCalculator.prototype.calculate = function () {
                 case "sink":
                     price += PriceCalculator.sinkPrice;
                     break;
+
                 case "floor":
                     price += PriceCalculator.floorPrice;
                     break;

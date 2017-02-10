@@ -17,7 +17,7 @@ FloorBuilder.prototype.tryAddFloor = function (x, y, style) {
     }
     var cell = new CellModel(x, y);
     cell.contents.add("floor");
-    cell.contents.add("floor-style" + style);
+    cell.contentsData.set("floor-style", style);
     var view = new FloorView(cell, this.wallsCollection);
     this.worldObjectsCollection.addCell(cell, view);
     return true;
