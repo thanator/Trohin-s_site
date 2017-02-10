@@ -1,13 +1,13 @@
 /* Default custom select styles */
 div.cs-select {
-	/*display: inline-block;*/
+	display: inline-block;
 	vertical-align: middle;
 	position: relative;
 	text-align: left;
 	background: #fff;
 	z-index: 100;
 	width: 100%;
-	max-width: 700px;
+	max-width: 500px;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
