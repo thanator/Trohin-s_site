@@ -38391,7 +38391,7 @@ FloorTool.prototype._create = function (x, y) {
     var cellY = Math.floor(y / WallView.cellHeight);
     switch (this.appState.toolState.toolMode) {
         case "add":
-            this.floorBuilder.tryAddFloor(cellX, cellY, style);
+            this.floorBuilder.tryAddFloor(cellX, cellY, this.style);
             break;
         case "remove":
             this.floorBuilder.tryRemoveFloor(cellX, cellY);
@@ -38907,7 +38907,7 @@ WallBuilder.prototype.tryRemoveCell = function (x, y) {
     if (d.cell == null) {
         return false;
     }
-    if (d.cell.contents.size != 0) {
+    if (this._hasContentsExceptWall(d.cell)) {
         return false;
     }
     d.wall.cells.splice(d.wall.cells.indexOf(d.cell), 1);
@@ -38925,8 +38925,18 @@ WallBuilder.prototype.tryRemoveCell = function (x, y) {
     return true;
 };
 
+WallBuilder.prototype._hasContentsExceptWall = function (cell) {
+    var result = false;
+    cell.contents.forEach(function (content) {
+        if (content.indexOf("wall") != 0) {
+            result = true;
+        }
+    });
+    return result;
+};
+
 WallBuilder.prototype._isCellOkWithOther = function (x, y) {
-    return this.wallsCollection.hasCellWithCoords(x, y) && this.worldObjectsCollection.hasCellWithCoords(x, y);
+    return !this.wallsCollection.hasCellWithCoords(x, y) && !this.worldObjectsCollection.hasCellWithCoords(x, y);
 };
 
 WallBuilder.prototype._isCellOkWithThisWall = function (x, y) {
@@ -39192,7 +39202,7 @@ WallTool.prototype._create = function (x, y) {
     var cellY = Math.floor(y / WallView.cellHeight);
     switch (this.appState.toolState.toolMode) {
         case "add":
-            this.wallBuilder.tryAddCell(cellX, cellY, style);
+            this.wallBuilder.tryAddCell(cellX, cellY, this.style);
             break;
         case "remove":
             this.wallBuilder.tryRemoveCell(cellX, cellY);
@@ -39257,7 +39267,6 @@ WallView.prototype._renderCell = function (cell, x, y, w, h, s, neighborhood) {
 };
 
 WallView.prototype._getCellStyle = function (cell) {
-    console.log(cell.contents);
     return _.find([0, 1], function (i) {
         return cell.contents.has("wall-style" + i);
     });

@@ -42,7 +42,7 @@ WallBuilder.prototype.tryRemoveCell = function (x, y) {
     if (d.cell == null) {
         return false;
     }
-    if (d.cell.contents.size != 0) {
+    if (this._hasContentsExceptWall(d.cell)) {
         return false;
     }
     d.wall.cells.splice(d.wall.cells.indexOf(d.cell), 1);
@@ -60,8 +60,18 @@ WallBuilder.prototype.tryRemoveCell = function (x, y) {
     return true;
 };
 
+WallBuilder.prototype._hasContentsExceptWall = function (cell) {
+    var result = false;
+    cell.contents.forEach(function (content) {
+        if (content.indexOf("wall") != 0) {
+            result = true;
+        }
+    });
+    return result;
+};
+
 WallBuilder.prototype._isCellOkWithOther = function (x, y) {
-    return this.wallsCollection.hasCellWithCoords(x, y) && this.worldObjectsCollection.hasCellWithCoords(x, y);
+    return !this.wallsCollection.hasCellWithCoords(x, y) && !this.worldObjectsCollection.hasCellWithCoords(x, y);
 };
 
 WallBuilder.prototype._isCellOkWithThisWall = function (x, y) {

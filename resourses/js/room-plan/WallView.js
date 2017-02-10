@@ -54,7 +54,6 @@ WallView.prototype._renderCell = function (cell, x, y, w, h, s, neighborhood) {
 };
 
 WallView.prototype._getCellStyle = function (cell) {
-    console.log(cell.contents);
     return _.find([0, 1], function (i) {
         return cell.contents.has("wall-style" + i);
     });

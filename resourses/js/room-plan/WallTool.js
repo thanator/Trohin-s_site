@@ -37,7 +37,7 @@ WallTool.prototype._create = function (x, y) {
     var cellY = Math.floor(y / WallView.cellHeight);
     switch (this.appState.toolState.toolMode) {
         case "add":
-            this.wallBuilder.tryAddCell(cellX, cellY, style);
+            this.wallBuilder.tryAddCell(cellX, cellY, this.style);
             break;
         case "remove":
             this.wallBuilder.tryRemoveCell(cellX, cellY);

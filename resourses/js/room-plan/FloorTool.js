@@ -31,7 +31,7 @@ FloorTool.prototype._create = function (x, y) {
     var cellY = Math.floor(y / WallView.cellHeight);
     switch (this.appState.toolState.toolMode) {
         case "add":
-            this.floorBuilder.tryAddFloor(cellX, cellY, style);
+            this.floorBuilder.tryAddFloor(cellX, cellY, this.style);
             break;
         case "remove":
             this.floorBuilder.tryRemoveFloor(cellX, cellY);
