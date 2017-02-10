@@ -533,7 +533,7 @@ footer p {
 }
 
 .app {
-  height: 600px;
+  min-height: 1535px;
 }
 
 .app-tools {

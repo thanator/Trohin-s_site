@@ -65,6 +65,14 @@ AppState.prototype.createStartEnvironment = function () {
         wall.cells[i].contents.add("wall-style0");
     }
 
+    var shiftX = 6;
+    var shiftY = 0;
+
+    for (var i = 0; i < wall.cells.length; i++) {
+        wall.cells[i].x += shiftX;
+        wall.cells[i].y += shiftY;
+    }
+
     if (wall.isOkay()) {
         this.wallsCollection.addWall(wall, new WallView(wall));
     } else {
@@ -73,8 +81,8 @@ AppState.prototype.createStartEnvironment = function () {
 
     for (var x = 5; x <= 19; x++) {
         for (var y = 5; y <= 15; y++) {
-            if (!wall.hasCellWithCoords(x, y)) {
-                var cell = new CellModel(x, y);
+            if (!wall.hasCellWithCoords(x + shiftX, y + shiftY)) {
+                var cell = new CellModel(x + shiftX, y + shiftY);
                 cell.contents.add("floor");
                 cell.contents.add("floor-style0");
                 var view = new FloorView(cell, this.wallsCollection);

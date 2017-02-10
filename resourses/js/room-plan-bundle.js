@@ -37995,19 +37995,21 @@ function App() {
 module.exports = App;
 
 App.prototype.init = function () {
-    this.pixiApp = new PIXI.Application(800, 600, {antialias: true, backgroundColor: 0xeeeeee});
+    this.screenSize = {width: 1023, height: 1535};
+
+    this.pixiApp = new PIXI.Application(this.screenSize.width, this.screenSize.height, {antialias: true, backgroundColor: 0xeeeeee});
 
     var $view = $(this.pixiApp.view);
     $(".app").replaceWith($view);
     $view.addClass("app");
 
-    var gridBackground = new GridBackground(800, 600);
+    var gridBackground = new GridBackground(this.screenSize.width, this.screenSize.height);
     this.pixiApp.stage.addChild(gridBackground);
 
     this.state = new AppState(this);
 
     var controller = new MainStageController(
-        this.state, this.pixiApp.stage, this.pixiApp.renderer.plugins.interaction, {width: 800, height: 600});
+        this.state, this.pixiApp.stage, this.pixiApp.renderer.plugins.interaction, this.screenSize);
     controller.init();
 
     this.state.createStartEnvironment();
@@ -38087,6 +38089,14 @@ AppState.prototype.createStartEnvironment = function () {
         wall.cells[i].contents.add("wall-style0");
     }
 
+    var shiftX = 6;
+    var shiftY = 0;
+
+    for (var i = 0; i < wall.cells.length; i++) {
+        wall.cells[i].x += shiftX;
+        wall.cells[i].y += shiftY;
+    }
+
     if (wall.isOkay()) {
         this.wallsCollection.addWall(wall, new WallView(wall));
     } else {
@@ -38095,8 +38105,8 @@ AppState.prototype.createStartEnvironment = function () {
 
     for (var x = 5; x <= 19; x++) {
         for (var y = 5; y <= 15; y++) {
-            if (!wall.hasCellWithCoords(x, y)) {
-                var cell = new CellModel(x, y);
+            if (!wall.hasCellWithCoords(x + shiftX, y + shiftY)) {
+                var cell = new CellModel(x + shiftX, y + shiftY);
                 cell.contents.add("floor");
                 cell.contents.add("floor-style0");
                 var view = new FloorView(cell, this.wallsCollection);
