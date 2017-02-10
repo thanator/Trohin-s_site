@@ -78,7 +78,7 @@ label.select-label {
 	width: 300px;
 	text-align: left;
 	margin: 0 auto 0 22%;
-	color: #c0c6c4;
+	color: inherit;
 }
 
 .color-4 label.select-label {
