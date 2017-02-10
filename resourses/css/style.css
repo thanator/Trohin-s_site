@@ -1506,7 +1506,8 @@ float: center;
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)),  url(img/side_acc.jpg);
   height: 300%;
   width: 25%;
-=======
+
+}
 /*----------*/
 
 
@@ -1525,5 +1526,6 @@ float: center;
     padding-bottom: 10px;
     background-color: #fff;
     box-shadow: 1px 1px 5px #919191;
->>>>>>> d2ac59923d8f691910678239065a84ffa2e15570
 }
+
+
