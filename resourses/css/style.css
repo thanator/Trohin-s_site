@@ -1467,29 +1467,28 @@ padding-top: 20vh;
 /* -------------------------------------------------- */
 
 
-.akcii_pic_l{
-  height: auto;
-  width: auto;
-  float: left;
-  margin-left: 5%;
-}
-
-.akcii_pic_r{
-  height: auto;
-  width: auto;
-  float: right;
-  margin-right: 5%;
-}
 .akcii h1{
 
-padding-top: 6vh;
+padding-top: 10vh;
 color: #555555;
 float: center;
-margin-right: 13%;
+
 }
 
 .skcii_h{
+  background-size: cover;
+  background-position: center;
+  height: 40vh;
+  background-attachment: fixed; 
+  }
 
-opacity: 0.9;
+.side_acc{
+ 
+  position: absolute;
+  top: 0;
+  left: 0;  
 
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)),  url(img/side_acc.jpg);
+  height: 300%;
+  width: 25%;
 }
