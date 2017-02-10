@@ -3,7 +3,7 @@ function WindowBuilder(wallsCollection) {
 }
 module.exports = WindowBuilder;
 
-WindowBuilder.prototype.tryAddWindow = function (x, y) {
+WindowBuilder.prototype.tryAddWindow = function (x, y, style) {
     var d = this.wallsCollection.findCellAndWall(x, y);
     if (d.cell == null) {
         return false;
@@ -35,11 +35,11 @@ WindowBuilder.prototype.tryAddWindow = function (x, y) {
     } else {
         return false;
     }
-    if (this._hasWindowOrDoor(cell0) || this._hasWindowOrDoor(cell1) || this._hasWindowOrDoor(cell2)) {
+    if (this._hasWindowOrDoor(cell1)) {
         return false;
     }
     cell1.contents.add("window");
-    cell1.contentsData.set("window-size", 3);
+    cell1.contentsData.set("window-size", style);
     d.wallView.renderWall();
     return true;
 };

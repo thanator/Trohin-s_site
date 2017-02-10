@@ -29,11 +29,11 @@ PriceCalculator.prototype.calculate = function () {
                         break;
 
                     case "door":
-                        price += PriceCalculator.doorPrice;
+                        price += PriceCalculator.doorPrice * cell.contentsData.get("door-size");
                         break;
 
                     case "window":
-                        price += PriceCalculator.windowPrice;
+                        price += PriceCalculator.windowPrice * cell.contentsData.get("window-size");
                         break;
                 }
             });

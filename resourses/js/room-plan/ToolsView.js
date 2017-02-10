@@ -12,14 +12,21 @@ function ToolsView(toolState) {
 
     this.intIdsToStyleDomId = [];
     this.intIdsToStyleDomId[0] = "#room-plan-style-wall";
+    this.intIdsToStyleDomId[2] = "#room-plan-style-door";
+    this.intIdsToStyleDomId[3] = "#room-plan-style-window";
     this.intIdsToStyleDomId[4] = "#room-plan-style-floor";
 
-    this.styleItemDomIdsToIntIds = {
+    this.styleItemDomIdsToStyleIntIds = {
         "#room-plan-wall-style0": 0,
         "#room-plan-wall-style1": 1,
         "#room-plan-floor-style0": 0,
         "#room-plan-floor-style1": 1
     };
+
+    this.styleInputDomIds = [
+        "#room-plan-door-size",
+        "#room-plan-window-size"
+    ];
 }
 module.exports = ToolsView;
 
@@ -27,6 +34,7 @@ ToolsView.prototype.init = function () {
     this._initToolButtons();
     this._initModeButtons();
     this._initStyleItemButtons();
+    this._initStyleInputButtons();
 };
 
 ToolsView.prototype._initToolButtons = function () {
@@ -38,11 +46,17 @@ ToolsView.prototype._initToolButtons = function () {
 };
 
 ToolsView.prototype._initStyleItemButtons = function () {
-    for (var domId in this.styleItemDomIdsToIntIds) {
-        if (this.styleItemDomIdsToIntIds.hasOwnProperty(domId)) {
-            this._registerStyleItemEvent(domId, this.styleItemDomIdsToIntIds[domId]);
+    for (var domId in this.styleItemDomIdsToStyleIntIds) {
+        if (this.styleItemDomIdsToStyleIntIds.hasOwnProperty(domId)) {
+            this._registerStyleItemEvent(domId, this.styleItemDomIdsToStyleIntIds[domId]);
         }
     }
+};
+
+ToolsView.prototype._initStyleInputButtons = function () {
+    this.styleInputDomIds.forEach(function (domId) {
+        this._registerStyleInputEvent(domId);
+    }.bind(this));
 };
 
 ToolsView.prototype._registerToolEvent = function (domId, intId) {
@@ -59,6 +73,13 @@ ToolsView.prototype._registerStyleItemEvent = function (domId, intId) {
     $(domId).click(function () {
         self._changeActiveStyleItemButton($(this), $(this).parent());
         self.toolState.currentTool.style = intId;
+    });
+};
+
+ToolsView.prototype._registerStyleInputEvent = function (domId) {
+    var self = this;
+    $(domId).on("input change", function () {
+        self.toolState.currentTool.style = $(this).val();
     });
 };
 

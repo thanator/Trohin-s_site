@@ -3,7 +3,7 @@ function DoorBuilder(wallsCollection) {
 }
 module.exports = DoorBuilder;
 
-DoorBuilder.prototype.tryAddDoor = function (x, y) {
+DoorBuilder.prototype.tryAddDoor = function (x, y, style) {
     var d = this.wallsCollection.findCellAndWall(x, y);
     if (d.cell == null) {
         return false;
@@ -35,11 +35,11 @@ DoorBuilder.prototype.tryAddDoor = function (x, y) {
     } else {
         return false;
     }
-    if (this._hasWindowOrDoor(cell0) || this._hasWindowOrDoor(cell1) || this._hasWindowOrDoor(cell2)) {
+    if (this._hasWindowOrDoor(cell1)) {
         return false;
     }
     cell1.contents.add("door");
-    cell1.contentsData.set("door-size", 3);
+    cell1.contentsData.set("door-size", style);
     d.wallView.renderWall();
     return true;
 };

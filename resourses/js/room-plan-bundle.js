@@ -38189,7 +38189,7 @@ function DoorBuilder(wallsCollection) {
 }
 module.exports = DoorBuilder;
 
-DoorBuilder.prototype.tryAddDoor = function (x, y) {
+DoorBuilder.prototype.tryAddDoor = function (x, y, style) {
     var d = this.wallsCollection.findCellAndWall(x, y);
     if (d.cell == null) {
         return false;
@@ -38221,11 +38221,11 @@ DoorBuilder.prototype.tryAddDoor = function (x, y) {
     } else {
         return false;
     }
-    if (this._hasWindowOrDoor(cell0) || this._hasWindowOrDoor(cell1) || this._hasWindowOrDoor(cell2)) {
+    if (this._hasWindowOrDoor(cell1)) {
         return false;
     }
     cell1.contents.add("door");
-    cell1.contentsData.set("door-size", 3);
+    cell1.contentsData.set("door-size", style);
     d.wallView.renderWall();
     return true;
 };
@@ -38252,6 +38252,7 @@ var WallView = require("./WallView.js");
 function DoorTool(appState) {
     this.appState = appState;
     this.doorBuilder = new DoorBuilder(this.appState.wallsCollection);
+    this.style = 3;
 }
 module.exports = DoorTool;
 
@@ -38266,11 +38267,25 @@ DoorTool.prototype.onMouseUp = function (x, y) {
     var cellY = Math.floor(y / WallView.cellHeight);
     switch (this.appState.toolState.toolMode) {
         case "add":
-            this.doorBuilder.tryAddDoor(cellX, cellY);
+            if (this._isStyleOk()) {
+                this.doorBuilder.tryAddDoor(cellX, cellY, this._parseFloatStyle());
+            }
             break;
         case "remove":
             this.doorBuilder.tryRemoveDoor(cellX, cellY);
             break;
+    }
+};
+
+DoorTool.prototype._isStyleOk = function () {
+    return !Number.isNaN(this._parseFloatStyle());
+};
+
+DoorTool.prototype._parseFloatStyle = function () {
+    if (_.isString(this.style)) {
+        return parseFloat(this.style.replace(",", "."));
+    } else {
+        return this.style;
     }
 };
 
@@ -38541,11 +38556,11 @@ PriceCalculator.prototype.calculate = function () {
                         break;
 
                     case "door":
-                        price += PriceCalculator.doorPrice;
+                        price += PriceCalculator.doorPrice * cell.contentsData.get("door-size");
                         break;
 
                     case "window":
-                        price += PriceCalculator.windowPrice;
+                        price += PriceCalculator.windowPrice * cell.contentsData.get("window-size");
                         break;
                 }
             });
@@ -38725,14 +38740,21 @@ function ToolsView(toolState) {
 
     this.intIdsToStyleDomId = [];
     this.intIdsToStyleDomId[0] = "#room-plan-style-wall";
+    this.intIdsToStyleDomId[2] = "#room-plan-style-door";
+    this.intIdsToStyleDomId[3] = "#room-plan-style-window";
     this.intIdsToStyleDomId[4] = "#room-plan-style-floor";
 
-    this.styleItemDomIdsToIntIds = {
+    this.styleItemDomIdsToStyleIntIds = {
         "#room-plan-wall-style0": 0,
         "#room-plan-wall-style1": 1,
         "#room-plan-floor-style0": 0,
         "#room-plan-floor-style1": 1
     };
+
+    this.styleInputDomIds = [
+        "#room-plan-door-size",
+        "#room-plan-window-size"
+    ];
 }
 module.exports = ToolsView;
 
@@ -38740,6 +38762,7 @@ ToolsView.prototype.init = function () {
     this._initToolButtons();
     this._initModeButtons();
     this._initStyleItemButtons();
+    this._initStyleInputButtons();
 };
 
 ToolsView.prototype._initToolButtons = function () {
@@ -38751,11 +38774,17 @@ ToolsView.prototype._initToolButtons = function () {
 };
 
 ToolsView.prototype._initStyleItemButtons = function () {
-    for (var domId in this.styleItemDomIdsToIntIds) {
-        if (this.styleItemDomIdsToIntIds.hasOwnProperty(domId)) {
-            this._registerStyleItemEvent(domId, this.styleItemDomIdsToIntIds[domId]);
+    for (var domId in this.styleItemDomIdsToStyleIntIds) {
+        if (this.styleItemDomIdsToStyleIntIds.hasOwnProperty(domId)) {
+            this._registerStyleItemEvent(domId, this.styleItemDomIdsToStyleIntIds[domId]);
         }
     }
+};
+
+ToolsView.prototype._initStyleInputButtons = function () {
+    this.styleInputDomIds.forEach(function (domId) {
+        this._registerStyleInputEvent(domId);
+    }.bind(this));
 };
 
 ToolsView.prototype._registerToolEvent = function (domId, intId) {
@@ -38772,6 +38801,13 @@ ToolsView.prototype._registerStyleItemEvent = function (domId, intId) {
     $(domId).click(function () {
         self._changeActiveStyleItemButton($(this), $(this).parent());
         self.toolState.currentTool.style = intId;
+    });
+};
+
+ToolsView.prototype._registerStyleInputEvent = function (domId) {
+    var self = this;
+    $(domId).on("input change", function () {
+        self.toolState.currentTool.style = $(this).val();
     });
 };
 
@@ -39286,11 +39322,11 @@ WallView.prototype._renderThingInWall = function (x, y, w, h, thingSize, wallSiz
     if (isVerticalNeighborhood) {
         leftX = centerX - s / 2;
         rightX = centerX + s / 2;
-        upY = centerY - (thingSize * h) / 2 + s / 2;
-        downY = centerY + (thingSize * h) / 2 - s / 2;
+        upY = centerY - (thingSize * h) / 2;
+        downY = centerY + (thingSize * h) / 2;
     } else {
-        leftX = centerX - (thingSize * w) / 2 + s / 2;
-        rightX = centerX + (thingSize * w) / 2 - s / 2;
+        leftX = centerX - (thingSize * w) / 2;
+        rightX = centerX + (thingSize * w) / 2;
         upY = centerY - s / 2;
         downY = centerY + s / 2;
     }
@@ -39398,7 +39434,7 @@ function WindowBuilder(wallsCollection) {
 }
 module.exports = WindowBuilder;
 
-WindowBuilder.prototype.tryAddWindow = function (x, y) {
+WindowBuilder.prototype.tryAddWindow = function (x, y, style) {
     var d = this.wallsCollection.findCellAndWall(x, y);
     if (d.cell == null) {
         return false;
@@ -39430,11 +39466,11 @@ WindowBuilder.prototype.tryAddWindow = function (x, y) {
     } else {
         return false;
     }
-    if (this._hasWindowOrDoor(cell0) || this._hasWindowOrDoor(cell1) || this._hasWindowOrDoor(cell2)) {
+    if (this._hasWindowOrDoor(cell1)) {
         return false;
     }
     cell1.contents.add("window");
-    cell1.contentsData.set("window-size", 3);
+    cell1.contentsData.set("window-size", style);
     d.wallView.renderWall();
     return true;
 };
@@ -39461,6 +39497,7 @@ var WallView = require("./WallView.js");
 function WindowTool(appState) {
     this.appState = appState;
     this.windowBuilder = new WindowBuilder(this.appState.wallsCollection);
+    this.style = 3;
 }
 module.exports = WindowTool;
 
@@ -39475,11 +39512,25 @@ WindowTool.prototype.onMouseUp = function (x, y) {
     var cellY = Math.floor(y / WallView.cellHeight);
     switch (this.appState.toolState.toolMode) {
         case "add":
-            this.windowBuilder.tryAddWindow(cellX, cellY);
+            if (this._isStyleOk()) {
+                this.windowBuilder.tryAddWindow(cellX, cellY, this._parseFloatStyle());
+            }
             break;
         case "remove":
             this.windowBuilder.tryRemoveWindow(cellX, cellY);
             break;
+    }
+};
+
+WindowTool.prototype._isStyleOk = function () {
+    return !Number.isNaN(this._parseFloatStyle());
+};
+
+WindowTool.prototype._parseFloatStyle = function () {
+    if (_.isString(this.style)) {
+        return parseFloat(this.style.replace(",", "."));
+    } else {
+        return this.style;
     }
 };
 

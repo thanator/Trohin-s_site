@@ -138,11 +138,11 @@ WallView.prototype._renderThingInWall = function (x, y, w, h, thingSize, wallSiz
     if (isVerticalNeighborhood) {
         leftX = centerX - s / 2;
         rightX = centerX + s / 2;
-        upY = centerY - (thingSize * h) / 2 + s / 2;
-        downY = centerY + (thingSize * h) / 2 - s / 2;
+        upY = centerY - (thingSize * h) / 2;
+        downY = centerY + (thingSize * h) / 2;
     } else {
-        leftX = centerX - (thingSize * w) / 2 + s / 2;
-        rightX = centerX + (thingSize * w) / 2 - s / 2;
+        leftX = centerX - (thingSize * w) / 2;
+        rightX = centerX + (thingSize * w) / 2;
         upY = centerY - s / 2;
         downY = centerY + s / 2;
     }
