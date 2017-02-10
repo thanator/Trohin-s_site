@@ -84,6 +84,9 @@ div.cs-select:focus {
 	padding: 0;
 	width: 100%;
 }
+.cs-select ul li {
+    text-align: center;
+}
 
 .cs-select ul span {
 	padding: 1em;
