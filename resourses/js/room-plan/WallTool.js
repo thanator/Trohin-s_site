@@ -5,6 +5,7 @@ var WallView = require("./WallView.js");
 function WallTool(appState) {
     this.appState = appState;
     this.wallBuilder = new WallBuilder(this.appState.wallsCollection, this.appState.worldObjectsCollection);
+    this.style = 0;
     this.isMouseDown = false;
 }
 module.exports = WallTool;
@@ -36,7 +37,7 @@ WallTool.prototype._create = function (x, y) {
     var cellY = Math.floor(y / WallView.cellHeight);
     switch (this.appState.toolState.toolMode) {
         case "add":
-            this.wallBuilder.tryAddCell(cellX, cellY);
+            this.wallBuilder.tryAddCell(cellX, cellY, style);
             break;
         case "remove":
             this.wallBuilder.tryRemoveCell(cellX, cellY);

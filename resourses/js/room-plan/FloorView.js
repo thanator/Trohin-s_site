@@ -20,7 +20,7 @@ FloorView.prototype.renderFloor = function () {
     var neighborhood = this.wallsCollection.getCellNeighborhood(this.model);
 
     this.clear();
-    this.beginFill(0xf09816);
+    this.beginFill(this._getFloorColor());
 
     this.drawRect(x * cw, y * ch, cw, ch);
 
@@ -51,4 +51,19 @@ FloorView.prototype.renderFloor = function () {
     }
 
     this.endFill();
+};
+
+FloorView.prototype._getFloorStyle = function () {
+    return _.find([0, 1], function (i) {
+        return this.model.contents.has("floor-style" + i);
+    }.bind(this));
+};
+
+FloorView.prototype._getFloorColor = function () {
+    switch (this._getFloorStyle()) {
+        case 0:
+            return 0xf09816;
+        case 1:
+            return 0xffcd75;
+    }
 };

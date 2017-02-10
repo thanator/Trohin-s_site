@@ -8,7 +8,7 @@ function FloorBuilder(wallsCollection, worldObjectsCollection) {
 }
 module.exports = FloorBuilder;
 
-FloorBuilder.prototype.tryAddFloor = function (x, y) {
+FloorBuilder.prototype.tryAddFloor = function (x, y, style) {
     if (this.wallsCollection.hasCellWithCoords(x, y)) {
         return false;
     }
@@ -17,6 +17,7 @@ FloorBuilder.prototype.tryAddFloor = function (x, y) {
     }
     var cell = new CellModel(x, y);
     cell.contents.add("floor");
+    cell.contents.add("floor-style" + style);
     var view = new FloorView(cell, this.wallsCollection);
     this.worldObjectsCollection.addCell(cell, view);
     return true;

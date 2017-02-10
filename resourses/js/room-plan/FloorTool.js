@@ -5,6 +5,7 @@ var WallView = require("./WallView.js");
 function FloorTool(appState) {
     this.appState = appState;
     this.floorBuilder = new FloorBuilder(this.appState.wallsCollection, this.appState.worldObjectsCollection);
+    this.style = 0;
     this.isMouseDown = false;
 }
 module.exports = FloorTool;
@@ -30,7 +31,7 @@ FloorTool.prototype._create = function (x, y) {
     var cellY = Math.floor(y / WallView.cellHeight);
     switch (this.appState.toolState.toolMode) {
         case "add":
-            this.floorBuilder.tryAddFloor(cellX, cellY);
+            this.floorBuilder.tryAddFloor(cellX, cellY, style);
             break;
         case "remove":
             this.floorBuilder.tryRemoveFloor(cellX, cellY);

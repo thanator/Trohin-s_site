@@ -9,10 +9,11 @@ function WallBuilder(wallsCollection, worldObjectsCollection) {
 }
 module.exports = WallBuilder;
 
-WallBuilder.prototype.beginNewWall = function () {
+WallBuilder.prototype.beginNewWall = function (style) {
     this.wall = new WallModel();
     this.wallView = new WallView(this.wall);
     this.wallsCollection.addWall(this.wall, this.wallView);
+    this.style = style;
 };
 
 WallBuilder.prototype.endWall = function () {
@@ -24,10 +25,11 @@ WallBuilder.prototype.isBuilding = function () {
     return this.wall != null;
 };
 
-WallBuilder.prototype.tryAddCell = function (x, y) {
+WallBuilder.prototype.tryAddCell = function (x, y, style) {
     if (this.isBuilding() && this._isCellOkWithThisWall(x, y) && this._isCellOkWithOther(x, y)) {
         var cell = new CellModel(x, y);
-        this.wall.cells.push(cell);
+        cell.contents.add("wall-style" + style);
+        this.wall.addCell(cell);
         this._tryJoin();
         this.wallView.renderWall();
         return true;

@@ -6,6 +6,14 @@ function WallModel() {
 }
 module.exports = WallModel;
 
+WallModel.prototype.addCell = function (cell) {
+    this.cells.push(cell);
+};
+
+WallModel.prototype.removeCell = function (cell) {
+    this.cells.splice(this.cells.indexOf(cell), 1);
+};
+
 WallModel.prototype.isCellLinkable = function (cell) {
     return this.isCellWithCoordsLinkable(cell.x, cell.y);
 };

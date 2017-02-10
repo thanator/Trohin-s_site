@@ -28,13 +28,13 @@ WallView.prototype.renderWall = function () {
         var y = cell.y * h;
         var neighborhood = this.model.getCellNeighborhood(cell);
 
-        this._renderCell(x, y, w, h, wallSize, neighborhood);
+        this._renderCell(cell, x, y, w, h, wallSize, neighborhood);
         this._renderCellContents(cell, x, y, w, h, wallSize, neighborhood);
     }
 };
 
-WallView.prototype._renderCell = function (x, y, w, h, s, neighborhood) {
-    this.beginFill(0x34332c);
+WallView.prototype._renderCell = function (cell, x, y, w, h, s, neighborhood) {
+    this.beginFill(this._getCellColor(cell));
     var centerX = x + w / 2;
     var centerY = y + h / 2;
     this.drawRect(centerX - s / 2, centerY - s / 2, s, s);
@@ -51,6 +51,22 @@ WallView.prototype._renderCell = function (x, y, w, h, s, neighborhood) {
         this.drawRect(centerX - s / 2, y + h / 2, s, h / 2);
     }
     this.endFill();
+};
+
+WallView.prototype._getCellStyle = function (cell) {
+    console.log(cell.contents);
+    return _.find([0, 1], function (i) {
+        return cell.contents.has("wall-style" + i);
+    });
+};
+
+WallView.prototype._getCellColor = function (cell) {
+    switch (this._getCellStyle(cell)) {
+        case 0:
+            return 0x34332c;
+        case 1:
+            return 0x464531;
+    }
 };
 
 WallView.prototype._renderCellContents = function (cell, x, y, w, h, wallSize, neighborhood) {

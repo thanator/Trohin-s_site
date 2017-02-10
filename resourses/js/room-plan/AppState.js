@@ -21,20 +21,20 @@ AppState.prototype.createStartEnvironment = function () {
     var wall = new WallModel();
 
     for (var x = 4; x <= 20; x++) {
-        wall.cells.push(new CellModel(x, 4));
-        wall.cells.push(new CellModel(x, 16));
+        wall.addCell(new CellModel(x, 4));
+        wall.addCell(new CellModel(x, 16));
     }
     for (var x = 14; x <= 19; x++) {
-        wall.cells.push(new CellModel(x, 9));
+        wall.addCell(new CellModel(x, 9));
     }
 
     for (var y = 5; y <= 15; y++) {
-        wall.cells.push(new CellModel(4, y));
-        wall.cells.push(new CellModel(11, y));
-        wall.cells.push(new CellModel(20, y));
+        wall.addCell(new CellModel(4, y));
+        wall.addCell(new CellModel(11, y));
+        wall.addCell(new CellModel(20, y));
     }
     for (var y = 10; y <= 15; y++) {
-        wall.cells.push(new CellModel(14, y));
+        wall.addCell(new CellModel(14, y));
     }
 
     wall.getCell(20, 6).contents.add("door0");
@@ -61,6 +61,10 @@ AppState.prototype.createStartEnvironment = function () {
         wall.getCell(x, 4).contents.add("wire");
     }
 
+    for (var i = 0; i < wall.cells.length; i++) {
+        wall.cells[i].contents.add("wall-style0");
+    }
+
     if (wall.isOkay()) {
         this.wallsCollection.addWall(wall, new WallView(wall));
     } else {
@@ -72,6 +76,7 @@ AppState.prototype.createStartEnvironment = function () {
             if (!wall.hasCellWithCoords(x, y)) {
                 var cell = new CellModel(x, y);
                 cell.contents.add("floor");
+                cell.contents.add("floor-style0");
                 var view = new FloorView(cell, this.wallsCollection);
                 this.worldObjectsCollection.addCell(cell, view);
             }

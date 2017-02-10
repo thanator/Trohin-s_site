@@ -38043,20 +38043,20 @@ AppState.prototype.createStartEnvironment = function () {
     var wall = new WallModel();
 
     for (var x = 4; x <= 20; x++) {
-        wall.cells.push(new CellModel(x, 4));
-        wall.cells.push(new CellModel(x, 16));
+        wall.addCell(new CellModel(x, 4));
+        wall.addCell(new CellModel(x, 16));
     }
     for (var x = 14; x <= 19; x++) {
-        wall.cells.push(new CellModel(x, 9));
+        wall.addCell(new CellModel(x, 9));
     }
 
     for (var y = 5; y <= 15; y++) {
-        wall.cells.push(new CellModel(4, y));
-        wall.cells.push(new CellModel(11, y));
-        wall.cells.push(new CellModel(20, y));
+        wall.addCell(new CellModel(4, y));
+        wall.addCell(new CellModel(11, y));
+        wall.addCell(new CellModel(20, y));
     }
     for (var y = 10; y <= 15; y++) {
-        wall.cells.push(new CellModel(14, y));
+        wall.addCell(new CellModel(14, y));
     }
 
     wall.getCell(20, 6).contents.add("door0");
@@ -38083,6 +38083,10 @@ AppState.prototype.createStartEnvironment = function () {
         wall.getCell(x, 4).contents.add("wire");
     }
 
+    for (var i = 0; i < wall.cells.length; i++) {
+        wall.cells[i].contents.add("wall-style0");
+    }
+
     if (wall.isOkay()) {
         this.wallsCollection.addWall(wall, new WallView(wall));
     } else {
@@ -38094,6 +38098,7 @@ AppState.prototype.createStartEnvironment = function () {
             if (!wall.hasCellWithCoords(x, y)) {
                 var cell = new CellModel(x, y);
                 cell.contents.add("floor");
+                cell.contents.add("floor-style0");
                 var view = new FloorView(cell, this.wallsCollection);
                 this.worldObjectsCollection.addCell(cell, view);
             }
@@ -38328,7 +38333,7 @@ function FloorBuilder(wallsCollection, worldObjectsCollection) {
 }
 module.exports = FloorBuilder;
 
-FloorBuilder.prototype.tryAddFloor = function (x, y) {
+FloorBuilder.prototype.tryAddFloor = function (x, y, style) {
     if (this.wallsCollection.hasCellWithCoords(x, y)) {
         return false;
     }
@@ -38337,6 +38342,7 @@ FloorBuilder.prototype.tryAddFloor = function (x, y) {
     }
     var cell = new CellModel(x, y);
     cell.contents.add("floor");
+    cell.contents.add("floor-style" + style);
     var view = new FloorView(cell, this.wallsCollection);
     this.worldObjectsCollection.addCell(cell, view);
     return true;
@@ -38359,6 +38365,7 @@ var WallView = require("./WallView.js");
 function FloorTool(appState) {
     this.appState = appState;
     this.floorBuilder = new FloorBuilder(this.appState.wallsCollection, this.appState.worldObjectsCollection);
+    this.style = 0;
     this.isMouseDown = false;
 }
 module.exports = FloorTool;
@@ -38384,7 +38391,7 @@ FloorTool.prototype._create = function (x, y) {
     var cellY = Math.floor(y / WallView.cellHeight);
     switch (this.appState.toolState.toolMode) {
         case "add":
-            this.floorBuilder.tryAddFloor(cellX, cellY);
+            this.floorBuilder.tryAddFloor(cellX, cellY, style);
             break;
         case "remove":
             this.floorBuilder.tryRemoveFloor(cellX, cellY);
@@ -38414,7 +38421,7 @@ FloorView.prototype.renderFloor = function () {
     var neighborhood = this.wallsCollection.getCellNeighborhood(this.model);
 
     this.clear();
-    this.beginFill(0xf09816);
+    this.beginFill(this._getFloorColor());
 
     this.drawRect(x * cw, y * ch, cw, ch);
 
@@ -38447,6 +38454,20 @@ FloorView.prototype.renderFloor = function () {
     this.endFill();
 };
 
+FloorView.prototype._getFloorStyle = function () {
+    return _.find([0, 1], function (i) {
+        return this.model.contents.has("floor-style" + i);
+    }.bind(this));
+};
+
+FloorView.prototype._getFloorColor = function () {
+    switch (this._getFloorStyle()) {
+        case 0:
+            return 0xf09816;
+        case 1:
+            return 0xffcd75;
+    }
+};
 },{"./WallView.js":275,"pixi.js":206}],263:[function(require,module,exports){
 var PIXI = require("pixi.js");
 var WallView = require("./WallView.js");
@@ -38745,6 +38766,7 @@ module.exports = ToolsModel;
 },{"./DoorTool.js":259,"./FloorTool.js":261,"./SinkTool.js":268,"./WallTool.js":274,"./WindowTool.js":278,"./WireTool.js":280}],271:[function(require,module,exports){
 function ToolsView(toolState) {
     this.toolState = toolState;
+
     this.toolsDomIdsToIntIds = {
         "#room-plan-tool-wall": 0,
         "#room-plan-tool-wire": 1,
@@ -38753,12 +38775,24 @@ function ToolsView(toolState) {
         "#room-plan-tool-floor": 4,
         "#room-plan-tool-sink": 5
     };
+
+    this.intIdsToStyleDomId = [];
+    this.intIdsToStyleDomId[0] = "#room-plan-style-wall";
+    this.intIdsToStyleDomId[4] = "#room-plan-style-floor";
+
+    this.styleItemDomIdsToIntIds = {
+        "#room-plan-wall-style0": 0,
+        "#room-plan-wall-style1": 1,
+        "#room-plan-floor-style0": 0,
+        "#room-plan-floor-style1": 1
+    };
 }
 module.exports = ToolsView;
 
 ToolsView.prototype.init = function () {
     this._initToolButtons();
     this._initModeButtons();
+    this._initStyleItemButtons();
 };
 
 ToolsView.prototype._initToolButtons = function () {
@@ -38769,11 +38803,30 @@ ToolsView.prototype._initToolButtons = function () {
     }
 };
 
+ToolsView.prototype._initStyleItemButtons = function () {
+    for (var domId in this.styleItemDomIdsToIntIds) {
+        if (this.styleItemDomIdsToIntIds.hasOwnProperty(domId)) {
+            this._registerStyleItemEvent(domId, this.styleItemDomIdsToIntIds[domId]);
+        }
+    }
+};
+
 ToolsView.prototype._registerToolEvent = function (domId, intId) {
     var self = this;
     $(domId).click(function () {
         self._changeActiveToolButton($(this));
         self.toolState.currentTool = self.toolState.tools[intId];
+        if (self.intIdsToStyleDomId[intId]) {
+            self._registerStyleItemEvent(self.intIdsToStyleDomId[intId], intId);
+        }
+    });
+};
+
+ToolsView.prototype._registerStyleItemEvent = function (domId, intId) {
+    var self = this;
+    $(domId).click(function () {
+        self._changeActiveStyleItemButton($(this));
+        self.toolState.currentTool.style = intId;
     });
 };
 
@@ -38799,6 +38852,16 @@ ToolsView.prototype._changeActiveModeButton = function ($nextActive) {
     $nextActive.removeClass("app-tools__mode--inactive").addClass("app-tools__mode--active");
 };
 
+ToolsView.prototype._changeActiveStyleButton = function ($nextActive) {
+    $(".app-tools-style--active").removeClass("app-tools-style--active").addClass("app-tools-style--inactive");
+    $nextActive.removeClass("app-tools-style--inactive").addClass("app-tools-style--active");
+};
+
+ToolsView.prototype._changeActiveStyleItemButton = function ($nextActive) {
+    $(".app-tools-style__item--active").removeClass("app-tools-style__item--active").addClass("app-tools-style__item--inactive");
+    $nextActive.removeClass("app-tools-style__item--inactive").addClass("app-tools-style__item--active");
+};
+
 },{}],272:[function(require,module,exports){
 var WallModel = require("./WallModel.js");
 var WallView = require("./WallView.js");
@@ -38811,10 +38874,11 @@ function WallBuilder(wallsCollection, worldObjectsCollection) {
 }
 module.exports = WallBuilder;
 
-WallBuilder.prototype.beginNewWall = function () {
+WallBuilder.prototype.beginNewWall = function (style) {
     this.wall = new WallModel();
     this.wallView = new WallView(this.wall);
     this.wallsCollection.addWall(this.wall, this.wallView);
+    this.style = style;
 };
 
 WallBuilder.prototype.endWall = function () {
@@ -38826,10 +38890,11 @@ WallBuilder.prototype.isBuilding = function () {
     return this.wall != null;
 };
 
-WallBuilder.prototype.tryAddCell = function (x, y) {
+WallBuilder.prototype.tryAddCell = function (x, y, style) {
     if (this.isBuilding() && this._isCellOkWithThisWall(x, y) && this._isCellOkWithOther(x, y)) {
         var cell = new CellModel(x, y);
-        this.wall.cells.push(cell);
+        cell.contents.add("wall-style" + style);
+        this.wall.addCell(cell);
         this._tryJoin();
         this.wallView.renderWall();
         return true;
@@ -38888,6 +38953,14 @@ function WallModel() {
     this.cells = [];
 }
 module.exports = WallModel;
+
+WallModel.prototype.addCell = function (cell) {
+    this.cells.push(cell);
+};
+
+WallModel.prototype.removeCell = function (cell) {
+    this.cells.splice(this.cells.indexOf(cell), 1);
+};
 
 WallModel.prototype.isCellLinkable = function (cell) {
     return this.isCellWithCoordsLinkable(cell.x, cell.y);
@@ -39087,6 +39160,7 @@ var WallView = require("./WallView.js");
 function WallTool(appState) {
     this.appState = appState;
     this.wallBuilder = new WallBuilder(this.appState.wallsCollection, this.appState.worldObjectsCollection);
+    this.style = 0;
     this.isMouseDown = false;
 }
 module.exports = WallTool;
@@ -39118,7 +39192,7 @@ WallTool.prototype._create = function (x, y) {
     var cellY = Math.floor(y / WallView.cellHeight);
     switch (this.appState.toolState.toolMode) {
         case "add":
-            this.wallBuilder.tryAddCell(cellX, cellY);
+            this.wallBuilder.tryAddCell(cellX, cellY, style);
             break;
         case "remove":
             this.wallBuilder.tryRemoveCell(cellX, cellY);
@@ -39157,13 +39231,13 @@ WallView.prototype.renderWall = function () {
         var y = cell.y * h;
         var neighborhood = this.model.getCellNeighborhood(cell);
 
-        this._renderCell(x, y, w, h, wallSize, neighborhood);
+        this._renderCell(cell, x, y, w, h, wallSize, neighborhood);
         this._renderCellContents(cell, x, y, w, h, wallSize, neighborhood);
     }
 };
 
-WallView.prototype._renderCell = function (x, y, w, h, s, neighborhood) {
-    this.beginFill(0x34332c);
+WallView.prototype._renderCell = function (cell, x, y, w, h, s, neighborhood) {
+    this.beginFill(this._getCellColor(cell));
     var centerX = x + w / 2;
     var centerY = y + h / 2;
     this.drawRect(centerX - s / 2, centerY - s / 2, s, s);
@@ -39180,6 +39254,22 @@ WallView.prototype._renderCell = function (x, y, w, h, s, neighborhood) {
         this.drawRect(centerX - s / 2, y + h / 2, s, h / 2);
     }
     this.endFill();
+};
+
+WallView.prototype._getCellStyle = function (cell) {
+    console.log(cell.contents);
+    return _.find([0, 1], function (i) {
+        return cell.contents.has("wall-style" + i);
+    });
+};
+
+WallView.prototype._getCellColor = function (cell) {
+    switch (this._getCellStyle(cell)) {
+        case 0:
+            return 0x34332c;
+        case 1:
+            return 0x464531;
+    }
 };
 
 WallView.prototype._renderCellContents = function (cell, x, y, w, h, wallSize, neighborhood) {
