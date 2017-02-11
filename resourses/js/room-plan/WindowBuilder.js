@@ -3,7 +3,7 @@ function WindowBuilder(wallsCollection) {
 }
 module.exports = WindowBuilder;
 
-WindowBuilder.prototype.tryAddWindow = function (x, y) {
+WindowBuilder.prototype.tryAddWindow = function (x, y, style) {
     var d = this.wallsCollection.findCellAndWall(x, y);
     if (d.cell == null) {
         return false;
@@ -35,11 +35,12 @@ WindowBuilder.prototype.tryAddWindow = function (x, y) {
     } else {
         return false;
     }
-    if (this._hasWindowOrDoor(cell0) || this._hasWindowOrDoor(cell1) || this._hasWindowOrDoor(cell2)) {
+    if (this._hasWindowOrDoor(cell1)) {
         return false;
     }
-    this._createWindow(cell0, cell1, cell2);
-    d.wallViews[0].renderWall();
+    cell1.contents.add("window");
+    cell1.contentsData.set("window-size", style);
+    d.wallView.renderWall();
     return true;
 };
 
@@ -48,67 +49,12 @@ WindowBuilder.prototype.tryRemoveWindow = function (x, y) {
     if (d.cell == null) {
         return false;
     }
-    var windowType = this._getWindowType(d.cell);
-    if (windowType == null) {
-        return false;
-    }
-    var neighborhood = d.wall.getCellNeighborhood(d.cell);
-    switch (windowType) {
-        case "window0":
-            d.cell.contents.delete("window0");
-            if (neighborhood.right) {
-                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.delete("window1");
-                d.wall.getCell(d.cell.x + 2, d.cell.y).contents.delete("window2");
-            } else if (neighborhood.down) {
-                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.delete("window1");
-                d.wall.getCell(d.cell.x, d.cell.y + 2).contents.delete("window2");
-            }
-            break;
-
-        case "window1":
-            d.cell.contents.delete("window1");
-            if (neighborhood.right) {
-                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.delete("window0");
-                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.delete("window2");
-            } else if (neighborhood.down) {
-                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.delete("window0");
-                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.delete("window2");
-            }
-            break;
-
-        case "window2":
-            d.cell.contents.delete("window2");
-            if (neighborhood.left) {
-                d.wall.getCell(d.cell.x - 2, d.cell.y).contents.delete("window0");
-                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.delete("window1");
-            } else if (neighborhood.up) {
-                d.wall.getCell(d.cell.x, d.cell.y - 2).contents.delete("window0");
-                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.delete("window1");
-            }
-            break;
-    }
-    d.wallViews[0].renderWall();
+    d.cell.contents.delete("window");
+    d.cell.contentsData.delete("window-size");
+    d.wallView.renderWall();
     return true;
 };
 
 WindowBuilder.prototype._hasWindowOrDoor = function (cell) {
-    return _.some([0, 1, 2], function (i) {
-        return cell.contents.has("window" + i) || cell.contents.has("door" + i);
-    });
-};
-
-WindowBuilder.prototype._getWindowType = function (cell) {
-    var i = _.find([0, 1, 2], function (i) {
-        return cell.contents.has("window" + i);
-    });
-    if (i == null) {
-        return null;
-    }
-    return "window" + i;
-};
-
-WindowBuilder.prototype._createWindow = function () {
-    for (var i = 0; i < 3; i++) {
-        arguments[i].contents.add("window" + i);
-    }
+    return cell.contents.has("window") || cell.contents.has("door");
 };

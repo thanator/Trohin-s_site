@@ -13,7 +13,7 @@ WireBuilder.prototype.tryAddWire = function (x, y) {
         return false;
     }
     d.cell.contents.add("wire");
-    d.wallViews[0].renderWall();
+    d.wallView.renderWall();
     return true;
 };
 
@@ -27,6 +27,6 @@ WireBuilder.prototype.tryRemoveWire = function (x, y) {
         return false;
     }
     d.cell.contents.delete("wire");
-    d.wallViews[0].renderWall();
+    d.wallView.renderWall();
     return true;
 };

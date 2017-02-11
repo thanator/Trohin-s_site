@@ -576,7 +576,7 @@ footer p {
 }
 
 .app {
-  height: 600px;
+  min-height: 1535px;
 }
 
 .app-tools {}
@@ -624,6 +624,48 @@ footer p {
 
 .app-tools__mode--inactive:hover {
   border: 2px solid #bbb;
+}
+
+.app-tools-style {
+  margin-top: 8px;
+  margin-bottom: 24px;
+}
+
+.app-tools-style--active {
+}
+
+.app-tools-style--inactive {
+  display: none;
+}
+
+.app-tools-style__item {
+  font-size: 15px;
+  display: inline-block;
+  padding: 4px 16px;
+  cursor: pointer;
+  border: 1px solid #fff;
+  border-radius: 27px;
+}
+
+.app-tools-style__item--active {
+  border: 1px solid #7ddde6;
+}
+
+.app-tools-style__item--inactive {
+  color: #dddddd;
+}
+
+.app-tools-style__item--inactive:hover {
+  border: 1px solid #bbb;
+}
+
+.app-tools-style__input-label {
+  font-size: 15px;
+}
+
+.app-tools-style__input {
+  font-size: 15px;
+  width: 60px;
 }
 
 .app-price {

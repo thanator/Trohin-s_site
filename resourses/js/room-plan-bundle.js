@@ -208,29 +208,36 @@ exports.nextCombination = function(v) {
 require('../modules/es6.object.to-string');
 require('../modules/es6.string.iterator');
 require('../modules/web.dom.iterable');
+require('../modules/es6.map');
+require('../modules/es7.map.to-json');
+module.exports = require('../modules/_core').Map;
+},{"../modules/_core":18,"../modules/es6.map":67,"../modules/es6.object.to-string":68,"../modules/es6.string.iterator":70,"../modules/es7.map.to-json":71,"../modules/web.dom.iterable":73}],3:[function(require,module,exports){
+require('../modules/es6.object.to-string');
+require('../modules/es6.string.iterator');
+require('../modules/web.dom.iterable');
 require('../modules/es6.set');
 require('../modules/es7.set.to-json');
 module.exports = require('../modules/_core').Set;
-},{"../modules/_core":17,"../modules/es6.object.to-string":66,"../modules/es6.set":67,"../modules/es6.string.iterator":68,"../modules/es7.set.to-json":69,"../modules/web.dom.iterable":70}],3:[function(require,module,exports){
+},{"../modules/_core":18,"../modules/es6.object.to-string":68,"../modules/es6.set":69,"../modules/es6.string.iterator":70,"../modules/es7.set.to-json":72,"../modules/web.dom.iterable":73}],4:[function(require,module,exports){
 module.exports = function(it){
   if(typeof it != 'function')throw TypeError(it + ' is not a function!');
   return it;
 };
-},{}],4:[function(require,module,exports){
-module.exports = function(){ /* empty */ };
 },{}],5:[function(require,module,exports){
+module.exports = function(){ /* empty */ };
+},{}],6:[function(require,module,exports){
 module.exports = function(it, Constructor, name, forbiddenField){
   if(!(it instanceof Constructor) || (forbiddenField !== undefined && forbiddenField in it)){
     throw TypeError(name + ': incorrect invocation!');
   } return it;
 };
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 var isObject = require('./_is-object');
 module.exports = function(it){
   if(!isObject(it))throw TypeError(it + ' is not an object!');
   return it;
 };
-},{"./_is-object":34}],7:[function(require,module,exports){
+},{"./_is-object":35}],8:[function(require,module,exports){
 var forOf = require('./_for-of');
 
 module.exports = function(iter, ITERATOR){
@@ -239,7 +246,7 @@ module.exports = function(iter, ITERATOR){
   return result;
 };
 
-},{"./_for-of":25}],8:[function(require,module,exports){
+},{"./_for-of":26}],9:[function(require,module,exports){
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = require('./_to-iobject')
@@ -261,7 +268,7 @@ module.exports = function(IS_INCLUDES){
     } return !IS_INCLUDES && -1;
   };
 };
-},{"./_to-index":56,"./_to-iobject":58,"./_to-length":59}],9:[function(require,module,exports){
+},{"./_to-index":57,"./_to-iobject":59,"./_to-length":60}],10:[function(require,module,exports){
 // 0 -> Array#forEach
 // 1 -> Array#map
 // 2 -> Array#filter
@@ -306,7 +313,7 @@ module.exports = function(TYPE, $create){
     return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
   };
 };
-},{"./_array-species-create":11,"./_ctx":18,"./_iobject":31,"./_to-length":59,"./_to-object":60}],10:[function(require,module,exports){
+},{"./_array-species-create":12,"./_ctx":19,"./_iobject":32,"./_to-length":60,"./_to-object":61}],11:[function(require,module,exports){
 var isObject = require('./_is-object')
   , isArray  = require('./_is-array')
   , SPECIES  = require('./_wks')('species');
@@ -323,14 +330,14 @@ module.exports = function(original){
     }
   } return C === undefined ? Array : C;
 };
-},{"./_is-array":33,"./_is-object":34,"./_wks":63}],11:[function(require,module,exports){
+},{"./_is-array":34,"./_is-object":35,"./_wks":64}],12:[function(require,module,exports){
 // 9.4.2.3 ArraySpeciesCreate(originalArray, length)
 var speciesConstructor = require('./_array-species-constructor');
 
 module.exports = function(original, length){
   return new (speciesConstructor(original))(length);
 };
-},{"./_array-species-constructor":10}],12:[function(require,module,exports){
+},{"./_array-species-constructor":11}],13:[function(require,module,exports){
 // getting tag from 19.1.3.6 Object.prototype.toString()
 var cof = require('./_cof')
   , TAG = require('./_wks')('toStringTag')
@@ -354,13 +361,13 @@ module.exports = function(it){
     // ES3 arguments fallback
     : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
 };
-},{"./_cof":13,"./_wks":63}],13:[function(require,module,exports){
+},{"./_cof":14,"./_wks":64}],14:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = function(it){
   return toString.call(it).slice(8, -1);
 };
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 var dP          = require('./_object-dp').f
   , create      = require('./_object-create')
@@ -503,7 +510,7 @@ module.exports = {
     setSpecies(NAME);
   }
 };
-},{"./_an-instance":5,"./_ctx":18,"./_defined":19,"./_descriptors":20,"./_for-of":25,"./_iter-define":37,"./_iter-step":38,"./_meta":41,"./_object-create":42,"./_object-dp":43,"./_redefine-all":49,"./_set-species":51}],15:[function(require,module,exports){
+},{"./_an-instance":6,"./_ctx":19,"./_defined":20,"./_descriptors":21,"./_for-of":26,"./_iter-define":38,"./_iter-step":39,"./_meta":42,"./_object-create":43,"./_object-dp":44,"./_redefine-all":50,"./_set-species":52}],16:[function(require,module,exports){
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
 var classof = require('./_classof')
   , from    = require('./_array-from-iterable');
@@ -513,7 +520,7 @@ module.exports = function(NAME){
     return from(this);
   };
 };
-},{"./_array-from-iterable":7,"./_classof":12}],16:[function(require,module,exports){
+},{"./_array-from-iterable":8,"./_classof":13}],17:[function(require,module,exports){
 'use strict';
 var global         = require('./_global')
   , $export        = require('./_export')
@@ -573,10 +580,10 @@ module.exports = function(NAME, wrapper, methods, common, IS_MAP, IS_WEAK){
 
   return C;
 };
-},{"./_an-instance":5,"./_array-methods":9,"./_descriptors":20,"./_export":23,"./_fails":24,"./_for-of":25,"./_global":26,"./_hide":28,"./_is-object":34,"./_meta":41,"./_object-dp":43,"./_redefine-all":49,"./_set-to-string-tag":52}],17:[function(require,module,exports){
+},{"./_an-instance":6,"./_array-methods":10,"./_descriptors":21,"./_export":24,"./_fails":25,"./_for-of":26,"./_global":27,"./_hide":29,"./_is-object":35,"./_meta":42,"./_object-dp":44,"./_redefine-all":50,"./_set-to-string-tag":53}],18:[function(require,module,exports){
 var core = module.exports = {version: '2.4.0'};
 if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 // optional / simple context binding
 var aFunction = require('./_a-function');
 module.exports = function(fn, that, length){
@@ -597,18 +604,18 @@ module.exports = function(fn, that, length){
     return fn.apply(that, arguments);
   };
 };
-},{"./_a-function":3}],19:[function(require,module,exports){
+},{"./_a-function":4}],20:[function(require,module,exports){
 // 7.2.1 RequireObjectCoercible(argument)
 module.exports = function(it){
   if(it == undefined)throw TypeError("Can't call method on  " + it);
   return it;
 };
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 // Thank's IE8 for his funny defineProperty
 module.exports = !require('./_fails')(function(){
   return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 });
-},{"./_fails":24}],21:[function(require,module,exports){
+},{"./_fails":25}],22:[function(require,module,exports){
 var isObject = require('./_is-object')
   , document = require('./_global').document
   // in old IE typeof document.createElement is 'object'
@@ -616,12 +623,12 @@ var isObject = require('./_is-object')
 module.exports = function(it){
   return is ? document.createElement(it) : {};
 };
-},{"./_global":26,"./_is-object":34}],22:[function(require,module,exports){
+},{"./_global":27,"./_is-object":35}],23:[function(require,module,exports){
 // IE 8- don't enum bug keys
 module.exports = (
   'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
 ).split(',');
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 var global    = require('./_global')
   , core      = require('./_core')
   , ctx       = require('./_ctx')
@@ -683,7 +690,7 @@ $export.W = 32;  // wrap
 $export.U = 64;  // safe
 $export.R = 128; // real proto method for `library` 
 module.exports = $export;
-},{"./_core":17,"./_ctx":18,"./_global":26,"./_hide":28}],24:[function(require,module,exports){
+},{"./_core":18,"./_ctx":19,"./_global":27,"./_hide":29}],25:[function(require,module,exports){
 module.exports = function(exec){
   try {
     return !!exec();
@@ -691,7 +698,7 @@ module.exports = function(exec){
     return true;
   }
 };
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 var ctx         = require('./_ctx')
   , call        = require('./_iter-call')
   , isArrayIter = require('./_is-array-iter')
@@ -717,17 +724,17 @@ var exports = module.exports = function(iterable, entries, fn, that, ITERATOR){
 };
 exports.BREAK  = BREAK;
 exports.RETURN = RETURN;
-},{"./_an-object":6,"./_ctx":18,"./_is-array-iter":32,"./_iter-call":35,"./_to-length":59,"./core.get-iterator-method":64}],26:[function(require,module,exports){
+},{"./_an-object":7,"./_ctx":19,"./_is-array-iter":33,"./_iter-call":36,"./_to-length":60,"./core.get-iterator-method":65}],27:[function(require,module,exports){
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
 var global = module.exports = typeof window != 'undefined' && window.Math == Math
   ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
 if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 var hasOwnProperty = {}.hasOwnProperty;
 module.exports = function(it, key){
   return hasOwnProperty.call(it, key);
 };
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 var dP         = require('./_object-dp')
   , createDesc = require('./_property-desc');
 module.exports = require('./_descriptors') ? function(object, key, value){
@@ -736,19 +743,19 @@ module.exports = require('./_descriptors') ? function(object, key, value){
   object[key] = value;
   return object;
 };
-},{"./_descriptors":20,"./_object-dp":43,"./_property-desc":48}],29:[function(require,module,exports){
+},{"./_descriptors":21,"./_object-dp":44,"./_property-desc":49}],30:[function(require,module,exports){
 module.exports = require('./_global').document && document.documentElement;
-},{"./_global":26}],30:[function(require,module,exports){
+},{"./_global":27}],31:[function(require,module,exports){
 module.exports = !require('./_descriptors') && !require('./_fails')(function(){
   return Object.defineProperty(require('./_dom-create')('div'), 'a', {get: function(){ return 7; }}).a != 7;
 });
-},{"./_descriptors":20,"./_dom-create":21,"./_fails":24}],31:[function(require,module,exports){
+},{"./_descriptors":21,"./_dom-create":22,"./_fails":25}],32:[function(require,module,exports){
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
 var cof = require('./_cof');
 module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
   return cof(it) == 'String' ? it.split('') : Object(it);
 };
-},{"./_cof":13}],32:[function(require,module,exports){
+},{"./_cof":14}],33:[function(require,module,exports){
 // check on default Array iterator
 var Iterators  = require('./_iterators')
   , ITERATOR   = require('./_wks')('iterator')
@@ -757,17 +764,17 @@ var Iterators  = require('./_iterators')
 module.exports = function(it){
   return it !== undefined && (Iterators.Array === it || ArrayProto[ITERATOR] === it);
 };
-},{"./_iterators":39,"./_wks":63}],33:[function(require,module,exports){
+},{"./_iterators":40,"./_wks":64}],34:[function(require,module,exports){
 // 7.2.2 IsArray(argument)
 var cof = require('./_cof');
 module.exports = Array.isArray || function isArray(arg){
   return cof(arg) == 'Array';
 };
-},{"./_cof":13}],34:[function(require,module,exports){
+},{"./_cof":14}],35:[function(require,module,exports){
 module.exports = function(it){
   return typeof it === 'object' ? it !== null : typeof it === 'function';
 };
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 // call something on iterator step with safe closing on error
 var anObject = require('./_an-object');
 module.exports = function(iterator, fn, value, entries){
@@ -780,7 +787,7 @@ module.exports = function(iterator, fn, value, entries){
     throw e;
   }
 };
-},{"./_an-object":6}],36:[function(require,module,exports){
+},{"./_an-object":7}],37:[function(require,module,exports){
 'use strict';
 var create         = require('./_object-create')
   , descriptor     = require('./_property-desc')
@@ -794,7 +801,7 @@ module.exports = function(Constructor, NAME, next){
   Constructor.prototype = create(IteratorPrototype, {next: descriptor(1, next)});
   setToStringTag(Constructor, NAME + ' Iterator');
 };
-},{"./_hide":28,"./_object-create":42,"./_property-desc":48,"./_set-to-string-tag":52,"./_wks":63}],37:[function(require,module,exports){
+},{"./_hide":29,"./_object-create":43,"./_property-desc":49,"./_set-to-string-tag":53,"./_wks":64}],38:[function(require,module,exports){
 'use strict';
 var LIBRARY        = require('./_library')
   , $export        = require('./_export')
@@ -865,15 +872,15 @@ module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED
   }
   return methods;
 };
-},{"./_export":23,"./_has":27,"./_hide":28,"./_iter-create":36,"./_iterators":39,"./_library":40,"./_object-gpo":45,"./_redefine":50,"./_set-to-string-tag":52,"./_wks":63}],38:[function(require,module,exports){
+},{"./_export":24,"./_has":28,"./_hide":29,"./_iter-create":37,"./_iterators":40,"./_library":41,"./_object-gpo":46,"./_redefine":51,"./_set-to-string-tag":53,"./_wks":64}],39:[function(require,module,exports){
 module.exports = function(done, value){
   return {value: value, done: !!done};
 };
-},{}],39:[function(require,module,exports){
-module.exports = {};
 },{}],40:[function(require,module,exports){
-module.exports = true;
+module.exports = {};
 },{}],41:[function(require,module,exports){
+module.exports = true;
+},{}],42:[function(require,module,exports){
 var META     = require('./_uid')('meta')
   , isObject = require('./_is-object')
   , has      = require('./_has')
@@ -927,7 +934,7 @@ var meta = module.exports = {
   getWeak:  getWeak,
   onFreeze: onFreeze
 };
-},{"./_fails":24,"./_has":27,"./_is-object":34,"./_object-dp":43,"./_uid":62}],42:[function(require,module,exports){
+},{"./_fails":25,"./_has":28,"./_is-object":35,"./_object-dp":44,"./_uid":63}],43:[function(require,module,exports){
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject    = require('./_an-object')
   , dPs         = require('./_object-dps')
@@ -970,7 +977,7 @@ module.exports = Object.create || function create(O, Properties){
   return Properties === undefined ? result : dPs(result, Properties);
 };
 
-},{"./_an-object":6,"./_dom-create":21,"./_enum-bug-keys":22,"./_html":29,"./_object-dps":44,"./_shared-key":53}],43:[function(require,module,exports){
+},{"./_an-object":7,"./_dom-create":22,"./_enum-bug-keys":23,"./_html":30,"./_object-dps":45,"./_shared-key":54}],44:[function(require,module,exports){
 var anObject       = require('./_an-object')
   , IE8_DOM_DEFINE = require('./_ie8-dom-define')
   , toPrimitive    = require('./_to-primitive')
@@ -987,7 +994,7 @@ exports.f = require('./_descriptors') ? Object.defineProperty : function defineP
   if('value' in Attributes)O[P] = Attributes.value;
   return O;
 };
-},{"./_an-object":6,"./_descriptors":20,"./_ie8-dom-define":30,"./_to-primitive":61}],44:[function(require,module,exports){
+},{"./_an-object":7,"./_descriptors":21,"./_ie8-dom-define":31,"./_to-primitive":62}],45:[function(require,module,exports){
 var dP       = require('./_object-dp')
   , anObject = require('./_an-object')
   , getKeys  = require('./_object-keys');
@@ -1001,7 +1008,7 @@ module.exports = require('./_descriptors') ? Object.defineProperties : function 
   while(length > i)dP.f(O, P = keys[i++], Properties[P]);
   return O;
 };
-},{"./_an-object":6,"./_descriptors":20,"./_object-dp":43,"./_object-keys":47}],45:[function(require,module,exports){
+},{"./_an-object":7,"./_descriptors":21,"./_object-dp":44,"./_object-keys":48}],46:[function(require,module,exports){
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
 var has         = require('./_has')
   , toObject    = require('./_to-object')
@@ -1015,7 +1022,7 @@ module.exports = Object.getPrototypeOf || function(O){
     return O.constructor.prototype;
   } return O instanceof Object ? ObjectProto : null;
 };
-},{"./_has":27,"./_shared-key":53,"./_to-object":60}],46:[function(require,module,exports){
+},{"./_has":28,"./_shared-key":54,"./_to-object":61}],47:[function(require,module,exports){
 var has          = require('./_has')
   , toIObject    = require('./_to-iobject')
   , arrayIndexOf = require('./_array-includes')(false)
@@ -1033,7 +1040,7 @@ module.exports = function(object, names){
   }
   return result;
 };
-},{"./_array-includes":8,"./_has":27,"./_shared-key":53,"./_to-iobject":58}],47:[function(require,module,exports){
+},{"./_array-includes":9,"./_has":28,"./_shared-key":54,"./_to-iobject":59}],48:[function(require,module,exports){
 // 19.1.2.14 / 15.2.3.14 Object.keys(O)
 var $keys       = require('./_object-keys-internal')
   , enumBugKeys = require('./_enum-bug-keys');
@@ -1041,7 +1048,7 @@ var $keys       = require('./_object-keys-internal')
 module.exports = Object.keys || function keys(O){
   return $keys(O, enumBugKeys);
 };
-},{"./_enum-bug-keys":22,"./_object-keys-internal":46}],48:[function(require,module,exports){
+},{"./_enum-bug-keys":23,"./_object-keys-internal":47}],49:[function(require,module,exports){
 module.exports = function(bitmap, value){
   return {
     enumerable  : !(bitmap & 1),
@@ -1050,7 +1057,7 @@ module.exports = function(bitmap, value){
     value       : value
   };
 };
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 var hide = require('./_hide');
 module.exports = function(target, src, safe){
   for(var key in src){
@@ -1058,9 +1065,9 @@ module.exports = function(target, src, safe){
     else hide(target, key, src[key]);
   } return target;
 };
-},{"./_hide":28}],50:[function(require,module,exports){
+},{"./_hide":29}],51:[function(require,module,exports){
 module.exports = require('./_hide');
-},{"./_hide":28}],51:[function(require,module,exports){
+},{"./_hide":29}],52:[function(require,module,exports){
 'use strict';
 var global      = require('./_global')
   , core        = require('./_core')
@@ -1075,7 +1082,7 @@ module.exports = function(KEY){
     get: function(){ return this; }
   });
 };
-},{"./_core":17,"./_descriptors":20,"./_global":26,"./_object-dp":43,"./_wks":63}],52:[function(require,module,exports){
+},{"./_core":18,"./_descriptors":21,"./_global":27,"./_object-dp":44,"./_wks":64}],53:[function(require,module,exports){
 var def = require('./_object-dp').f
   , has = require('./_has')
   , TAG = require('./_wks')('toStringTag');
@@ -1083,20 +1090,20 @@ var def = require('./_object-dp').f
 module.exports = function(it, tag, stat){
   if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
 };
-},{"./_has":27,"./_object-dp":43,"./_wks":63}],53:[function(require,module,exports){
+},{"./_has":28,"./_object-dp":44,"./_wks":64}],54:[function(require,module,exports){
 var shared = require('./_shared')('keys')
   , uid    = require('./_uid');
 module.exports = function(key){
   return shared[key] || (shared[key] = uid(key));
 };
-},{"./_shared":54,"./_uid":62}],54:[function(require,module,exports){
+},{"./_shared":55,"./_uid":63}],55:[function(require,module,exports){
 var global = require('./_global')
   , SHARED = '__core-js_shared__'
   , store  = global[SHARED] || (global[SHARED] = {});
 module.exports = function(key){
   return store[key] || (store[key] = {});
 };
-},{"./_global":26}],55:[function(require,module,exports){
+},{"./_global":27}],56:[function(require,module,exports){
 var toInteger = require('./_to-integer')
   , defined   = require('./_defined');
 // true  -> String#at
@@ -1114,7 +1121,7 @@ module.exports = function(TO_STRING){
       : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
   };
 };
-},{"./_defined":19,"./_to-integer":57}],56:[function(require,module,exports){
+},{"./_defined":20,"./_to-integer":58}],57:[function(require,module,exports){
 var toInteger = require('./_to-integer')
   , max       = Math.max
   , min       = Math.min;
@@ -1122,34 +1129,34 @@ module.exports = function(index, length){
   index = toInteger(index);
   return index < 0 ? max(index + length, 0) : min(index, length);
 };
-},{"./_to-integer":57}],57:[function(require,module,exports){
+},{"./_to-integer":58}],58:[function(require,module,exports){
 // 7.1.4 ToInteger
 var ceil  = Math.ceil
   , floor = Math.floor;
 module.exports = function(it){
   return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
 };
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 // to indexed object, toObject with fallback for non-array-like ES3 strings
 var IObject = require('./_iobject')
   , defined = require('./_defined');
 module.exports = function(it){
   return IObject(defined(it));
 };
-},{"./_defined":19,"./_iobject":31}],59:[function(require,module,exports){
+},{"./_defined":20,"./_iobject":32}],60:[function(require,module,exports){
 // 7.1.15 ToLength
 var toInteger = require('./_to-integer')
   , min       = Math.min;
 module.exports = function(it){
   return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
 };
-},{"./_to-integer":57}],60:[function(require,module,exports){
+},{"./_to-integer":58}],61:[function(require,module,exports){
 // 7.1.13 ToObject(argument)
 var defined = require('./_defined');
 module.exports = function(it){
   return Object(defined(it));
 };
-},{"./_defined":19}],61:[function(require,module,exports){
+},{"./_defined":20}],62:[function(require,module,exports){
 // 7.1.1 ToPrimitive(input [, PreferredType])
 var isObject = require('./_is-object');
 // instead of the ES6 spec version, we didn't implement @@toPrimitive case
@@ -1162,13 +1169,13 @@ module.exports = function(it, S){
   if(!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
   throw TypeError("Can't convert object to primitive value");
 };
-},{"./_is-object":34}],62:[function(require,module,exports){
+},{"./_is-object":35}],63:[function(require,module,exports){
 var id = 0
   , px = Math.random();
 module.exports = function(key){
   return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
 };
-},{}],63:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 var store      = require('./_shared')('wks')
   , uid        = require('./_uid')
   , Symbol     = require('./_global').Symbol
@@ -1180,7 +1187,7 @@ var $exports = module.exports = function(name){
 };
 
 $exports.store = store;
-},{"./_global":26,"./_shared":54,"./_uid":62}],64:[function(require,module,exports){
+},{"./_global":27,"./_shared":55,"./_uid":63}],65:[function(require,module,exports){
 var classof   = require('./_classof')
   , ITERATOR  = require('./_wks')('iterator')
   , Iterators = require('./_iterators');
@@ -1189,7 +1196,7 @@ module.exports = require('./_core').getIteratorMethod = function(it){
     || it['@@iterator']
     || Iterators[classof(it)];
 };
-},{"./_classof":12,"./_core":17,"./_iterators":39,"./_wks":63}],65:[function(require,module,exports){
+},{"./_classof":13,"./_core":18,"./_iterators":40,"./_wks":64}],66:[function(require,module,exports){
 'use strict';
 var addToUnscopables = require('./_add-to-unscopables')
   , step             = require('./_iter-step')
@@ -1224,9 +1231,27 @@ Iterators.Arguments = Iterators.Array;
 addToUnscopables('keys');
 addToUnscopables('values');
 addToUnscopables('entries');
-},{"./_add-to-unscopables":4,"./_iter-define":37,"./_iter-step":38,"./_iterators":39,"./_to-iobject":58}],66:[function(require,module,exports){
+},{"./_add-to-unscopables":5,"./_iter-define":38,"./_iter-step":39,"./_iterators":40,"./_to-iobject":59}],67:[function(require,module,exports){
+'use strict';
+var strong = require('./_collection-strong');
 
-},{}],67:[function(require,module,exports){
+// 23.1 Map Objects
+module.exports = require('./_collection')('Map', function(get){
+  return function Map(){ return get(this, arguments.length > 0 ? arguments[0] : undefined); };
+}, {
+  // 23.1.3.6 Map.prototype.get(key)
+  get: function get(key){
+    var entry = strong.getEntry(this, key);
+    return entry && entry.v;
+  },
+  // 23.1.3.9 Map.prototype.set(key, value)
+  set: function set(key, value){
+    return strong.def(this, key === 0 ? 0 : key, value);
+  }
+}, strong, true);
+},{"./_collection":17,"./_collection-strong":15}],68:[function(require,module,exports){
+
+},{}],69:[function(require,module,exports){
 'use strict';
 var strong = require('./_collection-strong');
 
@@ -1239,7 +1264,7 @@ module.exports = require('./_collection')('Set', function(get){
     return strong.def(this, value = value === 0 ? 0 : value, value);
   }
 }, strong);
-},{"./_collection":16,"./_collection-strong":14}],68:[function(require,module,exports){
+},{"./_collection":17,"./_collection-strong":15}],70:[function(require,module,exports){
 'use strict';
 var $at  = require('./_string-at')(true);
 
@@ -1257,12 +1282,17 @@ require('./_iter-define')(String, 'String', function(iterated){
   this._i += point.length;
   return {value: point, done: false};
 });
-},{"./_iter-define":37,"./_string-at":55}],69:[function(require,module,exports){
+},{"./_iter-define":38,"./_string-at":56}],71:[function(require,module,exports){
+// https://github.com/DavidBruant/Map-Set.prototype.toJSON
+var $export  = require('./_export');
+
+$export($export.P + $export.R, 'Map', {toJSON: require('./_collection-to-json')('Map')});
+},{"./_collection-to-json":16,"./_export":24}],72:[function(require,module,exports){
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
 var $export  = require('./_export');
 
 $export($export.P + $export.R, 'Set', {toJSON: require('./_collection-to-json')('Set')});
-},{"./_collection-to-json":15,"./_export":23}],70:[function(require,module,exports){
+},{"./_collection-to-json":16,"./_export":24}],73:[function(require,module,exports){
 require('./es6.array.iterator');
 var global        = require('./_global')
   , hide          = require('./_hide')
@@ -1276,7 +1306,7 @@ for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList'
   if(proto && !proto[TO_STRING_TAG])hide(proto, TO_STRING_TAG, NAME);
   Iterators[NAME] = Iterators.Array;
 }
-},{"./_global":26,"./_hide":28,"./_iterators":39,"./_wks":63,"./es6.array.iterator":65}],71:[function(require,module,exports){
+},{"./_global":27,"./_hide":29,"./_iterators":40,"./_wks":64,"./es6.array.iterator":66}],74:[function(require,module,exports){
 'use strict';
 
 module.exports = earcut;
@@ -1922,7 +1952,7 @@ earcut.flatten = function (data) {
     return result;
 };
 
-},{}],72:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 'use strict';
 
 var has = Object.prototype.hasOwnProperty
@@ -2235,7 +2265,7 @@ if ('undefined' !== typeof module) {
   module.exports = EventEmitter;
 }
 
-},{}],73:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 /**
  * isMobile.js v0.4.0
  *
@@ -2374,7 +2404,7 @@ if ('undefined' !== typeof module) {
 
 })(this);
 
-},{}],74:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2541,7 +2571,7 @@ MiniSignal.MiniSignalBinding = MiniSignalBinding;
 exports['default'] = MiniSignal;
 module.exports = exports['default'];
 
-},{}],75:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 /*
 object-assign
 (c) Sindre Sorhus
@@ -2633,7 +2663,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 	return to;
 };
 
-},{}],76:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 'use strict'
 
 module.exports = function parseURI (str, opts) {
@@ -2665,7 +2695,7 @@ module.exports = function parseURI (str, opts) {
   return uri
 }
 
-},{}],77:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -2894,7 +2924,7 @@ var substr = 'ab'.substr(-1) === 'b'
 
 }).call(this,require('_process'))
 
-},{"_process":237}],78:[function(require,module,exports){
+},{"_process":240}],81:[function(require,module,exports){
 var EMPTY_ARRAY_BUFFER = new ArrayBuffer(0);
 
 /**
@@ -3013,7 +3043,7 @@ Buffer.prototype.destroy = function(){
 
 module.exports = Buffer;
 
-},{}],79:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 
 var Texture = require('./GLTexture');
 
@@ -3236,7 +3266,7 @@ Framebuffer.createFloat32 = function(gl, width, height, data)
 
 module.exports = Framebuffer;
 
-},{"./GLTexture":81}],80:[function(require,module,exports){
+},{"./GLTexture":84}],83:[function(require,module,exports){
 
 var compileProgram = require('./shader/compileProgram'),
 	extractAttributes = require('./shader/extractAttributes'),
@@ -3314,7 +3344,7 @@ Shader.prototype.destroy = function()
 
 module.exports = Shader;
 
-},{"./shader/compileProgram":86,"./shader/extractAttributes":88,"./shader/extractUniforms":89,"./shader/generateUniformAccessObject":90}],81:[function(require,module,exports){
+},{"./shader/compileProgram":89,"./shader/extractAttributes":91,"./shader/extractUniforms":92,"./shader/generateUniformAccessObject":93}],84:[function(require,module,exports){
 
 /**
  * Helper class to create a WebGL Texture
@@ -3649,7 +3679,7 @@ Texture.fromData = function(gl, data, width, height)
 
 module.exports = Texture;
 
-},{}],82:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 
 // state object//
 var setVertexAttribArrays = require( './setVertexAttribArrays' );
@@ -3897,7 +3927,7 @@ VertexArrayObject.prototype.destroy = function()
     this.nativeVao = null;
 };
 
-},{"./setVertexAttribArrays":85}],83:[function(require,module,exports){
+},{"./setVertexAttribArrays":88}],86:[function(require,module,exports){
 
 /**
  * Helper class to create a webGL Context
@@ -3925,7 +3955,7 @@ var createContext = function(canvas, options)
 
 module.exports = createContext;
 
-},{}],84:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 var gl = {
     createContext:          require('./createContext'),
     setVertexAttribArrays:  require('./setVertexAttribArrays'),
@@ -3952,7 +3982,7 @@ if (typeof window !== 'undefined')
     window.PIXI.glCore = gl;
 }
 
-},{"./GLBuffer":78,"./GLFramebuffer":79,"./GLShader":80,"./GLTexture":81,"./VertexArrayObject":82,"./createContext":83,"./setVertexAttribArrays":85,"./shader":91}],85:[function(require,module,exports){
+},{"./GLBuffer":81,"./GLFramebuffer":82,"./GLShader":83,"./GLTexture":84,"./VertexArrayObject":85,"./createContext":86,"./setVertexAttribArrays":88,"./shader":94}],88:[function(require,module,exports){
 // var GL_MAP = {};
 
 /**
@@ -4009,7 +4039,7 @@ var setVertexAttribArrays = function (gl, attribs, state)
 
 module.exports = setVertexAttribArrays;
 
-},{}],86:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 
 /**
  * @class
@@ -4079,7 +4109,7 @@ var compileShader = function (gl, type, src)
 
 module.exports = compileProgram;
 
-},{}],87:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 /**
  * @class
  * @memberof PIXI.glCore.shader
@@ -4159,7 +4189,7 @@ var booleanArray = function(size)
 
 module.exports = defaultValue;
 
-},{}],88:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 
 var mapType = require('./mapType');
 var mapSize = require('./mapSize');
@@ -4202,7 +4232,7 @@ var pointer = function(type, normalized, stride, start){
 
 module.exports = extractAttributes;
 
-},{"./mapSize":92,"./mapType":93}],89:[function(require,module,exports){
+},{"./mapSize":95,"./mapType":96}],92:[function(require,module,exports){
 var mapType = require('./mapType');
 var defaultValue = require('./defaultValue');
 
@@ -4239,7 +4269,7 @@ var extractUniforms = function(gl, program)
 
 module.exports = extractUniforms;
 
-},{"./defaultValue":87,"./mapType":93}],90:[function(require,module,exports){
+},{"./defaultValue":90,"./mapType":96}],93:[function(require,module,exports){
 /**
  * Extracts the attributes
  * @class
@@ -4381,7 +4411,7 @@ var GLSL_TO_ARRAY_SETTERS = {
 
 module.exports = generateUniformAccessObject;
 
-},{}],91:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 module.exports = {
     compileProgram: require('./compileProgram'),
     defaultValue: require('./defaultValue'),
@@ -4391,7 +4421,7 @@ module.exports = {
     mapSize: require('./mapSize'),
     mapType: require('./mapType')  
 };
-},{"./compileProgram":86,"./defaultValue":87,"./extractAttributes":88,"./extractUniforms":89,"./generateUniformAccessObject":90,"./mapSize":92,"./mapType":93}],92:[function(require,module,exports){
+},{"./compileProgram":89,"./defaultValue":90,"./extractAttributes":91,"./extractUniforms":92,"./generateUniformAccessObject":93,"./mapSize":95,"./mapType":96}],95:[function(require,module,exports){
 /**
  * @class
  * @memberof PIXI.glCore.shader
@@ -4429,7 +4459,7 @@ var GLSL_TO_SIZE = {
 
 module.exports = mapSize;
 
-},{}],93:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 
 
 var mapSize = function(gl, type) 
@@ -4477,7 +4507,7 @@ var GL_TO_GLSL_TYPES = {
 
 module.exports = mapSize;
 
-},{}],94:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4971,7 +5001,7 @@ exports.default = AccessibilityManager;
 core.WebGLRenderer.registerPlugin('accessibility', AccessibilityManager);
 core.CanvasRenderer.registerPlugin('accessibility', AccessibilityManager);
 
-},{"../core":119,"./accessibleTarget":95,"ismobilejs":73}],95:[function(require,module,exports){
+},{"../core":122,"./accessibleTarget":98,"ismobilejs":76}],98:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -5029,7 +5059,7 @@ exports.default = {
   _accessibleDiv: false
 };
 
-},{}],96:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -5054,7 +5084,7 @@ Object.defineProperty(exports, 'AccessibilityManager', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./AccessibilityManager":94,"./accessibleTarget":95}],97:[function(require,module,exports){
+},{"./AccessibilityManager":97,"./accessibleTarget":98}],100:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -5195,7 +5225,7 @@ var Application = function () {
 
 exports.default = Application;
 
-},{"./autoDetectRenderer":99,"./display/Container":102,"./ticker/Ticker":170}],98:[function(require,module,exports){
+},{"./autoDetectRenderer":102,"./display/Container":105,"./ticker/Ticker":173}],101:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -5262,7 +5292,7 @@ var Shader = function (_GLShader) {
 
 exports.default = Shader;
 
-},{"./settings":155,"pixi-gl-core":84}],99:[function(require,module,exports){
+},{"./settings":158,"pixi-gl-core":87}],102:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -5316,7 +5346,7 @@ function autoDetectRenderer() {
     return new _CanvasRenderer2.default(width, height, options);
 }
 
-},{"./renderers/canvas/CanvasRenderer":131,"./renderers/webgl/WebGLRenderer":138,"./utils":175}],100:[function(require,module,exports){
+},{"./renderers/canvas/CanvasRenderer":134,"./renderers/webgl/WebGLRenderer":141,"./utils":178}],103:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -5632,7 +5662,7 @@ var TEXT_GRADIENT = exports.TEXT_GRADIENT = {
   LINEAR_HORIZONTAL: 1
 };
 
-},{}],101:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -5975,7 +6005,7 @@ var Bounds = function () {
 
 exports.default = Bounds;
 
-},{"../math":124}],102:[function(require,module,exports){
+},{"../math":127}],105:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -6575,7 +6605,7 @@ var Container = function (_DisplayObject) {
 exports.default = Container;
 Container.prototype.containerUpdateTransform = Container.prototype.updateTransform;
 
-},{"../utils":175,"./DisplayObject":103}],103:[function(require,module,exports){
+},{"../utils":178,"./DisplayObject":106}],106:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -7243,7 +7273,7 @@ var DisplayObject = function (_EventEmitter) {
 exports.default = DisplayObject;
 DisplayObject.prototype.displayObjectUpdateTransform = DisplayObject.prototype.updateTransform;
 
-},{"../const":100,"../math":124,"../settings":155,"./Bounds":101,"./Transform":104,"./TransformStatic":106,"eventemitter3":236}],104:[function(require,module,exports){
+},{"../const":103,"../math":127,"../settings":158,"./Bounds":104,"./Transform":107,"./TransformStatic":109,"eventemitter3":239}],107:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -7424,7 +7454,7 @@ var Transform = function (_TransformBase) {
 
 exports.default = Transform;
 
-},{"../math":124,"./TransformBase":105}],105:[function(require,module,exports){
+},{"../math":127,"./TransformBase":108}],108:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -7511,7 +7541,7 @@ TransformBase.prototype.updateWorldTransform = TransformBase.prototype.updateTra
 
 TransformBase.IDENTITY = new TransformBase();
 
-},{"../math":124}],106:[function(require,module,exports){
+},{"../math":127}],109:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -7721,7 +7751,7 @@ var TransformStatic = function (_TransformBase) {
 
 exports.default = TransformStatic;
 
-},{"../math":124,"./TransformBase":105}],107:[function(require,module,exports){
+},{"../math":127,"./TransformBase":108}],110:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -8880,7 +8910,7 @@ exports.default = Graphics;
 
 Graphics._SPRITE_TEXTURE = null;
 
-},{"../const":100,"../display/Bounds":101,"../display/Container":102,"../math":124,"../renderers/canvas/CanvasRenderer":131,"../sprites/Sprite":156,"../textures/RenderTexture":166,"../textures/Texture":167,"../utils":175,"./GraphicsData":108,"./utils/bezierCurveTo":110}],108:[function(require,module,exports){
+},{"../const":103,"../display/Bounds":104,"../display/Container":105,"../math":127,"../renderers/canvas/CanvasRenderer":134,"../sprites/Sprite":159,"../textures/RenderTexture":169,"../textures/Texture":170,"../utils":178,"./GraphicsData":111,"./utils/bezierCurveTo":113}],111:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -8997,7 +9027,7 @@ var GraphicsData = function () {
 
 exports.default = GraphicsData;
 
-},{}],109:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -9266,7 +9296,7 @@ exports.default = CanvasGraphicsRenderer;
 
 _CanvasRenderer2.default.registerPlugin('graphics', CanvasGraphicsRenderer);
 
-},{"../../const":100,"../../renderers/canvas/CanvasRenderer":131}],110:[function(require,module,exports){
+},{"../../const":103,"../../renderers/canvas/CanvasRenderer":134}],113:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -9316,7 +9346,7 @@ function bezierCurveTo(fromX, fromY, cpX, cpY, cpX2, cpY2, toX, toY) {
     return path;
 }
 
-},{}],111:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -9569,7 +9599,7 @@ exports.default = GraphicsRenderer;
 
 _WebGLRenderer2.default.registerPlugin('graphics', GraphicsRenderer);
 
-},{"../../const":100,"../../renderers/webgl/WebGLRenderer":138,"../../renderers/webgl/utils/ObjectRenderer":148,"../../utils":175,"./WebGLGraphicsData":112,"./shaders/PrimitiveShader":113,"./utils/buildCircle":114,"./utils/buildPoly":116,"./utils/buildRectangle":117,"./utils/buildRoundedRectangle":118}],112:[function(require,module,exports){
+},{"../../const":103,"../../renderers/webgl/WebGLRenderer":141,"../../renderers/webgl/utils/ObjectRenderer":151,"../../utils":178,"./WebGLGraphicsData":115,"./shaders/PrimitiveShader":116,"./utils/buildCircle":117,"./utils/buildPoly":119,"./utils/buildRectangle":120,"./utils/buildRoundedRectangle":121}],115:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -9706,7 +9736,7 @@ var WebGLGraphicsData = function () {
 
 exports.default = WebGLGraphicsData;
 
-},{"pixi-gl-core":84}],113:[function(require,module,exports){
+},{"pixi-gl-core":87}],116:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -9751,7 +9781,7 @@ var PrimitiveShader = function (_Shader) {
 
 exports.default = PrimitiveShader;
 
-},{"../../../Shader":98}],114:[function(require,module,exports){
+},{"../../../Shader":101}],117:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -9839,7 +9869,7 @@ function buildCircle(graphicsData, webGLData) {
     }
 }
 
-},{"../../../const":100,"../../../utils":175,"./buildLine":115}],115:[function(require,module,exports){
+},{"../../../const":103,"../../../utils":178,"./buildLine":118}],118:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -10048,7 +10078,7 @@ function buildLine(graphicsData, webGLData) {
     indices.push(indexStart - 1);
 }
 
-},{"../../../math":124,"../../../utils":175}],116:[function(require,module,exports){
+},{"../../../math":127,"../../../utils":178}],119:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -10133,7 +10163,7 @@ function buildPoly(graphicsData, webGLData) {
     }
 }
 
-},{"../../../utils":175,"./buildLine":115,"earcut":71}],117:[function(require,module,exports){
+},{"../../../utils":178,"./buildLine":118,"earcut":74}],120:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -10208,7 +10238,7 @@ function buildRectangle(graphicsData, webGLData) {
     }
 }
 
-},{"../../../utils":175,"./buildLine":115}],118:[function(require,module,exports){
+},{"../../../utils":178,"./buildLine":118}],121:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -10350,7 +10380,7 @@ function quadraticBezierCurve(fromX, fromY, cpX, cpY, toX, toY) {
     return points;
 }
 
-},{"../../../utils":175,"./buildLine":115,"earcut":71}],119:[function(require,module,exports){
+},{"../../../utils":178,"./buildLine":118,"earcut":74}],122:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -10709,7 +10739,7 @@ exports.WebGLRenderer = _WebGLRenderer2.default; /**
                                                   * @namespace PIXI
                                                   */
 
-},{"./Application":97,"./Shader":98,"./autoDetectRenderer":99,"./const":100,"./display/Bounds":101,"./display/Container":102,"./display/DisplayObject":103,"./display/Transform":104,"./display/TransformBase":105,"./display/TransformStatic":106,"./graphics/Graphics":107,"./graphics/GraphicsData":108,"./graphics/canvas/CanvasGraphicsRenderer":109,"./graphics/webgl/GraphicsRenderer":111,"./math":124,"./renderers/canvas/CanvasRenderer":131,"./renderers/canvas/utils/CanvasRenderTarget":133,"./renderers/webgl/WebGLRenderer":138,"./renderers/webgl/filters/Filter":140,"./renderers/webgl/filters/spriteMask/SpriteMaskFilter":143,"./renderers/webgl/managers/WebGLManager":147,"./renderers/webgl/utils/ObjectRenderer":148,"./renderers/webgl/utils/Quad":149,"./renderers/webgl/utils/RenderTarget":150,"./settings":155,"./sprites/Sprite":156,"./sprites/canvas/CanvasSpriteRenderer":157,"./sprites/canvas/CanvasTinter":158,"./sprites/webgl/SpriteRenderer":160,"./text/Text":162,"./text/TextStyle":163,"./textures/BaseRenderTexture":164,"./textures/BaseTexture":165,"./textures/RenderTexture":166,"./textures/Texture":167,"./textures/TextureUvs":168,"./textures/VideoBaseTexture":169,"./ticker":171,"./utils":175,"pixi-gl-core":84}],120:[function(require,module,exports){
+},{"./Application":100,"./Shader":101,"./autoDetectRenderer":102,"./const":103,"./display/Bounds":104,"./display/Container":105,"./display/DisplayObject":106,"./display/Transform":107,"./display/TransformBase":108,"./display/TransformStatic":109,"./graphics/Graphics":110,"./graphics/GraphicsData":111,"./graphics/canvas/CanvasGraphicsRenderer":112,"./graphics/webgl/GraphicsRenderer":114,"./math":127,"./renderers/canvas/CanvasRenderer":134,"./renderers/canvas/utils/CanvasRenderTarget":136,"./renderers/webgl/WebGLRenderer":141,"./renderers/webgl/filters/Filter":143,"./renderers/webgl/filters/spriteMask/SpriteMaskFilter":146,"./renderers/webgl/managers/WebGLManager":150,"./renderers/webgl/utils/ObjectRenderer":151,"./renderers/webgl/utils/Quad":152,"./renderers/webgl/utils/RenderTarget":153,"./settings":158,"./sprites/Sprite":159,"./sprites/canvas/CanvasSpriteRenderer":160,"./sprites/canvas/CanvasTinter":161,"./sprites/webgl/SpriteRenderer":163,"./text/Text":165,"./text/TextStyle":166,"./textures/BaseRenderTexture":167,"./textures/BaseTexture":168,"./textures/RenderTexture":169,"./textures/Texture":170,"./textures/TextureUvs":171,"./textures/VideoBaseTexture":172,"./ticker":174,"./utils":178,"pixi-gl-core":87}],123:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -10901,7 +10931,7 @@ var GroupD8 = {
 
 exports.default = GroupD8;
 
-},{"./Matrix":121}],121:[function(require,module,exports){
+},{"./Matrix":124}],124:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -11420,7 +11450,7 @@ var Matrix = function () {
 
 exports.default = Matrix;
 
-},{"./Point":123}],122:[function(require,module,exports){
+},{"./Point":126}],125:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -11537,7 +11567,7 @@ var ObservablePoint = function () {
 
 exports.default = ObservablePoint;
 
-},{}],123:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -11628,7 +11658,7 @@ var Point = function () {
 
 exports.default = Point;
 
-},{}],124:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -11716,7 +11746,7 @@ Object.defineProperty(exports, 'RoundedRectangle', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./GroupD8":120,"./Matrix":121,"./ObservablePoint":122,"./Point":123,"./shapes/Circle":125,"./shapes/Ellipse":126,"./shapes/Polygon":127,"./shapes/Rectangle":128,"./shapes/RoundedRectangle":129}],125:[function(require,module,exports){
+},{"./GroupD8":123,"./Matrix":124,"./ObservablePoint":125,"./Point":126,"./shapes/Circle":128,"./shapes/Ellipse":129,"./shapes/Polygon":130,"./shapes/Rectangle":131,"./shapes/RoundedRectangle":132}],128:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -11830,7 +11860,7 @@ var Circle = function () {
 
 exports.default = Circle;
 
-},{"../../const":100,"./Rectangle":128}],126:[function(require,module,exports){
+},{"../../const":103,"./Rectangle":131}],129:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -11952,7 +11982,7 @@ var Ellipse = function () {
 
 exports.default = Ellipse;
 
-},{"../../const":100,"./Rectangle":128}],127:[function(require,module,exports){
+},{"../../const":103,"./Rectangle":131}],130:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -12083,7 +12113,7 @@ var Polygon = function () {
 
 exports.default = Polygon;
 
-},{"../../const":100,"../Point":123}],128:[function(require,module,exports){
+},{"../../const":103,"../Point":126}],131:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -12346,7 +12376,7 @@ var Rectangle = function () {
 
 exports.default = Rectangle;
 
-},{"../../const":100}],129:[function(require,module,exports){
+},{"../../const":103}],132:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -12479,7 +12509,7 @@ var RoundedRectangle = function () {
 
 exports.default = RoundedRectangle;
 
-},{"../../const":100}],130:[function(require,module,exports){
+},{"../../const":103}],133:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -12811,7 +12841,7 @@ var SystemRenderer = function (_EventEmitter) {
 
 exports.default = SystemRenderer;
 
-},{"../const":100,"../display/Container":102,"../math":124,"../settings":155,"../textures/RenderTexture":166,"../utils":175,"eventemitter3":236}],131:[function(require,module,exports){
+},{"../const":103,"../display/Container":105,"../math":127,"../settings":158,"../textures/RenderTexture":169,"../utils":178,"eventemitter3":239}],134:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -13121,7 +13151,7 @@ exports.default = CanvasRenderer;
 
 _utils.pluginTarget.mixin(CanvasRenderer);
 
-},{"../../const":100,"../../settings":155,"../../utils":175,"../SystemRenderer":130,"./utils/CanvasMaskManager":132,"./utils/CanvasRenderTarget":133,"./utils/mapCanvasBlendModesToPixi":135}],132:[function(require,module,exports){
+},{"../../const":103,"../../settings":158,"../../utils":178,"../SystemRenderer":133,"./utils/CanvasMaskManager":135,"./utils/CanvasRenderTarget":136,"./utils/mapCanvasBlendModesToPixi":138}],135:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -13289,7 +13319,7 @@ var CanvasMaskManager = function () {
 
 exports.default = CanvasMaskManager;
 
-},{"../../../const":100}],133:[function(require,module,exports){
+},{"../../../const":103}],136:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -13416,7 +13446,7 @@ var CanvasRenderTarget = function () {
 
 exports.default = CanvasRenderTarget;
 
-},{"../../../settings":155}],134:[function(require,module,exports){
+},{"../../../settings":158}],137:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -13477,7 +13507,7 @@ function canUseNewCanvasBlendModes() {
     return data[0] === 255 && data[1] === 0 && data[2] === 0;
 }
 
-},{}],135:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -13545,7 +13575,7 @@ function mapCanvasBlendModesToPixi() {
     return array;
 }
 
-},{"../../../const":100,"./canUseNewCanvasBlendModes":134}],136:[function(require,module,exports){
+},{"../../../const":103,"./canUseNewCanvasBlendModes":137}],139:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -13665,7 +13695,7 @@ var TextureGarbageCollector = function () {
 
 exports.default = TextureGarbageCollector;
 
-},{"../../const":100,"../../settings":155}],137:[function(require,module,exports){
+},{"../../const":103,"../../settings":158}],140:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -13912,7 +13942,7 @@ var TextureManager = function () {
 
 exports.default = TextureManager;
 
-},{"../../const":100,"../../utils":175,"./utils/RenderTarget":150,"pixi-gl-core":84}],138:[function(require,module,exports){
+},{"../../const":103,"../../utils":178,"./utils/RenderTarget":153,"pixi-gl-core":87}],141:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -14636,7 +14666,7 @@ exports.default = WebGLRenderer;
 
 _utils.pluginTarget.mixin(WebGLRenderer);
 
-},{"../../const":100,"../../textures/BaseTexture":165,"../../utils":175,"../SystemRenderer":130,"./TextureGarbageCollector":136,"./TextureManager":137,"./WebGLState":139,"./managers/FilterManager":144,"./managers/MaskManager":145,"./managers/StencilManager":146,"./utils/ObjectRenderer":148,"./utils/RenderTarget":150,"./utils/mapWebGLDrawModesToPixi":153,"./utils/validateContext":154,"pixi-gl-core":84}],139:[function(require,module,exports){
+},{"../../const":103,"../../textures/BaseTexture":168,"../../utils":178,"../SystemRenderer":133,"./TextureGarbageCollector":139,"./TextureManager":140,"./WebGLState":142,"./managers/FilterManager":147,"./managers/MaskManager":148,"./managers/StencilManager":149,"./utils/ObjectRenderer":151,"./utils/RenderTarget":153,"./utils/mapWebGLDrawModesToPixi":156,"./utils/validateContext":157,"pixi-gl-core":87}],142:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -14908,7 +14938,7 @@ var WebGLState = function () {
 
 exports.default = WebGLState;
 
-},{"./utils/mapWebGLBlendModesToPixi":152}],140:[function(require,module,exports){
+},{"./utils/mapWebGLBlendModesToPixi":155}],143:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -15070,7 +15100,7 @@ var Filter = function () {
 
 exports.default = Filter;
 
-},{"../../../const":100,"../../../utils":175,"./extractUniformsFromSrc":141}],141:[function(require,module,exports){
+},{"../../../const":103,"../../../utils":178,"./extractUniformsFromSrc":144}],144:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -15132,7 +15162,7 @@ function extractUniformsFromString(string) {
     return uniforms;
 }
 
-},{"pixi-gl-core":84}],142:[function(require,module,exports){
+},{"pixi-gl-core":87}],145:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -15214,7 +15244,7 @@ function calculateSpriteMatrix(outputMatrix, filterArea, textureSize, sprite) {
     return mappedMatrix;
 }
 
-},{"../../../math":124}],143:[function(require,module,exports){
+},{"../../../math":127}],146:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -15286,7 +15316,7 @@ var SpriteMaskFilter = function (_Filter) {
 
 exports.default = SpriteMaskFilter;
 
-},{"../../../../math":124,"../Filter":140,"path":77}],144:[function(require,module,exports){
+},{"../../../../math":127,"../Filter":143,"path":80}],147:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -15850,7 +15880,7 @@ var FilterManager = function (_WebGLManager) {
 
 exports.default = FilterManager;
 
-},{"../../../Shader":98,"../../../math":124,"../filters/filterTransforms":142,"../utils/Quad":149,"../utils/RenderTarget":150,"./WebGLManager":147,"bit-twiddle":1}],145:[function(require,module,exports){
+},{"../../../Shader":101,"../../../math":127,"../filters/filterTransforms":145,"../utils/Quad":152,"../utils/RenderTarget":153,"./WebGLManager":150,"bit-twiddle":1}],148:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -16060,7 +16090,7 @@ var MaskManager = function (_WebGLManager) {
 
 exports.default = MaskManager;
 
-},{"../filters/spriteMask/SpriteMaskFilter":143,"./WebGLManager":147}],146:[function(require,module,exports){
+},{"../filters/spriteMask/SpriteMaskFilter":146,"./WebGLManager":150}],149:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -16194,7 +16224,7 @@ var StencilManager = function (_WebGLManager) {
 
 exports.default = StencilManager;
 
-},{"./WebGLManager":147}],147:[function(require,module,exports){
+},{"./WebGLManager":150}],150:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -16249,7 +16279,7 @@ var WebGLManager = function () {
 
 exports.default = WebGLManager;
 
-},{}],148:[function(require,module,exports){
+},{}],151:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -16327,7 +16357,7 @@ var ObjectRenderer = function (_WebGLManager) {
 
 exports.default = ObjectRenderer;
 
-},{"../managers/WebGLManager":147}],149:[function(require,module,exports){
+},{"../managers/WebGLManager":150}],152:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -16500,7 +16530,7 @@ var Quad = function () {
 
 exports.default = Quad;
 
-},{"../../../utils/createIndicesForQuads":173,"pixi-gl-core":84}],150:[function(require,module,exports){
+},{"../../../utils/createIndicesForQuads":176,"pixi-gl-core":87}],153:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -16827,7 +16857,7 @@ var RenderTarget = function () {
 
 exports.default = RenderTarget;
 
-},{"../../../const":100,"../../../math":124,"../../../settings":155,"pixi-gl-core":84}],151:[function(require,module,exports){
+},{"../../../const":103,"../../../math":127,"../../../settings":158,"pixi-gl-core":87}],154:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -16902,7 +16932,7 @@ function generateIfTestSrc(maxIfs) {
     return src;
 }
 
-},{"pixi-gl-core":84}],152:[function(require,module,exports){
+},{"pixi-gl-core":87}],155:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -16946,7 +16976,7 @@ function mapWebGLBlendModesToPixi(gl) {
     return array;
 }
 
-},{"../../../const":100}],153:[function(require,module,exports){
+},{"../../../const":103}],156:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -16978,7 +17008,7 @@ function mapWebGLDrawModesToPixi(gl) {
   return object;
 }
 
-},{"../../../const":100}],154:[function(require,module,exports){
+},{"../../../const":103}],157:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -16994,7 +17024,7 @@ function validateContext(gl) {
     }
 }
 
-},{}],155:[function(require,module,exports){
+},{}],158:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -17204,7 +17234,7 @@ exports.default = {
 
 };
 
-},{"./utils/canUploadSameBuffer":172,"./utils/maxRecommendedTextures":176}],156:[function(require,module,exports){
+},{"./utils/canUploadSameBuffer":175,"./utils/maxRecommendedTextures":179}],159:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -17826,7 +17856,7 @@ var Sprite = function (_Container) {
 
 exports.default = Sprite;
 
-},{"../const":100,"../display/Container":102,"../math":124,"../textures/Texture":167,"../utils":175}],157:[function(require,module,exports){
+},{"../const":103,"../display/Container":105,"../math":127,"../textures/Texture":170,"../utils":178}],160:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -17979,7 +18009,7 @@ exports.default = CanvasSpriteRenderer;
 
 _CanvasRenderer2.default.registerPlugin('sprite', CanvasSpriteRenderer);
 
-},{"../../const":100,"../../math":124,"../../renderers/canvas/CanvasRenderer":131,"./CanvasTinter":158}],158:[function(require,module,exports){
+},{"../../const":103,"../../math":127,"../../renderers/canvas/CanvasRenderer":134,"./CanvasTinter":161}],161:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -18216,7 +18246,7 @@ CanvasTinter.tintMethod = CanvasTinter.canUseMultiply ? CanvasTinter.tintWithMul
 
 exports.default = CanvasTinter;
 
-},{"../../renderers/canvas/utils/canUseNewCanvasBlendModes":134,"../../utils":175}],159:[function(require,module,exports){
+},{"../../renderers/canvas/utils/canUseNewCanvasBlendModes":137,"../../utils":178}],162:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -18269,7 +18299,7 @@ var Buffer = function () {
 
 exports.default = Buffer;
 
-},{}],160:[function(require,module,exports){
+},{}],163:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -18789,7 +18819,7 @@ exports.default = SpriteRenderer;
 
 _WebGLRenderer2.default.registerPlugin('sprite', SpriteRenderer);
 
-},{"../../renderers/webgl/WebGLRenderer":138,"../../renderers/webgl/utils/ObjectRenderer":148,"../../renderers/webgl/utils/checkMaxIfStatmentsInShader":151,"../../settings":155,"../../utils/createIndicesForQuads":173,"./BatchBuffer":159,"./generateMultiTextureShader":161,"bit-twiddle":1,"pixi-gl-core":84}],161:[function(require,module,exports){
+},{"../../renderers/webgl/WebGLRenderer":141,"../../renderers/webgl/utils/ObjectRenderer":151,"../../renderers/webgl/utils/checkMaxIfStatmentsInShader":154,"../../settings":158,"../../utils/createIndicesForQuads":176,"./BatchBuffer":162,"./generateMultiTextureShader":164,"bit-twiddle":1,"pixi-gl-core":87}],164:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -18852,7 +18882,7 @@ function generateSampleSrc(maxTextures) {
     return src;
 }
 
-},{"../../Shader":98,"path":77}],162:[function(require,module,exports){
+},{"../../Shader":101,"path":80}],165:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -19670,7 +19700,7 @@ Text.fontPropertiesCache = {};
 Text.fontPropertiesCanvas = document.createElement('canvas');
 Text.fontPropertiesContext = Text.fontPropertiesCanvas.getContext('2d');
 
-},{"../const":100,"../math":124,"../settings":155,"../sprites/Sprite":156,"../textures/Texture":167,"../utils":175,"./TextStyle":163}],163:[function(require,module,exports){
+},{"../const":103,"../math":127,"../settings":158,"../sprites/Sprite":159,"../textures/Texture":170,"../utils":178,"./TextStyle":166}],166:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -20107,7 +20137,7 @@ function getColor(color) {
     }
 }
 
-},{"../const":100,"../utils":175}],164:[function(require,module,exports){
+},{"../const":103,"../utils":178}],167:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -20270,7 +20300,7 @@ var BaseRenderTexture = function (_BaseTexture) {
 
 exports.default = BaseRenderTexture;
 
-},{"../settings":155,"./BaseTexture":165}],165:[function(require,module,exports){
+},{"../settings":158,"./BaseTexture":168}],168:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -20973,7 +21003,7 @@ var BaseTexture = function (_EventEmitter) {
 
 exports.default = BaseTexture;
 
-},{"../settings":155,"../utils":175,"../utils/determineCrossOrigin":174,"bit-twiddle":1,"eventemitter3":236}],166:[function(require,module,exports){
+},{"../settings":158,"../utils":178,"../utils/determineCrossOrigin":177,"bit-twiddle":1,"eventemitter3":239}],169:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -21124,7 +21154,7 @@ var RenderTexture = function (_Texture) {
 
 exports.default = RenderTexture;
 
-},{"./BaseRenderTexture":164,"./Texture":167}],167:[function(require,module,exports){
+},{"./BaseRenderTexture":167,"./Texture":170}],170:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -21683,7 +21713,7 @@ Texture.EMPTY.on = function _emptyOn() {/* empty */};
 Texture.EMPTY.once = function _emptyOnce() {/* empty */};
 Texture.EMPTY.emit = function _emptyEmit() {/* empty */};
 
-},{"../math":124,"../utils":175,"./BaseTexture":165,"./TextureUvs":168,"./VideoBaseTexture":169,"eventemitter3":236}],168:[function(require,module,exports){
+},{"../math":127,"../utils":178,"./BaseTexture":168,"./TextureUvs":171,"./VideoBaseTexture":172,"eventemitter3":239}],171:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -21788,7 +21818,7 @@ var TextureUvs = function () {
 
 exports.default = TextureUvs;
 
-},{"../math/GroupD8":120}],169:[function(require,module,exports){
+},{"../math/GroupD8":123}],172:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -22115,7 +22145,7 @@ function createSource(path, type) {
     return source;
 }
 
-},{"../ticker":171,"../utils":175,"./BaseTexture":165}],170:[function(require,module,exports){
+},{"../ticker":174,"../utils":178,"./BaseTexture":168}],173:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -22511,7 +22541,7 @@ var Ticker = function () {
 
 exports.default = Ticker;
 
-},{"../settings":155,"eventemitter3":236}],171:[function(require,module,exports){
+},{"../settings":158,"eventemitter3":239}],174:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -22575,7 +22605,7 @@ shared.autoStart = true;
 exports.shared = shared;
 exports.Ticker = _Ticker2.default;
 
-},{"./Ticker":170}],172:[function(require,module,exports){
+},{"./Ticker":173}],175:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -22589,7 +22619,7 @@ function canUploadSameBuffer() {
 	return !ios;
 }
 
-},{}],173:[function(require,module,exports){
+},{}],176:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -22623,7 +22653,7 @@ function createIndicesForQuads(size) {
     return indices;
 }
 
-},{}],174:[function(require,module,exports){
+},{}],177:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -22679,7 +22709,7 @@ function determineCrossOrigin(url) {
     return '';
 }
 
-},{"url":248}],175:[function(require,module,exports){
+},{"url":251}],178:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -23017,7 +23047,7 @@ var TextureCache = exports.TextureCache = {};
  */
 var BaseTextureCache = exports.BaseTextureCache = {};
 
-},{"../const":100,"../settings":155,"./pluginTarget":177,"eventemitter3":236,"ismobilejs":73}],176:[function(require,module,exports){
+},{"../const":103,"../settings":158,"./pluginTarget":180,"eventemitter3":239,"ismobilejs":76}],179:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -23039,7 +23069,7 @@ function maxRecommendedTextures(max) {
     return max;
 }
 
-},{"ismobilejs":73}],177:[function(require,module,exports){
+},{"ismobilejs":76}],180:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -23105,7 +23135,7 @@ exports.default = {
     }
 };
 
-},{}],178:[function(require,module,exports){
+},{}],181:[function(require,module,exports){
 'use strict';
 
 var _core = require('./core');
@@ -24024,7 +24054,7 @@ Object.defineProperties(loaders.Loader.prototype, {
     }
 });
 
-},{"./core":119,"./extras":189,"./filters":200,"./loaders":210,"./mesh":219,"./particles":222,"./prepare":232}],179:[function(require,module,exports){
+},{"./core":122,"./extras":192,"./filters":203,"./loaders":213,"./mesh":222,"./particles":225,"./prepare":235}],182:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -24204,7 +24234,7 @@ exports.default = CanvasExtract;
 
 core.CanvasRenderer.registerPlugin('extract', CanvasExtract);
 
-},{"../../core":119}],180:[function(require,module,exports){
+},{"../../core":122}],183:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -24229,7 +24259,7 @@ Object.defineProperty(exports, 'canvas', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./canvas/CanvasExtract":179,"./webgl/WebGLExtract":181}],181:[function(require,module,exports){
+},{"./canvas/CanvasExtract":182,"./webgl/WebGLExtract":184}],184:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -24452,7 +24482,7 @@ exports.default = WebGLExtract;
 
 core.WebGLRenderer.registerPlugin('extract', WebGLExtract);
 
-},{"../../core":119}],182:[function(require,module,exports){
+},{"../../core":122}],185:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -24837,7 +24867,7 @@ var AnimatedSprite = function (_core$Sprite) {
 
 exports.default = AnimatedSprite;
 
-},{"../core":119}],183:[function(require,module,exports){
+},{"../core":122}],186:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -25320,7 +25350,7 @@ exports.default = BitmapText;
 
 BitmapText.fonts = {};
 
-},{"../core":119,"../core/math/ObservablePoint":122}],184:[function(require,module,exports){
+},{"../core":122,"../core/math/ObservablePoint":125}],187:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -25450,7 +25480,7 @@ var TextureTransform = function () {
 
 exports.default = TextureTransform;
 
-},{"../core/math/Matrix":121}],185:[function(require,module,exports){
+},{"../core/math/Matrix":124}],188:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -25886,7 +25916,7 @@ var TilingSprite = function (_core$Sprite) {
 
 exports.default = TilingSprite;
 
-},{"../core":119,"../core/sprites/canvas/CanvasTinter":158,"./TextureTransform":184}],186:[function(require,module,exports){
+},{"../core":122,"../core/sprites/canvas/CanvasTinter":161,"./TextureTransform":187}],189:[function(require,module,exports){
 'use strict';
 
 var _core = require('../core');
@@ -26238,7 +26268,7 @@ DisplayObject.prototype._cacheAsBitmapDestroy = function _cacheAsBitmapDestroy()
     this.destroy();
 };
 
-},{"../core":119}],187:[function(require,module,exports){
+},{"../core":122}],190:[function(require,module,exports){
 'use strict';
 
 var _core = require('../core');
@@ -26272,7 +26302,7 @@ core.Container.prototype.getChildByName = function getChildByName(name) {
     return null;
 };
 
-},{"../core":119}],188:[function(require,module,exports){
+},{"../core":122}],191:[function(require,module,exports){
 'use strict';
 
 var _core = require('../core');
@@ -26305,7 +26335,7 @@ core.DisplayObject.prototype.getGlobalPosition = function getGlobalPosition() {
     return point;
 };
 
-},{"../core":119}],189:[function(require,module,exports){
+},{"../core":122}],192:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -26366,7 +26396,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // imported for side effect of extending the prototype only, contains no exports
 
-},{"./AnimatedSprite":182,"./BitmapText":183,"./TextureTransform":184,"./TilingSprite":185,"./cacheAsBitmap":186,"./getChildByName":187,"./getGlobalPosition":188,"./webgl/TilingSpriteRenderer":190}],190:[function(require,module,exports){
+},{"./AnimatedSprite":185,"./BitmapText":186,"./TextureTransform":187,"./TilingSprite":188,"./cacheAsBitmap":189,"./getChildByName":190,"./getGlobalPosition":191,"./webgl/TilingSpriteRenderer":193}],193:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -26534,7 +26564,7 @@ exports.default = TilingSpriteRenderer;
 
 core.WebGLRenderer.registerPlugin('tilingSprite', TilingSpriteRenderer);
 
-},{"../../core":119,"../../core/const":100,"path":77}],191:[function(require,module,exports){
+},{"../../core":122,"../../core/const":103,"path":80}],194:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -26692,7 +26722,7 @@ var BlurFilter = function (_core$Filter) {
 
 exports.default = BlurFilter;
 
-},{"../../core":119,"./BlurXFilter":192,"./BlurYFilter":193}],192:[function(require,module,exports){
+},{"../../core":122,"./BlurXFilter":195,"./BlurYFilter":196}],195:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -26858,7 +26888,7 @@ var BlurXFilter = function (_core$Filter) {
 
 exports.default = BlurXFilter;
 
-},{"../../core":119,"./generateBlurFragSource":194,"./generateBlurVertSource":195,"./getMaxBlurKernelSize":196}],193:[function(require,module,exports){
+},{"../../core":122,"./generateBlurFragSource":197,"./generateBlurVertSource":198,"./getMaxBlurKernelSize":199}],196:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -27023,7 +27053,7 @@ var BlurYFilter = function (_core$Filter) {
 
 exports.default = BlurYFilter;
 
-},{"../../core":119,"./generateBlurFragSource":194,"./generateBlurVertSource":195,"./getMaxBlurKernelSize":196}],194:[function(require,module,exports){
+},{"../../core":122,"./generateBlurFragSource":197,"./generateBlurVertSource":198,"./getMaxBlurKernelSize":199}],197:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -27070,7 +27100,7 @@ function generateFragBlurSource(kernelSize) {
     return fragSource;
 }
 
-},{}],195:[function(require,module,exports){
+},{}],198:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -27114,7 +27144,7 @@ function generateVertBlurSource(kernelSize, x) {
     return vertSource;
 }
 
-},{}],196:[function(require,module,exports){
+},{}],199:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -27130,7 +27160,7 @@ function getMaxKernelSize(gl) {
     return kernelSize;
 }
 
-},{}],197:[function(require,module,exports){
+},{}],200:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -27658,7 +27688,7 @@ var ColorMatrixFilter = function (_core$Filter) {
 exports.default = ColorMatrixFilter;
 ColorMatrixFilter.prototype.grayscale = ColorMatrixFilter.prototype.greyscale;
 
-},{"../../core":119,"path":77}],198:[function(require,module,exports){
+},{"../../core":122,"path":80}],201:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -27768,7 +27798,7 @@ var DisplacementFilter = function (_core$Filter) {
 
 exports.default = DisplacementFilter;
 
-},{"../../core":119,"path":77}],199:[function(require,module,exports){
+},{"../../core":122,"path":80}],202:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -27822,7 +27852,7 @@ var FXAAFilter = function (_core$Filter) {
 
 exports.default = FXAAFilter;
 
-},{"../../core":119,"path":77}],200:[function(require,module,exports){
+},{"../../core":122,"path":80}],203:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -27901,7 +27931,7 @@ Object.defineProperty(exports, 'VoidFilter', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./blur/BlurFilter":191,"./blur/BlurXFilter":192,"./blur/BlurYFilter":193,"./colormatrix/ColorMatrixFilter":197,"./displacement/DisplacementFilter":198,"./fxaa/FXAAFilter":199,"./noise/NoiseFilter":201,"./void/VoidFilter":202}],201:[function(require,module,exports){
+},{"./blur/BlurFilter":194,"./blur/BlurXFilter":195,"./blur/BlurYFilter":196,"./colormatrix/ColorMatrixFilter":200,"./displacement/DisplacementFilter":201,"./fxaa/FXAAFilter":202,"./noise/NoiseFilter":204,"./void/VoidFilter":205}],204:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -27977,7 +28007,7 @@ var NoiseFilter = function (_core$Filter) {
 
 exports.default = NoiseFilter;
 
-},{"../../core":119,"path":77}],202:[function(require,module,exports){
+},{"../../core":122,"path":80}],205:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -28027,7 +28057,7 @@ var VoidFilter = function (_core$Filter) {
 
 exports.default = VoidFilter;
 
-},{"../../core":119,"path":77}],203:[function(require,module,exports){
+},{"../../core":122,"path":80}],206:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -28143,7 +28173,7 @@ global.PIXI = exports; // eslint-disable-line
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"./accessibility":96,"./core":119,"./deprecation":178,"./extract":180,"./extras":189,"./filters":200,"./interaction":207,"./loaders":210,"./mesh":219,"./particles":222,"./polyfill":228,"./prepare":232}],204:[function(require,module,exports){
+},{"./accessibility":99,"./core":122,"./deprecation":181,"./extract":183,"./extras":192,"./filters":203,"./interaction":210,"./loaders":213,"./mesh":222,"./particles":225,"./polyfill":231,"./prepare":235}],207:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -28214,7 +28244,7 @@ var InteractionData = function () {
 
 exports.default = InteractionData;
 
-},{"../core":119}],205:[function(require,module,exports){
+},{"../core":122}],208:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -28299,7 +28329,7 @@ var InteractionEvent = function () {
 
 exports.default = InteractionEvent;
 
-},{}],206:[function(require,module,exports){
+},{}],209:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -29895,7 +29925,7 @@ exports.default = InteractionManager;
 core.WebGLRenderer.registerPlugin('interaction', InteractionManager);
 core.CanvasRenderer.registerPlugin('interaction', InteractionManager);
 
-},{"../core":119,"./InteractionData":204,"./InteractionEvent":205,"./interactiveTarget":208,"eventemitter3":236,"ismobilejs":73}],207:[function(require,module,exports){
+},{"../core":122,"./InteractionData":207,"./InteractionEvent":208,"./interactiveTarget":211,"eventemitter3":239,"ismobilejs":76}],210:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -29929,7 +29959,7 @@ Object.defineProperty(exports, 'interactiveTarget', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./InteractionData":204,"./InteractionManager":206,"./interactiveTarget":208}],208:[function(require,module,exports){
+},{"./InteractionData":207,"./InteractionManager":209,"./interactiveTarget":211}],211:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -30039,7 +30069,7 @@ exports.default = {
   _touchDown: false
 };
 
-},{}],209:[function(require,module,exports){
+},{}],212:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -30167,7 +30197,7 @@ function parse(resource, texture) {
     _extras.BitmapText.fonts[data.font] = data;
 }
 
-},{"../core":119,"../extras":189,"path":77,"resource-loader":246}],210:[function(require,module,exports){
+},{"../core":122,"../extras":192,"path":80,"resource-loader":249}],213:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -30225,7 +30255,7 @@ Object.defineProperty(exports, 'Resource', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./bitmapFontParser":209,"./loader":211,"./spritesheetParser":212,"./textureParser":213,"resource-loader":246}],211:[function(require,module,exports){
+},{"./bitmapFontParser":212,"./loader":214,"./spritesheetParser":215,"./textureParser":216,"resource-loader":249}],214:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -30359,7 +30389,7 @@ var Resource = _resourceLoader2.default.Resource;
 
 Resource.setExtensionXhrType('fnt', Resource.XHR_RESPONSE_TYPE.DOCUMENT);
 
-},{"./bitmapFontParser":209,"./spritesheetParser":212,"./textureParser":213,"eventemitter3":236,"resource-loader":246,"resource-loader/lib/middlewares/parsing/blob":247}],212:[function(require,module,exports){
+},{"./bitmapFontParser":212,"./spritesheetParser":215,"./textureParser":216,"eventemitter3":239,"resource-loader":249,"resource-loader/lib/middlewares/parsing/blob":250}],215:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -30495,7 +30525,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var BATCH_SIZE = 1000;
 
-},{"../core":119,"path":77,"resource-loader":246}],213:[function(require,module,exports){
+},{"../core":122,"path":80,"resource-loader":249}],216:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -30532,7 +30562,7 @@ var _resourceLoader = require('resource-loader');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-},{"../core":119,"resource-loader":246}],214:[function(require,module,exports){
+},{"../core":122,"resource-loader":249}],217:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -30837,7 +30867,7 @@ Mesh.DRAW_MODES = {
   TRIANGLES: 1
 };
 
-},{"../core":119}],215:[function(require,module,exports){
+},{"../core":122}],218:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -31229,7 +31259,7 @@ var NineSlicePlane = function (_Plane) {
 
 exports.default = NineSlicePlane;
 
-},{"./Plane":216}],216:[function(require,module,exports){
+},{"./Plane":219}],219:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -31372,7 +31402,7 @@ var Plane = function (_Mesh) {
 
 exports.default = Plane;
 
-},{"./Mesh":214}],217:[function(require,module,exports){
+},{"./Mesh":217}],220:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -31613,7 +31643,7 @@ var Rope = function (_Mesh) {
 
 exports.default = Rope;
 
-},{"../core":119,"./Mesh":214}],218:[function(require,module,exports){
+},{"../core":122,"./Mesh":217}],221:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -31877,7 +31907,7 @@ exports.default = MeshSpriteRenderer;
 
 core.CanvasRenderer.registerPlugin('mesh', MeshSpriteRenderer);
 
-},{"../../core":119,"../Mesh":214}],219:[function(require,module,exports){
+},{"../../core":122,"../Mesh":217}],222:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -31938,7 +31968,7 @@ Object.defineProperty(exports, 'Rope', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./Mesh":214,"./NineSlicePlane":215,"./Plane":216,"./Rope":217,"./canvas/CanvasMeshRenderer":218,"./webgl/MeshRenderer":220}],220:[function(require,module,exports){
+},{"./Mesh":217,"./NineSlicePlane":218,"./Plane":219,"./Rope":220,"./canvas/CanvasMeshRenderer":221,"./webgl/MeshRenderer":223}],223:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -32079,7 +32109,7 @@ exports.default = MeshRenderer;
 
 core.WebGLRenderer.registerPlugin('mesh', MeshRenderer);
 
-},{"../../core":119,"../Mesh":214,"path":77,"pixi-gl-core":84}],221:[function(require,module,exports){
+},{"../../core":122,"../Mesh":217,"path":80,"pixi-gl-core":87}],224:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -32415,7 +32445,7 @@ var ParticleContainer = function (_core$Container) {
 
 exports.default = ParticleContainer;
 
-},{"../core":119}],222:[function(require,module,exports){
+},{"../core":122}],225:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -32440,7 +32470,7 @@ Object.defineProperty(exports, 'ParticleRenderer', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./ParticleContainer":221,"./webgl/ParticleRenderer":224}],223:[function(require,module,exports){
+},{"./ParticleContainer":224,"./webgl/ParticleRenderer":227}],226:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -32680,7 +32710,7 @@ var ParticleBuffer = function () {
 
 exports.default = ParticleBuffer;
 
-},{"../../core/utils/createIndicesForQuads":173,"pixi-gl-core":84}],224:[function(require,module,exports){
+},{"../../core/utils/createIndicesForQuads":176,"pixi-gl-core":87}],227:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -33124,7 +33154,7 @@ exports.default = ParticleRenderer;
 
 core.WebGLRenderer.registerPlugin('particle', ParticleRenderer);
 
-},{"../../core":119,"./ParticleBuffer":223,"./ParticleShader":225}],225:[function(require,module,exports){
+},{"../../core":122,"./ParticleBuffer":226,"./ParticleShader":228}],228:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -33167,7 +33197,7 @@ var ParticleShader = function (_Shader) {
 
 exports.default = ParticleShader;
 
-},{"../../core/Shader":98}],226:[function(require,module,exports){
+},{"../../core/Shader":101}],229:[function(require,module,exports){
 "use strict";
 
 // References:
@@ -33185,7 +33215,7 @@ if (!Math.sign) {
     };
 }
 
-},{}],227:[function(require,module,exports){
+},{}],230:[function(require,module,exports){
 'use strict';
 
 var _objectAssign = require('object-assign');
@@ -33200,7 +33230,7 @@ if (!Object.assign) {
 // https://github.com/sindresorhus/object-assign
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
 
-},{"object-assign":75}],228:[function(require,module,exports){
+},{"object-assign":78}],231:[function(require,module,exports){
 'use strict';
 
 require('./Object.assign');
@@ -33225,7 +33255,7 @@ if (!window.Uint16Array) {
     window.Uint16Array = Array;
 }
 
-},{"./Math.sign":226,"./Object.assign":227,"./requestAnimationFrame":229}],229:[function(require,module,exports){
+},{"./Math.sign":229,"./Object.assign":230,"./requestAnimationFrame":232}],232:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -33305,7 +33335,7 @@ if (!global.cancelAnimationFrame) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],230:[function(require,module,exports){
+},{}],233:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -33690,7 +33720,7 @@ function findTextStyle(item, queue) {
     return false;
 }
 
-},{"../core":119,"./limiters/CountLimiter":233}],231:[function(require,module,exports){
+},{"../core":122,"./limiters/CountLimiter":236}],234:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -33838,7 +33868,7 @@ function findBaseTextures(item, queue) {
 
 core.CanvasRenderer.registerPlugin('prepare', CanvasPrepare);
 
-},{"../../core":119,"../BasePrepare":230}],232:[function(require,module,exports){
+},{"../../core":122,"../BasePrepare":233}],235:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -33890,7 +33920,7 @@ Object.defineProperty(exports, 'TimeLimiter', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-},{"./BasePrepare":230,"./canvas/CanvasPrepare":231,"./limiters/CountLimiter":233,"./limiters/TimeLimiter":234,"./webgl/WebGLPrepare":235}],233:[function(require,module,exports){
+},{"./BasePrepare":233,"./canvas/CanvasPrepare":234,"./limiters/CountLimiter":236,"./limiters/TimeLimiter":237,"./webgl/WebGLPrepare":238}],236:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -33948,7 +33978,7 @@ var CountLimiter = function () {
 
 exports.default = CountLimiter;
 
-},{}],234:[function(require,module,exports){
+},{}],237:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -34006,7 +34036,7 @@ var TimeLimiter = function () {
 
 exports.default = TimeLimiter;
 
-},{}],235:[function(require,module,exports){
+},{}],238:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -34155,9 +34185,9 @@ function findGraphics(item, queue) {
 
 core.WebGLRenderer.registerPlugin('prepare', WebGLPrepare);
 
-},{"../../core":119,"../BasePrepare":230}],236:[function(require,module,exports){
-arguments[4][72][0].apply(exports,arguments)
-},{"dup":72}],237:[function(require,module,exports){
+},{"../../core":122,"../BasePrepare":233}],239:[function(require,module,exports){
+arguments[4][75][0].apply(exports,arguments)
+},{"dup":75}],240:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -34339,7 +34369,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],238:[function(require,module,exports){
+},{}],241:[function(require,module,exports){
 (function (global){
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
@@ -34877,7 +34907,7 @@ process.umask = function() { return 0; };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],239:[function(require,module,exports){
+},{}],242:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -34963,7 +34993,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],240:[function(require,module,exports){
+},{}],243:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -35050,13 +35080,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],241:[function(require,module,exports){
+},{}],244:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":239,"./encode":240}],242:[function(require,module,exports){
+},{"./decode":242,"./encode":243}],245:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -35675,7 +35705,7 @@ var Loader = function () {
 
 exports.default = Loader;
 
-},{"./Resource":243,"./async":244,"mini-signals":74,"parse-uri":76}],243:[function(require,module,exports){
+},{"./Resource":246,"./async":247,"mini-signals":77,"parse-uri":79}],246:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -36798,7 +36828,7 @@ function reqType(xhr) {
     return xhr.toString().replace('object ', '');
 }
 
-},{"mini-signals":74,"parse-uri":76}],244:[function(require,module,exports){
+},{"mini-signals":77,"parse-uri":79}],247:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -37000,7 +37030,7 @@ function queue(worker, concurrency) {
     return q;
 }
 
-},{}],245:[function(require,module,exports){
+},{}],248:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -37068,7 +37098,7 @@ function encodeBinary(input) {
     return output;
 }
 
-},{}],246:[function(require,module,exports){
+},{}],249:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -37101,7 +37131,7 @@ _Loader2.default.base64 = b64;
 module.exports = _Loader2.default; // eslint-disable-line no-undef
 exports.default = _Loader2.default;
 
-},{"./Loader":242,"./Resource":243,"./async":244,"./b64":245}],247:[function(require,module,exports){
+},{"./Loader":245,"./Resource":246,"./async":247,"./b64":248}],250:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -37189,7 +37219,7 @@ function blobMiddlewareFactory() {
     };
 }
 
-},{"../../Resource":243,"../../b64":245}],248:[function(require,module,exports){
+},{"../../Resource":246,"../../b64":248}],251:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -37923,7 +37953,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":249,"punycode":238,"querystring":241}],249:[function(require,module,exports){
+},{"./util":252,"punycode":241,"querystring":244}],252:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -37941,7 +37971,7 @@ module.exports = {
   }
 };
 
-},{}],250:[function(require,module,exports){
+},{}],253:[function(require,module,exports){
 // Run `npm run room-plan-build` to regenerate room-plan-bundle.js
 
 RoomPlanApp = require('./room-plan/App.js');
@@ -37951,7 +37981,7 @@ $(function () {
     app.init();
 });
 
-},{"./room-plan/App.js":251}],251:[function(require,module,exports){
+},{"./room-plan/App.js":254}],254:[function(require,module,exports){
 var PIXI = require("pixi.js");
 var AppState = require("./AppState.js");
 var MainStageController = require("./MainStageController.js");
@@ -37965,53 +37995,49 @@ function App() {
 module.exports = App;
 
 App.prototype.init = function () {
-    this.pixiApp = new PIXI.Application(800, 600, {antialias: true, backgroundColor: 0xeeeeee});
+    this.screenSize = {width: 1023, height: 1535};
+
+    this.pixiApp = new PIXI.Application(this.screenSize.width, this.screenSize.height, {antialias: true, backgroundColor: 0xeeeeee});
 
     var $view = $(this.pixiApp.view);
     $(".app").replaceWith($view);
     $view.addClass("app");
 
-    var gridBackground = new GridBackground(800, 600);
+    var gridBackground = new GridBackground(this.screenSize.width, this.screenSize.height);
     this.pixiApp.stage.addChild(gridBackground);
 
     this.state = new AppState(this);
 
-    var controller = new MainStageController(this.state, this.pixiApp.stage, this.pixiApp.renderer.plugins.interaction);
+    var controller = new MainStageController(
+        this.state, this.pixiApp.stage, this.pixiApp.renderer.plugins.interaction, this.screenSize);
     controller.init();
 
     this.state.createStartEnvironment();
 
-    var toolsView = new ToolsView(this.state);
+    var toolsView = new ToolsView(this.state.toolState);
     toolsView.init();
 
     var priceView = new PriceView(this.state.priceCalculator, this.pixiApp.renderer.plugins.interaction);
     priceView.init();
 };
 
-},{"./AppState.js":252,"./GridBackground.js":257,"./MainStageController.js":258,"./PriceView.js":260,"./ToolsView.js":261,"pixi.js":203}],252:[function(require,module,exports){
+},{"./AppState.js":255,"./GridBackground.js":263,"./MainStageController.js":264,"./PriceView.js":266,"./ToolsView.js":271,"pixi.js":206}],255:[function(require,module,exports){
 var WallsCollection = require("./WallsCollection.js");
-var WallTool = require("./WallTool.js");
-var WireTool = require("./WireTool.js");
-var DoorTool = require("./DoorTool.js");
-var WindowTool = require("./WindowTool.js");
+var WorldObjectsCollection = require("./WorldObjectsCollection.js");
+var PriceCalculator = require("./PriceCalculator.js");
 var WallModel = require("./WallModel.js");
 var WallView = require("./WallView.js");
 var CellModel = require("./CellModel.js");
-var PriceModel = require("./PriceModel.js");
+var ToolsModel = require("./ToolsModel.js");
+var FloorView = require("./FloorView.js");
 
 
 function AppState(app) {
     this.app = app;
     this.wallsCollection = new WallsCollection();
-    this.priceCalculator = new PriceModel(this.wallsCollection);
-    this.tools = [
-        new WallTool(this),
-        new WireTool(this),
-        new DoorTool(this),
-        new WindowTool(this)
-    ];
-    this.currentTool = this.tools[0];
-    this.toolMode = "add";
+    this.worldObjectsCollection = new WorldObjectsCollection();
+    this.priceCalculator = new PriceCalculator(this.wallsCollection, this.worldObjectsCollection);
+    this.toolState = new ToolsModel(this);
 }
 module.exports = AppState;
 
@@ -38019,63 +38045,84 @@ AppState.prototype.createStartEnvironment = function () {
     var wall = new WallModel();
 
     for (var x = 4; x <= 20; x++) {
-        wall.cells.push(new CellModel(x, 4));
-        wall.cells.push(new CellModel(x, 16));
+        wall.addCell(new CellModel(x, 4));
+        wall.addCell(new CellModel(x, 16));
     }
     for (var x = 14; x <= 19; x++) {
-        wall.cells.push(new CellModel(x, 9));
+        wall.addCell(new CellModel(x, 9));
     }
 
     for (var y = 5; y <= 15; y++) {
-        wall.cells.push(new CellModel(4, y));
-        wall.cells.push(new CellModel(11, y));
-        wall.cells.push(new CellModel(20, y));
+        wall.addCell(new CellModel(4, y));
+        wall.addCell(new CellModel(11, y));
+        wall.addCell(new CellModel(20, y));
     }
     for (var y = 10; y <= 15; y++) {
-        wall.cells.push(new CellModel(14, y));
+        wall.addCell(new CellModel(14, y));
     }
 
-    wall.getCell(20, 6).contents.add("door0");
-    wall.getCell(20, 7).contents.add("door1");
-    wall.getCell(20, 8).contents.add("door2");
+    wall.getCell(20, 7).contents.add("door");
+    wall.getCell(20, 7).contentsData.set("door-size", 3);
 
-    wall.getCell(14, 13).contents.add("door0");
-    wall.getCell(14, 14).contents.add("door1");
-    wall.getCell(14, 15).contents.add("door2");
+    wall.getCell(14, 14).contents.add("door");
+    wall.getCell(14, 14).contentsData.set("door-size", 3);
 
-    wall.getCell(11, 10).contents.add("door0");
-    wall.getCell(11, 11).contents.add("door1");
-    wall.getCell(11, 12).contents.add("door2");
+    wall.getCell(11, 11).contents.add("door");
+    wall.getCell(11, 11).contentsData.set("door-size", 3);
 
-    wall.getCell(4, 12).contents.add("window0");
-    wall.getCell(4, 13).contents.add("window1");
-    wall.getCell(4, 14).contents.add("window2");
+    wall.getCell(4, 13).contents.add("window");
+    wall.getCell(4, 13).contentsData.set("window-size", 3);
 
-    wall.getCell(6, 16).contents.add("window0");
-    wall.getCell(7, 16).contents.add("window1");
-    wall.getCell(8, 16).contents.add("window2");
+    wall.getCell(7, 16).contents.add("window");
+    wall.getCell(7, 16).contentsData.set("window-size", 3);
 
     for (var x = 16; x <= 20; x++) {
         wall.getCell(x, 4).contents.add("wire");
     }
 
+    for (var i = 0; i < wall.cells.length; i++) {
+        wall.cells[i].contentsData.set("wall-style", 0);
+    }
+
+    var shiftX = 6;
+    var shiftY = 0;
+
+    for (var i = 0; i < wall.cells.length; i++) {
+        wall.cells[i].x += shiftX;
+        wall.cells[i].y += shiftY;
+    }
+
     if (wall.isOkay()) {
         this.wallsCollection.addWall(wall, new WallView(wall));
     } else {
-        console.error("start wall is not okay");
+        throw "start wall is not okay";
+    }
+
+    for (var x = 5; x <= 19; x++) {
+        for (var y = 5; y <= 15; y++) {
+            if (!wall.hasCellWithCoords(x + shiftX, y + shiftY)) {
+                var cell = new CellModel(x + shiftX, y + shiftY);
+                cell.contents.add("floor");
+                cell.contentsData.set("floor-style", 0);
+                var view = new FloorView(cell, this.wallsCollection);
+                this.worldObjectsCollection.addCell(cell, view);
+            }
+        }
     }
 };
-},{"./CellModel.js":253,"./DoorTool.js":256,"./PriceModel.js":259,"./WallModel.js":263,"./WallTool.js":264,"./WallView.js":265,"./WallsCollection.js":266,"./WindowTool.js":268,"./WireTool.js":270}],253:[function(require,module,exports){
-var Set = require('core-js/library/fn/set');
+},{"./CellModel.js":256,"./FloorView.js":262,"./PriceCalculator.js":265,"./ToolsModel.js":270,"./WallModel.js":273,"./WallView.js":275,"./WallsCollection.js":276,"./WorldObjectsCollection.js":281}],256:[function(require,module,exports){
+var Set = require("core-js/library/fn/set");
+var Map = require("core-js/library/fn/map");
 
 function CellModel(x, y) {
     this.x = x;
     this.y = y;
     this.contents = new Set();
+    this.contentsData = new Map();
 }
 module.exports = CellModel;
 
-},{"core-js/library/fn/set":2}],254:[function(require,module,exports){
+},{"core-js/library/fn/map":2,"core-js/library/fn/set":3}],257:[function(require,module,exports){
 function CellNeighborhood() {
     this.left = null;
     this.right = null;
@@ -38136,13 +38183,13 @@ CellNeighborhood.prototype.getNeighborhoodByContent = function (content) {
 };
 
 
-},{}],255:[function(require,module,exports){
+},{}],258:[function(require,module,exports){
 function DoorBuilder(wallsCollection) {
     this.wallsCollection = wallsCollection;
 }
 module.exports = DoorBuilder;
 
-DoorBuilder.prototype.tryAddDoor = function (x, y) {
+DoorBuilder.prototype.tryAddDoor = function (x, y, style) {
     var d = this.wallsCollection.findCellAndWall(x, y);
     if (d.cell == null) {
         return false;
@@ -38174,11 +38221,12 @@ DoorBuilder.prototype.tryAddDoor = function (x, y) {
     } else {
         return false;
     }
-    if (this._hasWindowOrDoor(cell0) || this._hasWindowOrDoor(cell1) || this._hasWindowOrDoor(cell2)) {
+    if (this._hasWindowOrDoor(cell1)) {
         return false;
     }
-    this._createDoor(cell0, cell1, cell2);
-    d.wallViews[0].renderWall();
+    cell1.contents.add("door");
+    cell1.contentsData.set("door-size", style);
+    d.wallView.renderWall();
     return true;
 };
 
@@ -38187,72 +38235,16 @@ DoorBuilder.prototype.tryRemoveDoor = function (x, y) {
     if (d.cell == null) {
         return false;
     }
-    var doorType = this._getDoorType(d.cell);
-    if (doorType == null) {
-        return false;
-    }
-    var neighborhood = d.wall.getCellNeighborhood(d.cell);
-    switch (doorType) {
-        case "door0":
-            d.cell.contents.delete("door0");
-            if (neighborhood.right) {
-                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.delete("door1");
-                d.wall.getCell(d.cell.x + 2, d.cell.y).contents.delete("door2");
-            } else if (neighborhood.down) {
-                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.delete("door1");
-                d.wall.getCell(d.cell.x, d.cell.y + 2).contents.delete("door2");
-            }
-            break;
-
-        case "door1":
-            d.cell.contents.delete("door1");
-            if (neighborhood.right) {
-                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.delete("door0");
-                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.delete("door2");
-            } else if (neighborhood.down) {
-                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.delete("door0");
-                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.delete("door2");
-            }
-            break;
-
-        case "door2":
-            d.cell.contents.delete("door2");
-            if (neighborhood.left) {
-                d.wall.getCell(d.cell.x - 2, d.cell.y).contents.delete("door0");
-                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.delete("door1");
-            } else if (neighborhood.up) {
-                d.wall.getCell(d.cell.x, d.cell.y - 2).contents.delete("door0");
-                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.delete("door1");
-            }
-            break;
-    }
-    d.wallViews[0].renderWall();
+    d.cell.contents.delete("door");
+    d.cell.contentsData.delete("door-size");
+    d.wallView.renderWall();
     return true;
 };
 
 DoorBuilder.prototype._hasWindowOrDoor = function (cell) {
-    return _.some([0, 1, 2], function (i) {
-        return cell.contents.has("window" + i) || cell.contents.has("door" + i);
-    });
+    return cell.contents.has("window") || cell.contents.has("door");
 };
-
-DoorBuilder.prototype._getDoorType = function (cell) {
-    var i = _.find([0, 1, 2], function (i) {
-        return cell.contents.has("door" + i);
-    });
-    if (i == null) {
-        return null;
-    }
-    return "door" + i;
-};
-
-DoorBuilder.prototype._createDoor = function () {
-    for (var i = 0; i < 3; i++) {
-        arguments[i].contents.add("door" + i);
-    }
-};
-
-},{}],256:[function(require,module,exports){
+},{}],259:[function(require,module,exports){
 var DoorBuilder = require("./DoorBuilder.js");
 var WallView = require("./WallView.js");
 
@@ -38260,6 +38252,7 @@ var WallView = require("./WallView.js");
 function DoorTool(appState) {
     this.appState = appState;
     this.doorBuilder = new DoorBuilder(this.appState.wallsCollection);
+    this.style = 3;
 }
 module.exports = DoorTool;
 
@@ -38269,12 +38262,17 @@ DoorTool.prototype.onMouseDown = function () {
 DoorTool.prototype.onMouseMove = function () {
 };
 
-DoorTool.prototype.onMouseUp = function (x, y) {
+DoorTool.prototype.onMouseUp = function (x, y, isMousePosOk) {
+    if (!isMousePosOk) {
+        return;
+    }
     var cellX = Math.floor(x / WallView.cellWidth);
     var cellY = Math.floor(y / WallView.cellHeight);
-    switch (this.appState.toolMode) {
+    switch (this.appState.toolState.toolMode) {
         case "add":
-            this.doorBuilder.tryAddDoor(cellX, cellY);
+            if (this._isStyleOk()) {
+                this.doorBuilder.tryAddDoor(cellX, cellY, this._parseFloatStyle());
+            }
             break;
         case "remove":
             this.doorBuilder.tryRemoveDoor(cellX, cellY);
@@ -38282,7 +38280,161 @@ DoorTool.prototype.onMouseUp = function (x, y) {
     }
 };
 
-},{"./DoorBuilder.js":255,"./WallView.js":265}],257:[function(require,module,exports){
+DoorTool.prototype._isStyleOk = function () {
+    return !Number.isNaN(this._parseFloatStyle());
+};
+
+DoorTool.prototype._parseFloatStyle = function () {
+    if (_.isString(this.style)) {
+        return parseFloat(this.style.replace(",", "."));
+    } else {
+        return this.style;
+    }
+};
+
+},{"./DoorBuilder.js":258,"./WallView.js":275}],260:[function(require,module,exports){
+var CellModel = require("./CellModel.js");
+var FloorView = require("./FloorView.js");
+
+
+function FloorBuilder(wallsCollection, worldObjectsCollection) {
+    this.wallsCollection = wallsCollection;
+    this.worldObjectsCollection = worldObjectsCollection;
+}
+module.exports = FloorBuilder;
+
+FloorBuilder.prototype.tryAddFloor = function (x, y, style) {
+    if (this.wallsCollection.hasCellWithCoords(x, y)) {
+        return false;
+    }
+    if (this.worldObjectsCollection.hasCellWithCoords(x, y) && this.worldObjectsCollection.getCell(x, y).contents.has("floor")) {
+        return false;
+    }
+    var cell = new CellModel(x, y);
+    cell.contents.add("floor");
+    cell.contentsData.set("floor-style", style);
+    var view = new FloorView(cell, this.wallsCollection);
+    this.worldObjectsCollection.addCell(cell, view);
+    return true;
+};
+
+FloorBuilder.prototype.tryRemoveFloor = function (x, y) {
+    var cell = this.worldObjectsCollection.getCell(x, y);
+    if (cell == null || !cell.contents.has("floor")) {
+        return false;
+    }
+    this.worldObjectsCollection.removeCell(cell);
+    return true;
+};
+
+},{"./CellModel.js":256,"./FloorView.js":262}],261:[function(require,module,exports){
+var FloorBuilder = require("./FloorBuilder.js");
+var WallView = require("./WallView.js");
+
+
+function FloorTool(appState) {
+    this.appState = appState;
+    this.floorBuilder = new FloorBuilder(this.appState.wallsCollection, this.appState.worldObjectsCollection);
+    this.style = 0;
+    this.isMouseDown = false;
+}
+module.exports = FloorTool;
+
+FloorTool.prototype.onMouseDown = function () {
+    this.isMouseDown = true;
+};
+
+FloorTool.prototype.onMouseMove = function (x, y) {
+    if (!this.isMouseDown) {
+        return false;
+    }
+    this._create(x, y);
+};
+
+FloorTool.prototype.onMouseUp = function (x, y, isMousePosOk) {
+    this.isMouseDown = false;
+    if (isMousePosOk) {
+        this._create(x, y);
+    }
+};
+
+FloorTool.prototype._create = function (x, y) {
+    var cellX = Math.floor(x / WallView.cellWidth);
+    var cellY = Math.floor(y / WallView.cellHeight);
+    switch (this.appState.toolState.toolMode) {
+        case "add":
+            this.floorBuilder.tryAddFloor(cellX, cellY, this.style);
+            break;
+        case "remove":
+            this.floorBuilder.tryRemoveFloor(cellX, cellY);
+            break;
+    }
+};
+},{"./FloorBuilder.js":260,"./WallView.js":275}],262:[function(require,module,exports){
+var PIXI = require("pixi.js");
+var WallView = require("./WallView.js");
+
+
+function FloorView(model, wallsCollection) {
+    PIXI.Graphics.call(this);
+    this.model = model;
+    this.wallsCollection = wallsCollection;
+    this.renderFloor();
+}
+FloorView.prototype = Object.create(PIXI.Graphics.prototype);
+FloorView.prototype.constructor = FloorView;
+module.exports = FloorView;
+
+FloorView.prototype.renderFloor = function () {
+    var x = this.model.x;
+    var y = this.model.y;
+    var cw = WallView.cellWidth;
+    var ch = WallView.cellHeight;
+    var neighborhood = this.wallsCollection.getCellNeighborhood(this.model);
+
+    this.clear();
+    this.beginFill(this._getFloorColor());
+
+    this.drawRect(x * cw, y * ch, cw, ch);
+
+    if (neighborhood.left) {
+        this.drawRect((x - 0.5) * cw, y * ch, cw / 2, ch);
+    }
+    if (neighborhood.right) {
+        this.drawRect((x + 1) * cw, y * ch, cw / 2, ch);
+    }
+    if (neighborhood.up) {
+        this.drawRect(x * cw, (y - 0.5) * ch, cw, ch / 2);
+    }
+    if (neighborhood.down) {
+        this.drawRect(x * cw, (y + 1) * ch, cw, ch / 2);
+    }
+
+    if (neighborhood.left && neighborhood.up) {
+        this.drawRect((x - 0.5) * cw, (y - 0.5) * ch, cw / 2, ch / 2);
+    }
+    if (neighborhood.right && neighborhood.up) {
+        this.drawRect((x + 1) * cw, (y - 0.5) * ch, cw / 2, ch / 2);
+    }
+    if (neighborhood.left && neighborhood.down) {
+        this.drawRect((x - 0.5) * cw, (y + 1) * ch, cw / 2, ch / 2);
+    }
+    if (neighborhood.right && neighborhood.down) {
+        this.drawRect((x + 1) * cw, (y + 1) * ch, cw / 2, ch / 2);
+    }
+
+    this.endFill();
+};
+
+FloorView.prototype._getFloorColor = function () {
+    switch (this.model.contentsData.get("floor-style")) {
+        case 0:
+            return 0xf09816;
+        case 1:
+            return 0xffcd75;
+    }
+};
+},{"./WallView.js":275,"pixi.js":206}],263:[function(require,module,exports){
 var PIXI = require("pixi.js");
 var WallView = require("./WallView.js");
 
@@ -38313,11 +38465,12 @@ GridBackground.prototype.renderGrid = function () {
     this.endFill();
 };
 
-},{"./WallView.js":265,"pixi.js":203}],258:[function(require,module,exports){
-function MainStageController(appState, stage, interaction) {
+},{"./WallView.js":275,"pixi.js":206}],264:[function(require,module,exports){
+function MainStageController(appState, stage, interaction, screenSize) {
     this.appState = appState;
     this.stage = stage;
     this.interaction = interaction;
+    this.screenSize = screenSize;
 }
 module.exports = MainStageController;
 
@@ -38327,21 +38480,25 @@ MainStageController.prototype.init = function () {
     this.interaction.on("mouseup", this._onMouseUp.bind(this));
     this.appState.wallsCollection.on("addWallView", this._onAddWallView.bind(this));
     this.appState.wallsCollection.on("removeWallView", this._onRemoveWallView.bind(this));
+    this.appState.worldObjectsCollection.on("addCellView", this._onAddCellView.bind(this));
+    this.appState.worldObjectsCollection.on("removeCellView", this._onRemoveCellView.bind(this));
 };
 
 MainStageController.prototype._onMouseDown = function (event) {
     var pos = this._getMousePos(event);
-    this.appState.currentTool.onMouseDown(pos.x, pos.y);
+    this.appState.toolState.currentTool.onMouseDown(pos.x, pos.y, this._isMousePosOk(pos));
 };
 
 MainStageController.prototype._onMouseMove = function (event) {
     var pos = this._getMousePos(event);
-    this.appState.currentTool.onMouseMove(pos.x, pos.y);
+    if (this._isMousePosOk(pos)) {
+        this.appState.toolState.currentTool.onMouseMove(pos.x, pos.y);
+    }
 };
 
 MainStageController.prototype._onMouseUp = function (event) {
     var pos = this._getMousePos(event);
-    this.appState.currentTool.onMouseUp(pos.x, pos.y);
+    this.appState.toolState.currentTool.onMouseUp(pos.x, pos.y, this._isMousePosOk(pos));
 };
 
 MainStageController.prototype._onAddWallView = function (view) {
@@ -38352,22 +38509,44 @@ MainStageController.prototype._onRemoveWallView = function (view) {
     this.stage.removeChild(view);
 };
 
+MainStageController.prototype._onAddCellView = function (view) {
+    switch (view.__proto__.constructor.name) {
+        case "FloorView":
+            this.stage.addChildAt(view, 1);
+            break;
+        default:
+            this.stage.addChild(view);
+            break;
+    }
+};
+
+MainStageController.prototype._onRemoveCellView = function (view) {
+    this.stage.removeChild(view);
+};
+
 MainStageController.prototype._getMousePos = function (event) {
     return event.data.getLocalPosition(this.stage, undefined, this.interaction.mouse.global);
 };
 
-},{}],259:[function(require,module,exports){
-function PriceModel(wallsCollection) {
+MainStageController.prototype._isMousePosOk = function (pos) {
+    return pos.x >= 0 && pos.x <= this.screenSize.width && pos.y >= 0 && pos.y <= this.screenSize.height;
+};
+
+},{}],265:[function(require,module,exports){
+function PriceCalculator(wallsCollection, worldObjectsCollection) {
     this.wallsCollection = wallsCollection;
+    this.worldObjectsCollection = worldObjectsCollection;
 }
-module.exports = PriceModel;
+module.exports = PriceCalculator;
 
-PriceModel.wallPrice = 100;
-PriceModel.wirePrice = 100;
-PriceModel.doorPrice = 100;
-PriceModel.windowPrice = 100;
+PriceCalculator.wallPrice = 100;
+PriceCalculator.wirePrice = 100;
+PriceCalculator.doorPrice = 100;
+PriceCalculator.windowPrice = 100;
+PriceCalculator.sinkPrice = 100;
+PriceCalculator.floorPrice = 100;
 
-PriceModel.prototype.calculate = function () {
+PriceCalculator.prototype.calculate = function () {
     var price = 0;
 
     for (var i = 0; i < this.wallsCollection.walls.length; i++) {
@@ -38376,30 +38555,46 @@ PriceModel.prototype.calculate = function () {
         for (var j = 0; j < wall.cells.length; j++) {
             var cell = wall.cells[j];
 
-            price += PriceModel.wallPrice;
+            price += PriceCalculator.wallPrice;
 
             cell.contents.forEach(function (content) {
                 switch (content) {
                     case "wire":
-                        price += PriceModel.wirePrice;
+                        price += PriceCalculator.wirePrice;
                         break;
 
-                    case "door1":
-                        price += PriceModel.doorPrice;
+                    case "door":
+                        price += PriceCalculator.doorPrice * cell.contentsData.get("door-size");
                         break;
 
-                    case "window1":
-                        price += PriceModel.windowPrice;
+                    case "window":
+                        price += PriceCalculator.windowPrice * cell.contentsData.get("window-size");
                         break;
                 }
             });
         }
     }
 
+    for (var i = 0; i < this.worldObjectsCollection.cells.length; i++) {
+        var cell = this.worldObjectsCollection.cells[i];
+
+        cell.contents.forEach(function (content) {
+            switch (content) {
+                case "sink":
+                    price += PriceCalculator.sinkPrice;
+                    break;
+
+                case "floor":
+                    price += PriceCalculator.floorPrice;
+                    break;
+            }
+        });
+    }
+
     return price;
 };
 
-},{}],260:[function(require,module,exports){
+},{}],266:[function(require,module,exports){
 function PriceView(model, interaction) {
     this.model = model;
     this.interaction = interaction;
@@ -38429,21 +38624,156 @@ PriceView.prototype.update = function () {
     $("#room-plan-price").html(price);
 };
 
-},{}],261:[function(require,module,exports){
-function ToolsView(appState) {
+},{}],267:[function(require,module,exports){
+var CellModel = require("./CellModel.js");
+var SinkView = require("./SinkView.js");
+
+
+function SinkBuilder(wallsCollection, worldObjectsCollection) {
+    this.wallsCollection = wallsCollection;
+    this.worldObjectsCollection = worldObjectsCollection;
+}
+module.exports = SinkBuilder;
+
+SinkBuilder.prototype.tryAddSink = function (x, y) {
+    if (this.wallsCollection.hasCellWithCoords(x, y)) {
+        return false;
+    }
+    if (this.worldObjectsCollection.hasCellWithCoords(x, y) && !this.worldObjectsCollection.getCell(x, y).contents.has("floor")) {
+        return false;
+    }
+    var cell = new CellModel(x, y);
+    cell.contents.add("sink");
+    var view = new SinkView(cell);
+    this.worldObjectsCollection.addCell(cell, view);
+    return true;
+};
+
+SinkBuilder.prototype.tryRemoveSink = function (x, y) {
+    var cell = this.worldObjectsCollection.getCell(x, y);
+    if (cell == null || !cell.contents.has("sink")) {
+        return false;
+    }
+    this.worldObjectsCollection.removeCell(cell);
+    return true;
+};
+
+},{"./CellModel.js":256,"./SinkView.js":269}],268:[function(require,module,exports){
+var SinkBuilder = require("./SinkBuilder.js");
+var WallView = require("./WallView.js");
+
+
+function SinkTool(appState) {
     this.appState = appState;
+    this.sinkBuilder = new SinkBuilder(this.appState.wallsCollection, this.appState.worldObjectsCollection);
+}
+module.exports = SinkTool;
+
+SinkTool.prototype.onMouseDown = function () {
+};
+
+SinkTool.prototype.onMouseMove = function () {
+};
+
+SinkTool.prototype.onMouseUp = function (x, y, isMousePosOk) {
+    if (!isMousePosOk) {
+        return;
+    }
+    var cellX = Math.floor(x / WallView.cellWidth);
+    var cellY = Math.floor(y / WallView.cellHeight);
+    switch (this.appState.toolState.toolMode) {
+        case "add":
+            this.sinkBuilder.tryAddSink(cellX, cellY);
+            break;
+        case "remove":
+            this.sinkBuilder.tryRemoveSink(cellX, cellY);
+            break;
+    }
+};
+
+},{"./SinkBuilder.js":267,"./WallView.js":275}],269:[function(require,module,exports){
+var PIXI = require("pixi.js");
+var WallView = require("./WallView.js");
+
+
+function SinkView(model) {
+    PIXI.Graphics.call(this);
+    this.model = model;
+    this.renderSink();
+}
+SinkView.prototype = Object.create(PIXI.Graphics.prototype);
+SinkView.prototype.constructor = SinkView;
+module.exports = SinkView;
+
+SinkView.prototype.renderSink = function () {
+    this.clear();
+    this.beginFill(0x1faee9);
+    this.drawRect(this.model.x * WallView.cellWidth + 4, this.model.y * WallView.cellHeight + 4, WallView.cellWidth - 8, WallView.cellHeight - 8);
+    this.endFill();
+};
+
+},{"./WallView.js":275,"pixi.js":206}],270:[function(require,module,exports){
+var WallTool = require("./WallTool.js");
+var WireTool = require("./WireTool.js");
+var DoorTool = require("./DoorTool.js");
+var WindowTool = require("./WindowTool.js");
+var FloorTool = require("./FloorTool.js");
+var SinkTool = require("./SinkTool.js");
+
+
+function ToolsModel(appState) {
+    this.appState = appState;
+    this.tools = [
+        new WallTool(appState),
+        new WireTool(appState),
+        new DoorTool(appState),
+        new WindowTool(appState),
+        new FloorTool(appState),
+        new SinkTool(appState)
+    ];
+    this.currentTool = this.tools[0];
+    this.toolMode = "add";
+}
+module.exports = ToolsModel;
+
+},{"./DoorTool.js":259,"./FloorTool.js":261,"./SinkTool.js":268,"./WallTool.js":274,"./WindowTool.js":278,"./WireTool.js":280}],271:[function(require,module,exports){
+function ToolsView(toolState) {
+    this.toolState = toolState;
+
     this.toolsDomIdsToIntIds = {
         "#room-plan-tool-wall": 0,
         "#room-plan-tool-wire": 1,
         "#room-plan-tool-door": 2,
-        "#room-plan-tool-window": 3
+        "#room-plan-tool-window": 3,
+        "#room-plan-tool-floor": 4,
+        "#room-plan-tool-sink": 5
     };
+
+    this.intIdsToStyleDomId = [];
+    this.intIdsToStyleDomId[0] = "#room-plan-style-wall";
+    this.intIdsToStyleDomId[2] = "#room-plan-style-door";
+    this.intIdsToStyleDomId[3] = "#room-plan-style-window";
+    this.intIdsToStyleDomId[4] = "#room-plan-style-floor";
+
+    this.styleItemDomIdsToStyleIntIds = {
+        "#room-plan-wall-style0": 0,
+        "#room-plan-wall-style1": 1,
+        "#room-plan-floor-style0": 0,
+        "#room-plan-floor-style1": 1
+    };
+
+    this.styleInputDomIds = [
+        "#room-plan-door-size",
+        "#room-plan-window-size"
+    ];
 }
 module.exports = ToolsView;
 
 ToolsView.prototype.init = function () {
     this._initToolButtons();
     this._initModeButtons();
+    this._initStyleItemButtons();
+    this._initStyleInputButtons();
 };
 
 ToolsView.prototype._initToolButtons = function () {
@@ -38454,11 +38784,41 @@ ToolsView.prototype._initToolButtons = function () {
     }
 };
 
+ToolsView.prototype._initStyleItemButtons = function () {
+    for (var domId in this.styleItemDomIdsToStyleIntIds) {
+        if (this.styleItemDomIdsToStyleIntIds.hasOwnProperty(domId)) {
+            this._registerStyleItemEvent(domId, this.styleItemDomIdsToStyleIntIds[domId]);
+        }
+    }
+};
+
+ToolsView.prototype._initStyleInputButtons = function () {
+    this.styleInputDomIds.forEach(function (domId) {
+        this._registerStyleInputEvent(domId);
+    }.bind(this));
+};
+
 ToolsView.prototype._registerToolEvent = function (domId, intId) {
     var self = this;
     $(domId).click(function () {
         self._changeActiveToolButton($(this));
-        self.appState.currentTool = self.appState.tools[intId];
+        self.toolState.currentTool = self.toolState.tools[intId];
+        self._changeActiveStyleButton($(self.intIdsToStyleDomId[intId]));
+    });
+};
+
+ToolsView.prototype._registerStyleItemEvent = function (domId, intId) {
+    var self = this;
+    $(domId).click(function () {
+        self._changeActiveStyleItemButton($(this), $(this).parent());
+        self.toolState.currentTool.style = intId;
+    });
+};
+
+ToolsView.prototype._registerStyleInputEvent = function (domId) {
+    var self = this;
+    $(domId).on("input change", function () {
+        self.toolState.currentTool.style = $(this).val();
     });
 };
 
@@ -38466,11 +38826,11 @@ ToolsView.prototype._initModeButtons = function () {
     var self = this;
     $("#room-plan-tool-mode-add").click(function () {
         self._changeActiveModeButton($(this));
-        self.appState.toolMode = "add";
+        self.toolState.toolMode = "add";
     });
     $("#room-plan-tool-mode-remove").click(function () {
         self._changeActiveModeButton($(this));
-        self.appState.toolMode = "remove";
+        self.toolState.toolMode = "remove";
     });
 };
 
@@ -38484,21 +38844,33 @@ ToolsView.prototype._changeActiveModeButton = function ($nextActive) {
     $nextActive.removeClass("app-tools__mode--inactive").addClass("app-tools__mode--active");
 };
 
-},{}],262:[function(require,module,exports){
+ToolsView.prototype._changeActiveStyleButton = function ($nextActive) {
+    $(".app-tools-style--active").removeClass("app-tools-style--active").addClass("app-tools-style--inactive");
+    $nextActive.removeClass("app-tools-style--inactive").addClass("app-tools-style--active");
+};
+
+ToolsView.prototype._changeActiveStyleItemButton = function ($nextActive, $container) {
+    $container.find(".app-tools-style__item--active").removeClass("app-tools-style__item--active").addClass("app-tools-style__item--inactive");
+    $nextActive.removeClass("app-tools-style__item--inactive").addClass("app-tools-style__item--active");
+};
+
+},{}],272:[function(require,module,exports){
 var WallModel = require("./WallModel.js");
 var WallView = require("./WallView.js");
 var CellModel = require("./CellModel.js");
 
 
-function WallBuilder(wallsCollection) {
+function WallBuilder(wallsCollection, worldObjectsCollection) {
     this.wallsCollection = wallsCollection;
+    this.worldObjectsCollection = worldObjectsCollection;
 }
 module.exports = WallBuilder;
 
-WallBuilder.prototype.beginNewWall = function () {
+WallBuilder.prototype.beginNewWall = function (style) {
     this.wall = new WallModel();
     this.wallView = new WallView(this.wall);
     this.wallsCollection.addWall(this.wall, this.wallView);
+    this.style = style;
 };
 
 WallBuilder.prototype.endWall = function () {
@@ -38510,10 +38882,11 @@ WallBuilder.prototype.isBuilding = function () {
     return this.wall != null;
 };
 
-WallBuilder.prototype.tryAddCell = function (x, y) {
-    if (this.isBuilding() && this._isCellOkWithThisWall(x, y) && this._isCellOkWithOtherWalls(x, y)) {
+WallBuilder.prototype.tryAddCell = function (x, y, style) {
+    if (this.isBuilding() && this._isCellOkWithThisWall(x, y) && this._isCellOkWithOther(x, y)) {
         var cell = new CellModel(x, y);
-        this.wall.cells.push(cell);
+        cell.contentsData.set("wall-style", style);
+        this.wall.addCell(cell);
         this._tryJoin();
         this.wallView.renderWall();
         return true;
@@ -38526,13 +38899,13 @@ WallBuilder.prototype.tryRemoveCell = function (x, y) {
     if (d.cell == null) {
         return false;
     }
-    if (d.cell.contents.size != 0) {
+    if (d.cell.contents.length != 0) {
         return false;
     }
     d.wall.cells.splice(d.wall.cells.indexOf(d.cell), 1);
     var newWalls = d.wall.split();
     if (newWalls.length <= 1) {
-        d.wallViews[0].renderWall();
+        d.wallView.renderWall();
         return true;
     }
     this.wallsCollection.removeWall(d.wall);
@@ -38544,10 +38917,8 @@ WallBuilder.prototype.tryRemoveCell = function (x, y) {
     return true;
 };
 
-WallBuilder.prototype._isCellOkWithOtherWalls = function (x, y) {
-    return _.every(this.wallsCollection.walls, function (wall) {
-        return !wall.hasCellWithCoords(x, y);
-    });
+WallBuilder.prototype._isCellOkWithOther = function (x, y) {
+    return !this.wallsCollection.hasCellWithCoords(x, y) && !this.worldObjectsCollection.hasCellWithCoords(x, y);
 };
 
 WallBuilder.prototype._isCellOkWithThisWall = function (x, y) {
@@ -38566,7 +38937,7 @@ WallBuilder.prototype._tryJoin = function () {
         }
     }
 };
-},{"./CellModel.js":253,"./WallModel.js":263,"./WallView.js":265}],263:[function(require,module,exports){
+},{"./CellModel.js":256,"./WallModel.js":273,"./WallView.js":275}],273:[function(require,module,exports){
 var CellNeighborhood = require("./CellNeighborhood.js");
 
 
@@ -38574,6 +38945,14 @@ function WallModel() {
     this.cells = [];
 }
 module.exports = WallModel;
+
+WallModel.prototype.addCell = function (cell) {
+    this.cells.push(cell);
+};
+
+WallModel.prototype.removeCell = function (cell) {
+    this.cells.splice(this.cells.indexOf(cell), 1);
+};
 
 WallModel.prototype.isCellLinkable = function (cell) {
     return this.isCellWithCoordsLinkable(cell.x, cell.y);
@@ -38765,46 +39144,48 @@ WallModel.prototype._getCellIndex = function (x, y) {
     }
 };
 
-},{"./CellNeighborhood.js":254}],264:[function(require,module,exports){
+},{"./CellNeighborhood.js":257}],274:[function(require,module,exports){
 var WallBuilder = require("./WallBuilder.js");
 var WallView = require("./WallView.js");
 
 
 function WallTool(appState) {
     this.appState = appState;
-    this.wallBuilder = new WallBuilder(this.appState.wallsCollection);
+    this.wallBuilder = new WallBuilder(this.appState.wallsCollection, this.appState.worldObjectsCollection);
+    this.style = 0;
     this.isMouseDown = false;
 }
 module.exports = WallTool;
 
 WallTool.prototype.onMouseDown = function () {
     this.isMouseDown = true;
-    if (this.appState.toolMode == "add") {
+    if (this.appState.toolState.toolMode == "add") {
         this.wallBuilder.beginNewWall();
     }
 };
 
 WallTool.prototype.onMouseMove = function (x, y) {
-    if (!this.isMouseDown) {
-        return;
+    if (this.isMouseDown) {
+        this._create(x, y);
     }
-    this._create(x, y);
 };
 
-WallTool.prototype.onMouseUp = function (x, y) {
+WallTool.prototype.onMouseUp = function (x, y, isMousePosOk) {
     this.isMouseDown = false;
-    if (this.appState.toolMode == "add") {
+    if (this.appState.toolState.toolMode == "add") {
         this.wallBuilder.endWall();
     }
-    this._create(x, y);
+    if (isMousePosOk) {
+        this._create(x, y);
+    }
 };
 
 WallTool.prototype._create = function (x, y) {
     var cellX = Math.floor(x / WallView.cellWidth);
     var cellY = Math.floor(y / WallView.cellHeight);
-    switch (this.appState.toolMode) {
+    switch (this.appState.toolState.toolMode) {
         case "add":
-            this.wallBuilder.tryAddCell(cellX, cellY);
+            this.wallBuilder.tryAddCell(cellX, cellY, this.style);
             break;
         case "remove":
             this.wallBuilder.tryRemoveCell(cellX, cellY);
@@ -38812,7 +39193,7 @@ WallTool.prototype._create = function (x, y) {
     }
 };
 
-},{"./WallBuilder.js":262,"./WallView.js":265}],265:[function(require,module,exports){
+},{"./WallBuilder.js":272,"./WallView.js":275}],275:[function(require,module,exports){
 var PIXI = require("pixi.js");
 
 
@@ -38843,13 +39224,24 @@ WallView.prototype.renderWall = function () {
         var y = cell.y * h;
         var neighborhood = this.model.getCellNeighborhood(cell);
 
-        this._renderCell(x, y, w, h, wallSize, neighborhood);
+        this._renderCell(cell, x, y, w, h, wallSize, neighborhood);
+    }
+    for (var i = 0; i < this.model.cells.length; i++) {
+        var cell = this.model.cells[i];
+
+        var wallSize = WallView.cellWallSize;
+        var w = WallView.cellWidth;
+        var h = WallView.cellHeight;
+        var x = cell.x * w;
+        var y = cell.y * h;
+        var neighborhood = this.model.getCellNeighborhood(cell);
+
         this._renderCellContents(cell, x, y, w, h, wallSize, neighborhood);
     }
 };
 
-WallView.prototype._renderCell = function (x, y, w, h, s, neighborhood) {
-    this.beginFill(0x34332c);
+WallView.prototype._renderCell = function (cell, x, y, w, h, s, neighborhood) {
+    this.beginFill(this._getCellColor(cell));
     var centerX = x + w / 2;
     var centerY = y + h / 2;
     this.drawRect(centerX - s / 2, centerY - s / 2, s, s);
@@ -38868,39 +39260,36 @@ WallView.prototype._renderCell = function (x, y, w, h, s, neighborhood) {
     this.endFill();
 };
 
-WallView.prototype._renderCellContents = function (cell, x, y, w, h, wallSize, neighborhood) {
-    cell.contents.forEach(function (content) {
-        if (content != "wire") {
-            this._renderCellContent(x, y, w, h, wallSize, content, neighborhood);
-        }
-    }.bind(this));
-    if (cell.contents.has("wire")) {
-        this._renderCellContent(x, y, w, h, wallSize, "wire", neighborhood);
+WallView.prototype._getCellColor = function (cell) {
+    switch (cell.contentsData.get("wall-style")) {
+        case 0:
+            return 0x34332c;
+        case 1:
+            return 0x464531;
     }
 };
 
-WallView.prototype._renderCellContent = function (x, y, w, h, wallSize, content, neighborhood) {
+WallView.prototype._renderCellContents = function (cell, x, y, w, h, wallSize, neighborhood) {
+    cell.contents.forEach(function (content) {
+        if (content != "wire") {
+            this._renderCellContent(cell, x, y, w, h, wallSize, content, neighborhood);
+        }
+    }.bind(this));
+    if (cell.contents.has("wire")) {
+        this._renderCellContent(cell, x, y, w, h, wallSize, "wire", neighborhood);
+    }
+};
+
+WallView.prototype._renderCellContent = function (cell, x, y, w, h, wallSize, content, neighborhood) {
     switch (content) {
         case "wire":
             this._renderWire(x, y, w, h, wallSize, neighborhood);
             break;
-        case "door0":
-            this._renderDoor(0, x, y, w, h, wallSize, neighborhood);
+        case "door":
+            this._renderDoor(x, y, w, h, cell.contentsData.get("door-size"), wallSize, neighborhood);
             break;
-        case "door1":
-            this._renderDoor(1, x, y, w, h, wallSize, neighborhood);
-            break;
-        case "door2":
-            this._renderDoor(2, x, y, w, h, wallSize, neighborhood);
-            break;
-        case "window0":
-            this._renderWindow(0, x, y, w, h, wallSize, neighborhood);
-            break;
-        case "window1":
-            this._renderWindow(1, x, y, w, h, wallSize, neighborhood);
-            break;
-        case "window2":
-            this._renderWindow(2, x, y, w, h, wallSize, neighborhood);
+        case "window":
+            this._renderWindow(x, y, w, h, cell.contentsData.get("window-size"), wallSize, neighborhood);
             break;
     }
 };
@@ -38927,91 +39316,55 @@ WallView.prototype._renderWire = function (x, y, w, h, wallSize, neighborhood) {
     this.endFill();
 };
 
-WallView.prototype._renderDoor = function (index, x, y, w, h, wallSize, neighborhood) {
-    this._renderRectInWall(x, y, w, h, wallSize, neighborhood.up || neighborhood.down, index, 0xc76700, 0x7b3f00);
+WallView.prototype._renderDoor = function (x, y, w, h, thingSize, wallSize, neighborhood) {
+    this._renderThingInWall(x, y, w, h, thingSize, wallSize, neighborhood.up || neighborhood.down, 0xc76700, 0x7b3f00);
 };
 
-WallView.prototype._renderWindow = function (index, x, y, w, h, wallSize, neighborhood) {
-    this._renderRectInWall(x, y, w, h, wallSize, neighborhood.up || neighborhood.down, index, 0xbfefff, 0x3bceff);
+WallView.prototype._renderWindow = function (x, y, w, h, thingSize, wallSize, neighborhood) {
+    this._renderThingInWall(x, y, w, h, thingSize, wallSize, neighborhood.up || neighborhood.down, 0xbfefff, 0x3bceff);
 };
 
-WallView.prototype._renderRectInWall = function (x, y, w, h, wallSize, isVerticalNeighborhood, index, color, borderColor) {
-    var centerX = x + w / 2;
-    var centerY = y + h / 2;
+WallView.prototype._renderThingInWall = function (x, y, w, h, thingSize, wallSize, isVerticalNeighborhood, color, borderColor) {
     var s = wallSize * 1.25;
     var borderSize = wallSize * 0.25;
 
-    this.beginFill(color);
-    switch (index) {
-        case 0:
-            if (isVerticalNeighborhood) {
-                this.drawRect(centerX - s / 2, y + h * 0.25, s, h * 0.75);
-            } else {
-                this.drawRect(x + w * 0.25, centerY - s / 2, w * 0.75, s);
-            }
-            break;
-        case 1:
-            if (isVerticalNeighborhood) {
-                this.drawRect(centerX - s / 2, y, s, h);
-            } else {
-                this.drawRect(x, centerY - s / 2, w, s);
-            }
-            break;
-        case 2:
-            if (isVerticalNeighborhood) {
-                this.drawRect(centerX - s / 2, y, s, h * 0.75);
-            } else {
-                this.drawRect(x, centerY - s / 2, w * 0.75, s);
-            }
-            break;
+    var centerX = x + w / 2;
+    var centerY = y + h / 2;
+    var leftX, rightX, upY, downY;
+    if (isVerticalNeighborhood) {
+        leftX = centerX - s / 2;
+        rightX = centerX + s / 2;
+        upY = centerY - (thingSize * h) / 2;
+        downY = centerY + (thingSize * h) / 2;
+    } else {
+        leftX = centerX - (thingSize * w) / 2;
+        rightX = centerX + (thingSize * w) / 2;
+        upY = centerY - s / 2;
+        downY = centerY + s / 2;
     }
+
+    this.beginFill(color);
+    this.drawRect(leftX, upY, rightX - leftX, downY - upY);
     this.endFill();
 
     this.beginFill(borderColor);
-    switch (index) {
-        case 0:
-            if (isVerticalNeighborhood) {
-                this.drawRect(centerX - s / 2, y + h * 0.25, s, borderSize);
-                this.drawRect(centerX - s / 2, y + h * 0.25, borderSize, h * 0.75);
-                this.drawRect(centerX + s / 2 - borderSize, y + h * 0.25, borderSize, h * 0.75);
-            } else {
-                this.drawRect(x + w * 0.25, centerY - s / 2, borderSize, s);
-                this.drawRect(x + w * 0.25, centerY - s / 2, w * 0.75, borderSize);
-                this.drawRect(x + w * 0.25, centerY + s / 2 - borderSize, w * 0.75, borderSize);
-            }
-            break;
-        case 1:
-            if (isVerticalNeighborhood) {
-                this.drawRect(centerX - s / 2, y, borderSize, h);
-                this.drawRect(centerX + s / 2 - borderSize, y, borderSize, h);
-            } else {
-                this.drawRect(x, centerY - s / 2, w, borderSize);
-                this.drawRect(x, centerY + s / 2 - borderSize, w, borderSize);
-            }
-            break;
-        case 2:
-            if (isVerticalNeighborhood) {
-                this.drawRect(centerX - s / 2, y + h * 0.75 - borderSize, s, borderSize);
-                this.drawRect(centerX - s / 2, y, borderSize, h * 0.75);
-                this.drawRect(centerX + s / 2 - borderSize, y, borderSize, h * 0.75);
-            } else {
-                this.drawRect(x + w * 0.75 - borderSize, centerY - s / 2, borderSize, s);
-                this.drawRect(x, centerY - s / 2, w * 0.75, borderSize);
-                this.drawRect(x, centerY + s / 2 - borderSize, w * 0.75, borderSize);
-            }
-            break;
-    }
+    this.drawRect(leftX, upY, borderSize, downY - upY);
+    this.drawRect(leftX, upY, rightX - leftX, borderSize);
+    this.drawRect(rightX - borderSize, upY, borderSize, downY - upY);
+    this.drawRect(leftX, downY - borderSize, rightX - leftX, borderSize);
     this.endFill();
 };
 
-},{"pixi.js":203}],266:[function(require,module,exports){
+},{"pixi.js":206}],276:[function(require,module,exports){
 var EventEmitter = require("eventemitter3");
+var Map = require("core-js/library/fn/map");
+var CellNeighborhood = require("./CellNeighborhood.js");
 
 
 function WallsCollection() {
-    EventEmitter.apply(this, arguments);
+    EventEmitter.call(this);
     this.walls = [];
-    this.wallViews = [];
+    this.wallViews = new Map();
 }
 WallsCollection.prototype = Object.create(EventEmitter.prototype);
 WallsCollection.prototype.constructor = WallsCollection;
@@ -39019,7 +39372,6 @@ module.exports = WallsCollection;
 
 WallsCollection.prototype.addWall = function (wall, view) {
     this.walls.push(wall);
-    this.wallViews.push([]);
     this.emit("addWall", wall);
     if (view != null) {
         this.addWallView(view);
@@ -39027,24 +39379,20 @@ WallsCollection.prototype.addWall = function (wall, view) {
 };
 
 WallsCollection.prototype.addWallView = function (view) {
-    this.wallViews[this.walls.indexOf(view.model)].push(view);
+    this.wallViews.set(view.model, view);
     this.emit("addWallView", view);
 };
 
 WallsCollection.prototype.removeWall = function (wall) {
-    var i = this.walls.indexOf(wall);
-    var views = this.wallViews[i];
-    this.wallViews.splice(i, 1);
-    views.forEach(function (view) {
-        this.emit("removeWallView", view);
-    }.bind(this));
-    this.walls.splice(i, 1);
-    this.emit("removeWall", wall, views);
+    if (this.wallViews.has(wall)) {
+        this.removeWallView(this.wallViews.get(wall));
+    }
+    this.walls.splice(this.walls.indexOf(wall), 1);
+    this.emit("removeWall", wall);
 };
 
 WallsCollection.prototype.removeWallView = function (view) {
-    var views = this.wallViews[this.walls.indexOf(view.model)];
-    views.splice(views.indexOf(view), 1);
+    this.wallViews.delete(view.model);
     this.emit("removeWallView", view);
 };
 
@@ -39054,20 +39402,51 @@ WallsCollection.prototype.findCellAndWall = function (x, y) {
         for (var j = 0; j < wall.cells.length; j++) {
             var cell = wall.cells[j];
             if (cell.x == x && cell.y == y) {
-                var wallViews = this.wallViews[i];
-                return { cell: cell, wall: wall, wallViews: wallViews, i: i };
+                return { cell: cell, wall: wall, wallView: this.wallViews.get(wall) };
             }
         }
     }
     return {};
 };
-},{"eventemitter3":72}],267:[function(require,module,exports){
+
+WallsCollection.prototype.hasCell = function (cell) {
+    return this.hasCellWithCoords(cell.x, cell.y);
+};
+
+WallsCollection.prototype.hasCellWithCoords = function (x, y) {
+    return this.findCellAndWall(x, y).cell != null;
+};
+
+WallsCollection.prototype.getCellNeighborhood = function (cell) {
+    return this.getCellWithCoordsNeighborhood(cell.x, cell.y);
+};
+
+WallsCollection.prototype.getCellWithCoordsNeighborhood = function (x, y) {
+    var r = new CellNeighborhood();
+    for (var i = 0; i < this.walls.length; i++) {
+        var n = this.walls[i].getCellWithCoordsNeighborhood(x, y);
+        if (n.left) {
+            r.left = n.left;
+        }
+        if (n.right) {
+            r.right = n.right;
+        }
+        if (n.up) {
+            r.up = n.up;
+        }
+        if (n.down) {
+            r.down = n.down;
+        }
+    }
+    return r;
+};
+},{"./CellNeighborhood.js":257,"core-js/library/fn/map":2,"eventemitter3":75}],277:[function(require,module,exports){
 function WindowBuilder(wallsCollection) {
     this.wallsCollection = wallsCollection;
 }
 module.exports = WindowBuilder;
 
-WindowBuilder.prototype.tryAddWindow = function (x, y) {
+WindowBuilder.prototype.tryAddWindow = function (x, y, style) {
     var d = this.wallsCollection.findCellAndWall(x, y);
     if (d.cell == null) {
         return false;
@@ -39099,11 +39478,12 @@ WindowBuilder.prototype.tryAddWindow = function (x, y) {
     } else {
         return false;
     }
-    if (this._hasWindowOrDoor(cell0) || this._hasWindowOrDoor(cell1) || this._hasWindowOrDoor(cell2)) {
+    if (this._hasWindowOrDoor(cell1)) {
         return false;
     }
-    this._createWindow(cell0, cell1, cell2);
-    d.wallViews[0].renderWall();
+    cell1.contents.add("window");
+    cell1.contentsData.set("window-size", style);
+    d.wallView.renderWall();
     return true;
 };
 
@@ -39112,72 +39492,16 @@ WindowBuilder.prototype.tryRemoveWindow = function (x, y) {
     if (d.cell == null) {
         return false;
     }
-    var windowType = this._getWindowType(d.cell);
-    if (windowType == null) {
-        return false;
-    }
-    var neighborhood = d.wall.getCellNeighborhood(d.cell);
-    switch (windowType) {
-        case "window0":
-            d.cell.contents.delete("window0");
-            if (neighborhood.right) {
-                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.delete("window1");
-                d.wall.getCell(d.cell.x + 2, d.cell.y).contents.delete("window2");
-            } else if (neighborhood.down) {
-                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.delete("window1");
-                d.wall.getCell(d.cell.x, d.cell.y + 2).contents.delete("window2");
-            }
-            break;
-
-        case "window1":
-            d.cell.contents.delete("window1");
-            if (neighborhood.right) {
-                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.delete("window0");
-                d.wall.getCell(d.cell.x + 1, d.cell.y).contents.delete("window2");
-            } else if (neighborhood.down) {
-                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.delete("window0");
-                d.wall.getCell(d.cell.x, d.cell.y + 1).contents.delete("window2");
-            }
-            break;
-
-        case "window2":
-            d.cell.contents.delete("window2");
-            if (neighborhood.left) {
-                d.wall.getCell(d.cell.x - 2, d.cell.y).contents.delete("window0");
-                d.wall.getCell(d.cell.x - 1, d.cell.y).contents.delete("window1");
-            } else if (neighborhood.up) {
-                d.wall.getCell(d.cell.x, d.cell.y - 2).contents.delete("window0");
-                d.wall.getCell(d.cell.x, d.cell.y - 1).contents.delete("window1");
-            }
-            break;
-    }
-    d.wallViews[0].renderWall();
+    d.cell.contents.delete("window");
+    d.cell.contentsData.delete("window-size");
+    d.wallView.renderWall();
     return true;
 };
 
 WindowBuilder.prototype._hasWindowOrDoor = function (cell) {
-    return _.some([0, 1, 2], function (i) {
-        return cell.contents.has("window" + i) || cell.contents.has("door" + i);
-    });
+    return cell.contents.has("window") || cell.contents.has("door");
 };
-
-WindowBuilder.prototype._getWindowType = function (cell) {
-    var i = _.find([0, 1, 2], function (i) {
-        return cell.contents.has("window" + i);
-    });
-    if (i == null) {
-        return null;
-    }
-    return "window" + i;
-};
-
-WindowBuilder.prototype._createWindow = function () {
-    for (var i = 0; i < 3; i++) {
-        arguments[i].contents.add("window" + i);
-    }
-};
-
-},{}],268:[function(require,module,exports){
+},{}],278:[function(require,module,exports){
 var WindowBuilder = require("./WindowBuilder.js");
 var WallView = require("./WallView.js");
 
@@ -39185,6 +39509,7 @@ var WallView = require("./WallView.js");
 function WindowTool(appState) {
     this.appState = appState;
     this.windowBuilder = new WindowBuilder(this.appState.wallsCollection);
+    this.style = 3;
 }
 module.exports = WindowTool;
 
@@ -39197,9 +39522,11 @@ WindowTool.prototype.onMouseMove = function () {
 WindowTool.prototype.onMouseUp = function (x, y) {
     var cellX = Math.floor(x / WallView.cellWidth);
     var cellY = Math.floor(y / WallView.cellHeight);
-    switch (this.appState.toolMode) {
+    switch (this.appState.toolState.toolMode) {
         case "add":
-            this.windowBuilder.tryAddWindow(cellX, cellY);
+            if (this._isStyleOk()) {
+                this.windowBuilder.tryAddWindow(cellX, cellY, this._parseFloatStyle());
+            }
             break;
         case "remove":
             this.windowBuilder.tryRemoveWindow(cellX, cellY);
@@ -39207,7 +39534,19 @@ WindowTool.prototype.onMouseUp = function (x, y) {
     }
 };
 
-},{"./WallView.js":265,"./WindowBuilder.js":267}],269:[function(require,module,exports){
+WindowTool.prototype._isStyleOk = function () {
+    return !Number.isNaN(this._parseFloatStyle());
+};
+
+WindowTool.prototype._parseFloatStyle = function () {
+    if (_.isString(this.style)) {
+        return parseFloat(this.style.replace(",", "."));
+    } else {
+        return this.style;
+    }
+};
+
+},{"./WallView.js":275,"./WindowBuilder.js":277}],279:[function(require,module,exports){
 function WireBuilder(wallsCollection) {
     this.wallsCollection = wallsCollection;
 }
@@ -39223,7 +39562,7 @@ WireBuilder.prototype.tryAddWire = function (x, y) {
         return false;
     }
     d.cell.contents.add("wire");
-    d.wallViews[0].renderWall();
+    d.wallView.renderWall();
     return true;
 };
 
@@ -39237,11 +39576,11 @@ WireBuilder.prototype.tryRemoveWire = function (x, y) {
         return false;
     }
     d.cell.contents.delete("wire");
-    d.wallViews[0].renderWall();
+    d.wallView.renderWall();
     return true;
 };
 
-},{}],270:[function(require,module,exports){
+},{}],280:[function(require,module,exports){
 var WireBuilder = require("./WireBuilder.js");
 var WallView = require("./WallView.js");
 
@@ -39261,7 +39600,7 @@ WireTool.prototype.onMouseMove = function (x, y) {
     if (this.isMouseDown) {
         var cellX = Math.floor(x / WallView.cellWidth);
         var cellY = Math.floor(y / WallView.cellHeight);
-        switch (this.appState.toolMode) {
+        switch (this.appState.toolState.toolMode) {
             case "add":
                 this.wireBuilder.tryAddWire(cellX, cellY);
                 break;
@@ -39276,5 +39615,61 @@ WireTool.prototype.onMouseUp = function () {
     this.isMouseDown = false;
 };
 
-},{"./WallView.js":265,"./WireBuilder.js":269}]},{},[250])
+},{"./WallView.js":275,"./WireBuilder.js":279}],281:[function(require,module,exports){
+var EventEmitter = require("eventemitter3");
+var Map = require("core-js/library/fn/map");
+
+
+function WorldObjectsCollection() {
+    EventEmitter.call(this);
+    this.cells = [];
+    this.cellViews = new Map();
+}
+WorldObjectsCollection.prototype = Object.create(EventEmitter.prototype);
+WorldObjectsCollection.prototype.constructor = WorldObjectsCollection;
+module.exports = WorldObjectsCollection;
+
+
+WorldObjectsCollection.prototype.addCell = function (cell, view) {
+    this.cells.push(cell);
+    this.emit("addCell", cell);
+    if (view != null) {
+        this.addCellView(view);
+    }
+};
+
+WorldObjectsCollection.prototype.addCellView = function (view) {
+    this.cellViews.set(view.model, view);
+    this.emit("addCellView", view);
+};
+
+WorldObjectsCollection.prototype.removeCell = function (cell) {
+    if (this.cellViews.has(cell)) {
+        this.removeCellView(this.cellViews.get(cell));
+    }
+    this.cells.splice(this.cells.indexOf(cell), 1);
+    this.emit("removeCell", cell);
+};
+
+WorldObjectsCollection.prototype.removeCellView = function (view) {
+    this.cellViews.delete(view.model);
+    this.emit("removeCellView", view);
+};
+
+WorldObjectsCollection.prototype.hasCell = function (cell) {
+    return this.hasCellWithCoords(cell.x, cell.y);
+};
+
+WorldObjectsCollection.prototype.hasCellWithCoords = function (x, y) {
+    return _.some(this.cells, function (cell) {
+        return cell.x == x && cell.y == y;
+    });
+};
+
+WorldObjectsCollection.prototype.getCell = function (x, y) {
+    return _.find(this.cells, function (cell) {
+        return cell.x == x && cell.y == y;
+    });
+};
+},{"core-js/library/fn/map":2,"eventemitter3":75}]},{},[253])
 //# sourceMappingURL=room-plan-bundle.js.map
