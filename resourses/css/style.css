@@ -43,6 +43,12 @@ ul {
 
 /*--- Buttons in bottom ---*/
 
+.row .long_copy {
+    padding-bottom: 20px;
+}
+
+/*--- Buttons in bottom ---*/
+
 .disp {
   display: none;
 }
@@ -432,7 +438,7 @@ header .row {
 }
 
 .main_info .long_copy {
-  margin-bottom: 0px;
+  margin-bottom: 30px;
 }
 
 .box p {
@@ -988,6 +994,10 @@ footer p {
   margin-top: 20px;
 }
 
+.types_of_works .long_copy {
+    margin-top: 0;
+}
+
 .works_photo {
   height: 180px;
   width: 100%;
@@ -1079,7 +1089,19 @@ footer p {
 /* -------------------------------------------------- */
 
 .our_work {
+    margin-bottom: 0;
+    padding-bottom: 0;
   background-color: #f8f8f8;
+}
+
+.content {
+    height: 300px;
+    margin-bottom: 50px;
+}
+
+.h_check:after {
+    margin-top: 35px;
+    margin-bottom: 25px;
 }
 
 .h_link .h_check a:link,
