@@ -269,7 +269,7 @@ header {
 
 .icon_main_head {
   margin-right: 10px;
-  color: #0f6c74;
+  color: #fce8be;
   font-size: 130%;
 }
 
@@ -1095,6 +1095,8 @@ footer p {
   transition: border-bottom 0.2s, color 0.2s, font-size 0.2s;
 }
 
+
+
 .h_link .h_check a:link,
 .h_link .h_check a:visited {
   color: #555555;
@@ -1103,6 +1105,10 @@ footer p {
 .h_link .h_check_2 a:link,
 .h_link .h_check_2 a:visited {
   color: white;
+}
+
+.h_link .row{
+  padding-bottom: 10px;
 }
 
 .h_link .h_check a:hover,
@@ -1337,6 +1343,11 @@ footer p {
   background-size: cover;
   color: white;
   background-attachment: fixed;
+  padding:  50px 0;
+}
+
+.secrion_test h2::after{
+  margin-top: 56px;
 }
 
 blockquote {
@@ -1351,9 +1362,11 @@ blockquote:before {
   font-size: 300%;
   display: block;
   position: absolute;
-  top: 0;
-  left: -3px;
+  top: 10px;
+  left: -25px;
 }
+
+
 
 cite {
   font-size: 90%;
