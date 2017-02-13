@@ -10,7 +10,7 @@ html,
 body {
   background-color: white;
   color: #555;
-  font-family: 'Roboto', sans-serif;
+  font-family: sans-serif;
   font-weight: 300;
   font-size: 20px;
   text-rendering: optimizeLegibility;
@@ -132,7 +132,8 @@ h2,
 h3 {
   font-weight: 300;
   text-transform: uppercase;
-  font-family: 'Roboto';
+  
+  font-family:  sans-serif;
 }
 
 h1 {
@@ -190,7 +191,7 @@ h3 {
 /*---HEADER---*/
 
 header {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(img/head_back.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(img/head_back.jpg);
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -1566,6 +1567,7 @@ padding-top: 10vh;
 
 .skcii_h h2{
   margin-top: 100px;
+  margin-right: 8%; 
 }
 
 .akcii h1{
@@ -1573,16 +1575,17 @@ text-align: center;
 padding-top: 10vh;
 color: #555555;
 float: center;
-margin-left: 25%; 
-margin-right: 10%;
+margin-left: 20%; 
+margin-right: 7%;
+padding-left: 4%;
 
 }
 
 .skcii_h .row{
   padding: 10px 10px;
-  margin-left: 25%;
-  margin-right: 10%;
-  padding-left: 5%;
+  margin-left: 20%;
+  margin-right: 5%;
+  padding-left: 6%;
   text-align: justify;
   
 }
