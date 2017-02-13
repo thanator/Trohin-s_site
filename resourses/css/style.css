@@ -1518,16 +1518,17 @@ input[type=checkbox] {
 
 .h_otbel{
    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(img/price/dem.jpg);
+   margin-bottom: 100px;
 }
 
 .h_elec{
       background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url(img/price/electr.jpg);
-  margin-top: 200px;
+  margin-top: 100px;
 }
 
 .h_mal{
       background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(img/price/mal.jpg);
-margin-top: 50px;
+margin-top: 100px;
 }
 
 .h_plit{
