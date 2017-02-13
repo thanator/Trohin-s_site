@@ -24,7 +24,7 @@ body {
 }
 
 section {
-  padding: 80px 0;
+  padding: 20px 0;
 }
 
 .box {
@@ -344,7 +344,7 @@ header .row {
 
 .menu {
   float: right;
-  padding-top: 20px;
+  padding-top: 15px;
   margin-right: 100px;
 }
 
@@ -382,7 +382,7 @@ header .row {
   left: 0;
   margin: 0;
   padding: 0;
-  margin-top: 15px;
+  margin-top: 21px;
   transition: visibility 0.5s, opacity 0.5s;
 }
 
@@ -912,7 +912,7 @@ footer p {
 .tree_nav li a:visited {
   color: #e2781a;
   padding-top: 19px;
-  padding-bottom: 14px;
+  padding-bottom: 19px;
   text-decoration: none;
   text-transform: uppercase;
   font-size: 90%;
@@ -1040,7 +1040,7 @@ footer p {
 .sticky .tree_nav li a:link,
 .sticky .tree_nav li a:visited {
   padding: 16px 0;
-  padding-bottom: 14px;
+  padding-bottom: 19px;
 }
 
 .sticky .tree_nav .menu ul li ul {
@@ -1578,7 +1578,7 @@ margin-right: 10%;
   min-height: 100%;
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)),  url(img/side_acc.jpg);
   height: auto;
-  width: 25%;
+  width: 20%;
 
 }
 
