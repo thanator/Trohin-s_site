@@ -821,6 +821,11 @@ footer p {
   /*border-radius: 5%;*/
 }
 
+.full h1{
+  padding-top: 30px;
+  color: #d27421;
+}
+
 .tree_body {
   position: relative;
   min-height: 100%;
