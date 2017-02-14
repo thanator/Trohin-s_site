@@ -76,17 +76,20 @@
             <div class="container">
                 <section>
                     <label class="select-label">Вид работы</label>
-                    <select class="cs-select cs-skin-slide">
-                        <option value="sightseeing" data-class="icon-camera">
-                            <!--Работа нумеро уно-->
-                            <p class="name">Работа нумеро уно</p>
-                            <p class="price">200 руб/кв.м</p>
-                        </option>
+                    <select class="cs-select cs-skin-slide" aria-required="true" onchange="Selected(this)">
+                        <option value="sightseeing" data-class="icon-camera" >Работа нумеро уно</option>
                         <option value="business" data-class="icon-money">Работа намбер ту</option>
                         <option value="honeymoon" data-class="icon-heart">Работа намба сан</option>
                         <option value="food" data-class="icon-food">Работа нуммер фир</option>
                         <option value="shopping" data-class="icon-shirt">Пиллекмеш работа</option>
-				    </select>
+                    </select>
+                    <div class="labels">
+                        <div id="label-1">test1</div>
+                        <div id="label-2">test2</div>
+                        <div id="label-3">test3</div>
+                        <div id="label-4">test4</div>
+                        <div id="label-5">test5</div>
+                    </div>
                 </section>
             </div>
             <script src="vendors/js/classie.js"></script>
@@ -127,6 +130,12 @@
         <div class="">
         </div>
     </div>
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+            <script src="resourses/js/selector.js"></script>
 </body>
+
+
 
 </html>
