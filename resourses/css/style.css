@@ -886,6 +886,7 @@ footer p {
 .content_gray {
   padding: 10px 0;
   margin-bottom: 10px;
+  position: relative;
 }
 
 .content:after {
