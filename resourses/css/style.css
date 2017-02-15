@@ -1596,7 +1596,7 @@ input[type=checkbox] {
   background-size: cover;
   background-position: center;
   height: 30vh;
-  background-attachment: fixed;  
+  background-attachment: local;
 }
 
 .h_otbel{

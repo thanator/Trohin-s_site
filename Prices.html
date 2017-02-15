@@ -18,7 +18,7 @@
     <title>Prices</title>
 </head>
 
-<body class="works_types">
+<body class="works_types" onload="init()">
     <section id="page05">
         <nav class="sticky">
             <div class="tree_nav">
@@ -70,7 +70,7 @@
     </section>
     <div class="" id="otdel_rab">
         <div class="h_otbel">
-            <h1>демонтажные работы</h1>
+            <h1>Демонтажные работы</h1>
         </div>
         <div class="container">
             <section>
@@ -205,6 +205,18 @@
                 new SelectFx(el);
             });
         })();
+        function init()
+        {
+            //alert(window.navigator.userAgent.indexOf(""));
+            if (window.navigator.userAgent.indexOf("Chrome") > -1)
+                {
+                    $(".h_otbel").css('background-attachment', 'fixed');
+                    alert($(".h_otbel").css('background-attachment'));
+                }else{
+                    alert($(".h_otbel").css('background-attachment'));
+                }
+         }
+        ;
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="resourses/js/selector.js"></script>
