@@ -7,10 +7,10 @@ body {
 	color: #fff;
 	font-weight: 400;
 	font-size: 1em;
-	padding: 0 10px;
+	/*padding: 0 10px;
 	border-right: 25px solid #fff;
-	border-left: 25px solid #fff;
-	font-family: Arial, sans-serif;
+	border-left: 25px solid #fff;*/
+	font-family: 'Roboto', sans-serif;
 }
 
 body::before,

@@ -1638,6 +1638,16 @@ margin-left: 20%;
 padding-top: 10vh;
 }
 
+#otdel_rab,
+#elec_rab,
+#mal_rab,
+#plit_rab,
+#santeh_rab {
+    padding: 0 10px;
+	border-right: 25px solid #fff;
+	border-left: 25px solid #fff;
+}
+
 .labels {
     display: none;
     width: 50%;
