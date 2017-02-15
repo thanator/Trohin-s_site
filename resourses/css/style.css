@@ -1638,19 +1638,17 @@ margin-left: 20%;
 padding-top: 10vh;
 }
 
-#label-1,
-#label-2,
-#label-3,
-#label-4,
-#label-5 {
-    display: none;
-    text-align: justify;
-    background-color: #dddddd;
-}
-
 .labels {
+    display: none;
     width: 50%;
     float: right;
+    text-align: justify;
+    padding: 0 5%;
+}
+
+.labels p:nth-child(even) {
+    text-align: right;
+    color: #e67e22;
 }
 
 .works_types footer {
