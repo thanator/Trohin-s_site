@@ -7,8 +7,7 @@
     .tree_nav li {
       margin-left: 40px;
     }
-
-       .logo_img {
+    .logo_img {
       margin-left: 1%;
       margin-top: 5px;
       margin-right: 0px;
@@ -29,14 +28,53 @@
   /* desktop screens ----------- */
   
   @media only screen and (max-width: 1055px) {
-    .menu{
+    .menu {
       margin-right: 10px;
     }
-.menu li ul{
-  left: -90px;
-}
+    .menu li ul {
+      left: -90px;
+    }
   }
   
-  @media only screen and (max-width: 950px) {
+  @media only screen and (max-width: 957px) {
+    .sticky .logo_img {
+      display: none;
+    }
+  }
+  
+  @media only screen and (max-width: 900px) {
+    .logo_name {
+      display: none;
+    }
+  }
+  
+  @media only screen and (max-width: 764px) {
+    .mobile_nav_icon {
+      display: block;
+      float: right;
+    }
 
+    .tree_nav ul {
+  display: none;
+    }
+    .tree_nav ul li {
+      display: block;
+    }
+    .tree_nav ul li a:link,
+    .tree_nav ul li a:visited {
+      display: block;
+      border: 0;
+      padding: 10px 0;
+      font-size: 100%;
+    }
+    .tree_nav .center_ul {
+      display: none !important;
+    }
+    .sticky .tree_nav {
+      margin-top: 10px;
+    }
+    .sticky .tree_nav li a:link,
+    .sticky .tree_nav li a:visited {
+      padding: 10px 0;
+    }
   }

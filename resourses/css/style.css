@@ -1754,3 +1754,16 @@ padding-left: 4%;
     text-align: left;
 }
 
+/* MOBILE NAV */
+
+.mobile_nav_icon {
+  float: right;
+  margin-top: 30px;
+  cursor: pointer;
+  display: none;
+}
+
+.mobile_nav_icon i {
+  font-size: 200%;
+  color: #555555;
+}
