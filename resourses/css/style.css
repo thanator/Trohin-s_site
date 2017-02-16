@@ -1123,7 +1123,7 @@ background-color: #f2f2f2;
   z-index: 9999;
 }
 
-.sticky .tree_nav {
+.sticky {
   background-color: #fff;
   box-shadow: 1px 1px 5px #919191;
 }
