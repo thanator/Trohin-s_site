@@ -21,7 +21,7 @@ div.cs-skin-slide {
 
 div.cs-skin-slide::before {
 	content: '';
-	background: #282b30;
+	background: #343434;
 	position: absolute;
 	width: 100%;
 	height: 100%;
