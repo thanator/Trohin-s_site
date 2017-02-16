@@ -51,15 +51,22 @@
   @media only screen and (max-width: 764px) {
     .mobile_nav_icon {
       display: block;
-      float: right;
+      float: left;
     }
 
     .tree_nav ul {
   display: none;
+  margin-right: 30vw;
     }
     .tree_nav ul li {
+      text-align: center;
       display: block;
     }
+
+    .tree_nav ul li:last-child{
+      margin-bottom: 10px;
+    }
+
     .tree_nav ul li a:link,
     .tree_nav ul li a:visited {
       display: block;
@@ -70,11 +77,5 @@
     .tree_nav .center_ul {
       display: none !important;
     }
-    .sticky .tree_nav {
-      margin-top: 10px;
-    }
-    .sticky .tree_nav li a:link,
-    .sticky .tree_nav li a:visited {
-      padding: 10px 0;
-    }
+
   }
