@@ -28,10 +28,15 @@
   }
   /* desktop screens ----------- */
   
-  @media only screen and (max-width: 1200px) {
-
+  @media only screen and (max-width: 1055px) {
+    .menu{
+      margin-right: 10px;
+    }
+.menu li ul{
+  left: -90px;
+}
   }
   
-  @media only screen and (max-width: 1110px) {
+  @media only screen and (max-width: 950px) {
 
   }
