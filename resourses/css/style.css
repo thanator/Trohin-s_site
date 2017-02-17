@@ -224,7 +224,7 @@ header {
 }
 
 .logo_name {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   width: 20%;
   margin-top: 15px;
 }
@@ -302,7 +302,10 @@ header .row {
   padding-bottom: 10px;
   /*opacity: 0.85;*/
 }
-
+.sticky .tree_nav {
+  
+  background-color: white;
+}
 
 /*---BUTTONS---*/
 
@@ -945,7 +948,6 @@ background-color: #f2f2f2;
 
 .tree_nav {
   list-style: none;
-  margin-top: 25px;
 }
 
 .tree_nav ul {
@@ -1069,7 +1071,7 @@ background-color: #f2f2f2;
   transition: opacity 0.5s, -webkit-transform 0.5s;
   transition: transform 0.5s, opacity 0.5s;
   transition: transform 0.5s, opacity 0.5s, -webkit-transform 0.5s;
-  height: 200px;
+  height: 230px;
 }
 
 .works_photo img:hover {
@@ -1581,8 +1583,6 @@ input[type=checkbox] {
     margin: 0;
     height: 70px;
     padding-bottom: 10px;
-    background-color: #fff;
-    box-shadow: 1px 1px 5px #919191;
 }
 
 #page05 .sticky .tree_nav .menu ul li ul li a {
@@ -1746,8 +1746,6 @@ padding-left: 4%;
     margin: 0;
     height: 70px;
     padding-bottom: 10px;
-    background-color: #fff;
-    box-shadow: 1px 1px 5px #919191;
 }
 
 #page06 .sticky .tree_nav .menu ul li ul li a {

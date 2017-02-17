@@ -47,7 +47,13 @@
       display: none;
     }
   }
-  
+
+  @media only screen and (min-width: 764px){
+     .tree_nav ul {
+    display: block !important;
+    }
+  }
+
   @media only screen and (max-width: 764px) {
     .mobile_nav_icon {
       display: block;
@@ -56,7 +62,7 @@
 
     .tree_nav ul {
     display: none;
-    margin-right: 30vw;
+    margin-right: 25vw;
     }
     .tree_nav ul li {
       text-align: center;
@@ -77,5 +83,20 @@
     .tree_nav .center_ul {
       display: none !important;
     }
+
+  }
+
+
+  @media only screen and (max-width: 620px) {
+
+.tree_nav ul{
+  float: right;
+  
+    margin-right: 0;
+}
+
+.tree_nav ul li {
+      text-align: right;
+      }
 
   }
