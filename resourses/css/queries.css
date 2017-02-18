@@ -34,6 +34,10 @@
     .menu li ul {
       left: -90px;
     }
+
+      .main_nig_h {
+      width: 700px;
+    }
   }
   
   @media only screen and (max-width: 957px) {
@@ -99,6 +103,11 @@
 
       .Tyian img { height: 200px; }
 
+        .main_nig_h {
+      font-size: 60%;
+      width: 500px;
+    }
+
   }
 
 
@@ -127,5 +136,10 @@
       .Tyian { height: 150px; }
 
       .Tyian img { height: 150px; }
+      
+      .main_nig_h{
+  font-size: 50%;
+  width: 450px;
+}
 
   }
