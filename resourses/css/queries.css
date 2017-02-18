@@ -40,6 +40,9 @@
     .sticky .logo_img {
       display: none;
     }
+    .logo_img {
+      display: none;
+    }
   }
   
   @media only screen and (max-width: 900px) {
@@ -71,6 +74,17 @@
 
     .tree_nav ul li:last-child{
       margin-bottom: 10px;
+    }
+.head_men{
+  z-index: 10003;
+}
+
+.head_men .tree_nav ul li a:link,
+   .head_men .tree_nav ul li a:visited {
+      display: block;
+      border: 0;
+      padding: 17px 0;
+      font-size: 100%;
     }
 
     .tree_nav ul li a:link,

@@ -1118,6 +1118,14 @@ background-color: #f2f2f2;
 
 
 /* -------------------------------------------------- */
+.head_men{
+    background-color:  #343434;
+  box-shadow: 1px 1px 5px #919191;
+  position: absolute;
+  width: 100%;
+
+}
+
 
 .sticky {
   position: fixed;
@@ -1759,12 +1767,13 @@ padding-left: 4%;
 .mobile_nav_icon {
   float: left;
   margin-left: 30px;
-  margin-top: 30px;
+  margin-top: 12px;
   cursor: pointer;
   display: none;
+  
 }
 
 .mobile_nav_icon i {
   font-size: 200%;
-  color: #555555;
+ color: #d37522;
 }
