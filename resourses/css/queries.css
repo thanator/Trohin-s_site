@@ -28,6 +28,12 @@
   /* desktop screens ----------- */
   
   @media only screen and (max-width: 1055px) {
+    .main_nig_h {
+      width: 700px;
+    }
+  }
+  
+  @media only screen and (max-width: 1055px) {
     .menu {
       margin-right: 10px;
     }
@@ -50,43 +56,43 @@
       display: none;
     }
   }
-
-  @media only screen and (min-width: 764px){
-     .tree_nav ul {
-    display: block !important;
+  
+  @media only screen and (min-width: 764px) {
+    .tree_nav ul {
+      display: block !important;
     }
   }
-
+  
   @media only screen and (max-width: 764px) {
+    .main_nig_h {
+      font-size: 60%;
+      width: 500px;
+    }
     .mobile_nav_icon {
       display: block;
       float: left;
     }
-
     .tree_nav ul {
-    display: none;
-    margin-right: 25vw;
+      display: none;
+      margin-right: 25vw;
     }
     .tree_nav ul li {
       text-align: center;
       display: block;
     }
-
-    .tree_nav ul li:last-child{
+    .tree_nav ul li:last-child {
       margin-bottom: 10px;
     }
-.head_men{
-  z-index: 10003;
-}
-
-.head_men .tree_nav ul li a:link,
-   .head_men .tree_nav ul li a:visited {
+    .head_men {
+      z-index: 10003;
+    }
+    .head_men .tree_nav ul li a:link,
+    .head_men .tree_nav ul li a:visited {
       display: block;
       border: 0;
       padding: 17px 0;
       font-size: 100%;
     }
-
     .tree_nav ul li a:link,
     .tree_nav ul li a:visited {
       display: block;
@@ -97,20 +103,24 @@
     .tree_nav .center_ul {
       display: none !important;
     }
-
   }
-
-
+  
+  @media only screen and (max-width: 620px) {
+    .tree_nav ul {
+      float: right;
+      margin-right: 0;
+    }
+    .tree_nav ul li {
+      text-align: right;
+    }
+  }
+  
   @media only screen and (max-width: 620px) {
 
-.tree_nav ul{
-  float: right;
-  
-    margin-right: 0;
+.main_nig_h{
+  font-size: 50%;
+  width: 450px;
 }
 
-.tree_nav ul li {
-      text-align: right;
-      }
 
   }

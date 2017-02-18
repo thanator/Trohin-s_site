@@ -106,6 +106,7 @@ ul {
   text-align: center;
   border-radius: 50%;
   border: 1px solid #C45500;
+  z-index: 10003;
 }
 
 .Call .icon-big:visited,
