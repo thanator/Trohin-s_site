@@ -46,6 +46,7 @@
     .logo_name {
       display: none;
     }
+      .col p { font-size: 70%; }
   }
 
   @media only screen and (min-width: 764px){
@@ -83,20 +84,46 @@
     .tree_nav .center_ul {
       display: none !important;
     }
+      .col {
+          width: 100%;
+          font-size: 140%;
+      }
+
+      .works_photo { height: 250px; }
+
+      .works_photo img {
+          height: 390px;
+      }
+      .Tyian { height: 200px; }
+
+      .Tyian img { height: 200px; }
 
   }
 
 
   @media only screen and (max-width: 620px) {
 
-.tree_nav ul{
-  float: right;
+      .tree_nav ul{
+        float: right;
   
-    margin-right: 0;
-}
-
-.tree_nav ul li {
-      text-align: right;
+        margin-right: 0;
       }
+
+      .tree_nav ul li {
+        text-align: right;
+      }
+
+      .col {
+        font-size: 130%;
+      }
+
+      .works_photo { height: 200px; }
+
+      .works_photo img {
+          height: 350px;
+      }
+      .Tyian { height: 150px; }
+
+      .Tyian img { height: 150px; }
 
   }
