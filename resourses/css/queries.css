@@ -1,4 +1,4 @@
-  /* Large screens ----------- */
+/* Large screens ----------- */
   
   @media only screen and (max-width: 1400px) {
     .logo_name {
@@ -55,6 +55,9 @@
     .logo_name {
       display: none;
     }
+    .col p {
+      font-size: 70%;
+    }
   }
   
   @media only screen and (min-width: 764px) {
@@ -103,6 +106,22 @@
     .tree_nav .center_ul {
       display: none !important;
     }
+    .col {
+      width: 100%;
+      font-size: 140%;
+    }
+    .works_photo {
+      height: 250px;
+    }
+    .works_photo img {
+      height: 390px;
+    }
+    .Tyian {
+      height: 200px;
+    }
+    .Tyian img {
+      height: 200px;
+    }
   }
   
   @media only screen and (max-width: 620px) {
@@ -116,11 +135,38 @@
   }
   
   @media only screen and (max-width: 620px) {
-
-.main_nig_h{
-  font-size: 50%;
-  width: 450px;
-}
-
-
+    .main_nig_h {
+      font-size: 50%;
+      width: 450px;
+    }
+ 
+  
+  .tree_nav ul {
+    float: right;
+    margin-right: 0;
   }
+  
+  .tree_nav ul li {
+    text-align: right;
+  }
+  
+  .col {
+    font-size: 130%;
+  }
+  
+  .works_photo {
+    height: 200px;
+  }
+  
+  .works_photo img {
+    height: 350px;
+  }
+  
+  .Tyian {
+    height: 150px;
+  }
+  
+  .Tyian img {
+    height: 150px;
+  }
+}
