@@ -105,6 +105,7 @@
       width: 100%;
       font-size: 140%;
     }
+    .col .photo-cards {font-size: 120%;}
     .works_photo {
       height: 250px;
     }
@@ -146,6 +147,7 @@
     .col {
       font-size: 130%;
     }
+    .col .photo-cards {font-size: 105%;}
     .works_photo {
       height: 200px;
     }
