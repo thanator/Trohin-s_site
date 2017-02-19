@@ -28,7 +28,7 @@ WireBuilder.prototype.tryRemoveWire = function (x, y) {
     if (d.cell.contents.has("wire-start")) {
         return false;
     }
-    if (this._canRemoveWire(d.wall, d.cell)) {
+    if (!this._canRemoveWire(d.wall, d.cell)) {
         return false;
     }
     d.cell.contents.delete("wire");
@@ -60,7 +60,7 @@ WireBuilder.prototype._canRemoveWire = function (wall, cell) {
     var xWall = new WallModel();
     for (var i = 0; i < wall.cells.length; i++) {
         var wallCell = wall.cells[i];
-        if (wallCell.contents.has("wire") && wallCell.x != cell.x && wallCell.y != cell.y) {
+        if (wallCell.contents.has("wire") && !(wallCell.x == cell.x && wallCell.y == cell.y)) {
             xWall.addCell(wallCell);
         }
     }

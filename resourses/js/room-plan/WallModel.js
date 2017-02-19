@@ -154,7 +154,7 @@ WallModel.prototype.split = function () {
 };
 
 WallModel.prototype.isOkay = function () {
-    return this._areAllCellsLinkedOkay() && this._isCellGraphOkay();
+    return this.cells.length <= 1 || (this._areAllCellsLinkedOkay() && this._isCellGraphOkay());
 };
 
 WallModel.prototype._areAllCellsLinkedOkay = function () {

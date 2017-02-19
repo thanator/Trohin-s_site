@@ -39107,7 +39107,7 @@ WallModel.prototype.split = function () {
 };
 
 WallModel.prototype.isOkay = function () {
-    return this._areAllCellsLinkedOkay() && this._isCellGraphOkay();
+    return this.cells.length <= 1 || (this._areAllCellsLinkedOkay() && this._isCellGraphOkay());
 };
 
 WallModel.prototype._areAllCellsLinkedOkay = function () {
@@ -39249,7 +39249,23 @@ WallView.prototype.renderWall = function () {
         var y = cell.y * h;
         var neighborhood = this.model.getCellNeighborhood(cell);
 
-        this._renderCellContents(cell, x, y, w, h, wallSize, neighborhood);
+        this._renderCellContentsExceptWire(cell, x, y, w, h, wallSize, neighborhood);
+    }
+    for (var i = 0; i < this.model.cells.length; i++) {
+        var cell = this.model.cells[i];
+
+        if (!cell.contents.has("wire")) {
+            continue;
+        }
+
+        var wallSize = WallView.cellWallSize;
+        var w = WallView.cellWidth;
+        var h = WallView.cellHeight;
+        var x = cell.x * w;
+        var y = cell.y * h;
+        var neighborhood = this.model.getCellNeighborhood(cell);
+
+        this._renderWire(x, y, w, h, wallSize, neighborhood);
     }
 };
 
@@ -39291,6 +39307,14 @@ WallView.prototype._renderCellContents = function (cell, x, y, w, h, wallSize, n
     if (cell.contents.has("wire")) {
         this._renderCellContent(cell, x, y, w, h, wallSize, "wire", neighborhood);
     }
+};
+
+WallView.prototype._renderCellContentsExceptWire = function (cell, x, y, w, h, wallSize, neighborhood) {
+    cell.contents.forEach(function (content) {
+        if (content != "wire") {
+            this._renderCellContent(cell, x, y, w, h, wallSize, content, neighborhood);
+        }
+    }.bind(this));
 };
 
 WallView.prototype._renderCellContent = function (cell, x, y, w, h, wallSize, content, neighborhood) {
@@ -39603,7 +39627,7 @@ WireBuilder.prototype.tryRemoveWire = function (x, y) {
     if (d.cell.contents.has("wire-start")) {
         return false;
     }
-    if (this._canRemoveWire(d.wall, d.cell)) {
+    if (!this._canRemoveWire(d.wall, d.cell)) {
         return false;
     }
     d.cell.contents.delete("wire");
@@ -39635,7 +39659,7 @@ WireBuilder.prototype._canRemoveWire = function (wall, cell) {
     var xWall = new WallModel();
     for (var i = 0; i < wall.cells.length; i++) {
         var wallCell = wall.cells[i];
-        if (wallCell.contents.has("wire") && wallCell.x != cell.x && wallCell.y != cell.y) {
+        if (wallCell.contents.has("wire") && !(wallCell.x == cell.x && wallCell.y == cell.y)) {
             xWall.addCell(wallCell);
         }
     }

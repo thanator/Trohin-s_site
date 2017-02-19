@@ -40,7 +40,23 @@ WallView.prototype.renderWall = function () {
         var y = cell.y * h;
         var neighborhood = this.model.getCellNeighborhood(cell);
 
-        this._renderCellContents(cell, x, y, w, h, wallSize, neighborhood);
+        this._renderCellContentsExceptWire(cell, x, y, w, h, wallSize, neighborhood);
+    }
+    for (var i = 0; i < this.model.cells.length; i++) {
+        var cell = this.model.cells[i];
+
+        if (!cell.contents.has("wire")) {
+            continue;
+        }
+
+        var wallSize = WallView.cellWallSize;
+        var w = WallView.cellWidth;
+        var h = WallView.cellHeight;
+        var x = cell.x * w;
+        var y = cell.y * h;
+        var neighborhood = this.model.getCellNeighborhood(cell);
+
+        this._renderWire(x, y, w, h, wallSize, neighborhood);
     }
 };
 
@@ -82,6 +98,14 @@ WallView.prototype._renderCellContents = function (cell, x, y, w, h, wallSize, n
     if (cell.contents.has("wire")) {
         this._renderCellContent(cell, x, y, w, h, wallSize, "wire", neighborhood);
     }
+};
+
+WallView.prototype._renderCellContentsExceptWire = function (cell, x, y, w, h, wallSize, neighborhood) {
+    cell.contents.forEach(function (content) {
+        if (content != "wire") {
+            this._renderCellContent(cell, x, y, w, h, wallSize, content, neighborhood);
+        }
+    }.bind(this));
 };
 
 WallView.prototype._renderCellContent = function (cell, x, y, w, h, wallSize, content, neighborhood) {
