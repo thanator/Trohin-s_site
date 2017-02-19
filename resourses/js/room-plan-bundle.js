@@ -38921,10 +38921,10 @@ WallBuilder.prototype.tryRemoveCell = function (x, y) {
     if (d.cell == null) {
         return false;
     }
-    if (d.cell.contents.length != 0) {
+    if (d.cell.contents.size != 0) {
         return false;
     }
-    d.wall.cells.splice(d.wall.cells.indexOf(d.cell), 1);
+    d.wall.removeCell(d.cell);
     var newWalls = d.wall.split();
     if (newWalls.length <= 1) {
         d.wallView.renderWall();
