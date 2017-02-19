@@ -1,4 +1,5 @@
-function PriceCalculator(wallsCollection, worldObjectsCollection) {
+function PriceCalculator(appState, wallsCollection, worldObjectsCollection) {
+    this.appState = appState;
     this.wallsCollection = wallsCollection;
     this.worldObjectsCollection = worldObjectsCollection;
 }
@@ -20,7 +21,7 @@ PriceCalculator.prototype.calculate = function () {
         for (var j = 0; j < wall.cells.length; j++) {
             var cell = wall.cells[j];
 
-            price += PriceCalculator.wallPrice;
+            price += PriceCalculator.wallPrice * this.appState.wallHeight;
 
             cell.contents.forEach(function (content) {
                 switch (content) {

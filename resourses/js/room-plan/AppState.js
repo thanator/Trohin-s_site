@@ -12,8 +12,9 @@ function AppState(app) {
     this.app = app;
     this.wallsCollection = new WallsCollection();
     this.worldObjectsCollection = new WorldObjectsCollection();
-    this.priceCalculator = new PriceCalculator(this.wallsCollection, this.worldObjectsCollection);
+    this.priceCalculator = new PriceCalculator(this, this.wallsCollection, this.worldObjectsCollection);
     this.toolState = new ToolsModel(this);
+    this.wallHeight = 3;
 }
 module.exports = AppState;
 

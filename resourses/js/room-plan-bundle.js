@@ -38036,8 +38036,9 @@ function AppState(app) {
     this.app = app;
     this.wallsCollection = new WallsCollection();
     this.worldObjectsCollection = new WorldObjectsCollection();
-    this.priceCalculator = new PriceCalculator(this.wallsCollection, this.worldObjectsCollection);
+    this.priceCalculator = new PriceCalculator(this, this.wallsCollection, this.worldObjectsCollection);
     this.toolState = new ToolsModel(this);
+    this.wallHeight = 3;
 }
 module.exports = AppState;
 
@@ -38534,7 +38535,8 @@ MainStageController.prototype._isMousePosOk = function (pos) {
 };
 
 },{}],265:[function(require,module,exports){
-function PriceCalculator(wallsCollection, worldObjectsCollection) {
+function PriceCalculator(appState, wallsCollection, worldObjectsCollection) {
+    this.appState = appState;
     this.wallsCollection = wallsCollection;
     this.worldObjectsCollection = worldObjectsCollection;
 }
@@ -38556,7 +38558,7 @@ PriceCalculator.prototype.calculate = function () {
         for (var j = 0; j < wall.cells.length; j++) {
             var cell = wall.cells[j];
 
-            price += PriceCalculator.wallPrice;
+            price += PriceCalculator.wallPrice * this.appState.wallHeight;
 
             cell.contents.forEach(function (content) {
                 switch (content) {
@@ -38616,6 +38618,10 @@ PriceView.prototype.init = function () {
     }.bind(this));
     this.interaction.on("mouseup", function () {
         this.isMouseDown = false;
+        this.update();
+    }.bind(this));
+
+    $("#room-plan-wall-size").on("input change", function () {
         this.update();
     }.bind(this));
 };
@@ -38808,6 +38814,9 @@ ToolsView.prototype._initStyleInputButtons = function () {
         }.bind(this);
         $(this).toggleClass("app-tools-style__toggle--active");
         $(this).toggleClass("app-tools-style__toggle--inactive");
+    });
+    $("#room-plan-wall-size").on("input change", function () {
+        self.toolState.appState.wallHeight = $(this).val();
     });
 };
 

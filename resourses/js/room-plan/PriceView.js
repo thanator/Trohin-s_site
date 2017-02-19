@@ -20,6 +20,10 @@ PriceView.prototype.init = function () {
         this.isMouseDown = false;
         this.update();
     }.bind(this));
+
+    $("#room-plan-wall-size").on("input change", function () {
+        this.update();
+    }.bind(this));
 };
 
 PriceView.prototype.update = function () {

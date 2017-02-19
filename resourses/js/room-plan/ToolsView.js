@@ -69,6 +69,9 @@ ToolsView.prototype._initStyleInputButtons = function () {
         $(this).toggleClass("app-tools-style__toggle--active");
         $(this).toggleClass("app-tools-style__toggle--inactive");
     });
+    $("#room-plan-wall-size").on("input change", function () {
+        self.toolState.appState.wallHeight = $(this).val();
+    });
 };
 
 ToolsView.prototype._registerToolEvent = function (domId, intId) {
