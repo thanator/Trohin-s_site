@@ -49,6 +49,11 @@
     .sticky .logo_img {
       display: none;
     }
+    .head_men .tree_nav .logo_img{
+      display: none;
+    }
+
+
   }
   
   @media only screen and (max-width: 900px) {
