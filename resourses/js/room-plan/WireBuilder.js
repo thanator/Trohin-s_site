@@ -1,3 +1,6 @@
+var WallModel = require("./WallModel.js");
+
+
 function WireBuilder(wallsCollection) {
     this.wallsCollection = wallsCollection;
 }
@@ -22,8 +25,10 @@ WireBuilder.prototype.tryRemoveWire = function (x, y) {
     if (d.cell == null) {
         return false;
     }
-    var connectionsCount = d.wall.getCellNeighborhood(d.cell).getNeighborhoodByContent("wire").getNeighborsCount();
-    if (connectionsCount != 1) {
+    if (d.cell.contents.has("wire-start")) {
+        return false;
+    }
+    if (this._canRemoveWire(d.wall, d.cell)) {
         return false;
     }
     d.cell.contents.delete("wire");
@@ -49,4 +54,15 @@ WireBuilder.prototype.tryMoveWireStart = function (x, y) {
     d.cell.contents.add("wire-start");
     d.wallView.renderWall();
     return true;
+};
+
+WireBuilder.prototype._canRemoveWire = function (wall, cell) {
+    var xWall = new WallModel();
+    for (var i = 0; i < wall.cells.length; i++) {
+        var wallCell = wall.cells[i];
+        if (wallCell.contents.has("wire") && wallCell.x != cell.x && wallCell.y != cell.y) {
+            xWall.addCell(wallCell);
+        }
+    }
+    return xWall.isOkay();
 };
