@@ -7,10 +7,10 @@ body {
 	color: #fff;
 	font-weight: 400;
 	font-size: 1em;
-	padding: 35px 10px;
+	/*padding: 0 10px;
 	border-right: 25px solid #fff;
-	border-left: 25px solid #fff;
-	font-family: Arial, sans-serif;
+	border-left: 25px solid #fff;*/
+	font-family: 'Roboto', sans-serif;
 }
 
 body::before,
@@ -20,7 +20,7 @@ body::after {
 	left: 0;
 	top: 0;
 	width: 100%;
-	height: 25px;
+	/*height: 25px;*/
 	background: #fff;
 	z-index: 1001;
 }
@@ -68,20 +68,28 @@ section {
 	text-align: center;
 }
 
-label.select-label {
-	display: block;
+label.select-label,
+label.descr-label {
+	display: inline-block;
 	text-transform: uppercase;
-	padding: 1em 0 1.5em;
-	font-size: 75%;
+    font-size: 75%;
 	letter-spacing: 1px;
 	font-weight: 700;
-	width: 300px;
+    color: inherit;
+    width: 50%;
+    margin: 0;
+    padding: 1em 0 3em;
+	/*width: 300px;
 	text-align: left;
-	margin: 0 auto 0 22%;
-	color: inherit;
+	margin: 0 auto 0 22%;*/
 }
 
-.color-4 label.select-label {
+label.descr-label {
+    float: right;
+}
+
+.color-4 label.select-label,
+.color-4 label.descr-label {
 	color: #282b30;
 	font-size: 1em;
 }

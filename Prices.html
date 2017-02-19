@@ -14,11 +14,12 @@
     <link rel="stylesheet" type="text/css" href="vendors/css/grid.css">
     <link rel="stylesheet" type="text/css" href="vendors/css/animate.css">
     <link rel="stylesheet" type="text/css" href="resourses/css/style.css">
+    <link rel="stylesheet" type="text/css" href="resourses/css/queries.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i" rel="stylesheet">
     <title>Prices</title>
 </head>
 
-<body>
+<body class="works_types" onload="init()">
     <section id="page05">
         <nav class="sticky">
             <div class="tree_nav">
@@ -32,18 +33,18 @@
                         <li><a class="fake_link" href="index.html">Главная</a></li>
                         <li><a class="fake_link" href="page_app.html">Конструктор помещений</a>
                             <ul class="center_ul">
-                                <li><a href="#">Конструктор квартир</a></li>
-                                <li><a href="#">Конструктор коттеджей</a></li>
-                                <li><a href="#">Конструктор офисов</a></li>
+                                <li><a href="page_app.html">Конструктор квартир</a></li>
+                                <li><a href="page_app.html">Конструктор коттеджей</a></li>
+                                <li><a href="page_app.html">Конструктор офисов</a></li>
                             </ul>
                         </li>
                         <li><a class="fake_link" href="types.html">Виды работ</a>
                             <ul class="center_ul">
-                                <li><a href="#">демонтажные<br>работы</a></li>
-                                <li><a href="#">Электро-монтажные<br>работы</a></li>
-                                <li><a href="#">Малярно-штукатурные<br>работы</a></li>
-                                <li><a href="#">Плиточные<br>работы</a></li>
-                                <li><a href="#">Сантехнические<br>работы</a></li>
+                                <li><a href="types_of_work/dem.html">демонтажные<br>работы</a></li>
+                                <li><a href="types_of_work/electr.html">Электро-монтажные<br>работы</a></li>
+                                <li><a href="types_of_work/mal.html">Малярно-штукатурные<br>работы</a></li>
+                                <li><a href="types_of_work/plit.html">Плиточные<br>работы</a></li>
+                                <li><a href="types_of_work/bath.html">Сантехнические<br>работы</a></li>
                             </ul>
                         </li>
                         <li><a class="fake_link" href="Prices.html">Цены</a>
@@ -56,77 +57,271 @@
                         </li>
                         <li><a class="fake_link" href="page_cont.html">О нас</a>
                             <ul class="center_ul">
-                                <li><a href="#">Описание</a></li>
-                                <li><a href="#">Примеры<br>работ</a></li>
-                                <li><a href="#">Оплата услуг</a></li>
-                                <li><a href="#">Контакты</a></li>
-                                <li><a href="#">FAQ</a></li>
+                                <li><a href="page_cont.html#des">Описание</a></li>
+                                <li><a href="page_cont.html#ex">Примеры<br>работ</a></li>
+                                <li><a href="page_cont.html#pay">Оплата услуг</a></li>
+                                <li><a href="page_cont.html#con">Контакты</a></li>
+                                <li><a href="page_cont.html#fak">FAQ</a></li>
                             </ul>
                         </li>
                     </ul>
                 </div>
+
+                <a class="mobile_nav_icon js__nav_icon"><i class="ion-navicon-round"></i></a>
             </div>
         </nav>
     </section>
-    <section class="" id="otdel_rab">
+    <div class="" id="otdel_rab">
         <div class="h_otbel">
-            <h1>демонтажные работы</h1>
+            <h1>Демонтажные работы</h1>
         </div>
-        <div class="">
-            <div class="container">
-                <section>
-                    <label class="select-label">Вид работы</label>
-                    <select class="cs-select cs-skin-slide">
-                        <option value="sightseeing" data-class="icon-camera">
-                            <!--Работа нумеро уно-->
-                            <p class="name">Работа нумеро уно</p>
-                            <p class="price">200 руб/кв.м</p>
-                        </option>
-                        <option value="business" data-class="icon-money">Работа намбер ту</option>
-                        <option value="honeymoon" data-class="icon-heart">Работа намба сан</option>
-                        <option value="food" data-class="icon-food">Работа нуммер фир</option>
-                        <option value="shopping" data-class="icon-shirt">Пиллекмеш работа</option>
-				    </select>
-                </section>
-            </div>
-            <script src="vendors/js/classie.js"></script>
-            <script src="vendors/js/selectFx.js"></script>
-            <script>
-                (function () {
-                    [].slice.call(document.querySelectorAll('select.cs-select')).forEach(function (el) {
-                        new SelectFx(el);
-                    });
-                })();
-            </script>
-    </section>
-    <section class="" id="elec_rab">
+        <div class="container">
+            <section class="labels-1">
+                <label class="select-label">Вид работы</label>
+                <label class="descr-label">Описание работы</label>
+                <select class="cs-select cs-skin-slide" aria-required="true" onchange="Selected(this)">
+                    <option value="sightseeing" data-class="icon-camera" >Работа нумеро уно</option>
+                    <option value="business" data-class="icon-money">Работа намбер ту</option>
+                    <option value="honeymoon" data-class="icon-heart">Работа намба сан</option>
+                    <option value="food" data-class="icon-food">Работа нуммер фир</option>
+                    <option value="shopping" data-class="icon-shirt">Пиллекмеш работа</option>
+                </select>
+                <div class="labels labels-1-1" id="label-11">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>100 P/KB.M</p>
+                </div>
+                <div class="labels labels-1-1" id="label-12">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>200 P/KB.M</p>
+                </div>
+                <div class="labels labels-1-1" id="label-13">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>300 P/KB.M</p>
+                </div>
+                <div class="labels labels-1-1" id="label-14">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>400 P/KB.M</p>
+                </div>
+                <div class="labels labels-1-1" id="label-15">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>500 P/KB.M</p>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="" id="elec_rab">
         <div class="h_elec">
             <h1>Электро-монтажные работы</h1>
         </div>
-        <div class=""> 
+        <div class="container">
+            <section class="labels-2">
+                <label class="select-label">Вид работы</label>
+                <label class="descr-label">Описание работы</label>
+                <select class="cs-select cs-skin-slide" aria-required="true" onchange="Selected(this)">
+                    <option value="sightseeing" data-class="icon-camera" >Работа нумеро уно</option>
+                    <option value="business" data-class="icon-money">Работа намбер ту</option>
+                    <option value="honeymoon" data-class="icon-heart">Работа намба сан</option>
+                    <option value="food" data-class="icon-food">Работа нуммер фир</option>
+                    <option value="shopping" data-class="icon-shirt">Пиллекмеш работа</option>
+                </select>
+                <div class="labels labels-2-2" id="label-21">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>100 P/KB.M</p>
+                </div>
+                <div class="labels labels-2-2" id="label-22">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>200 P/KB.M</p>
+                </div>
+                <div class="labels labels-2-2" id="label-23">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>300 P/KB.M</p>
+                </div>
+                <div class="labels labels-2-2" id="label-24">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>400 P/KB.M</p>
+                </div>
+                <div class="labels labels-2-2" id="label-25">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>500 P/KB.M</p>
+                </div>
+            </section>
         </div>
-    </section>
-    <section class="" id="mal_rab">
+    </div>
+    <div class="" id="mal_rab">
         <div class="h_mal">
             <h1>Малярно-штукотурные работы</h1>
         </div>
-        <div class="">
+        <div class="container">
+            <section class="labels-3">
+                <label class="select-label">Вид работы</label>
+                <label class="descr-label">Описание работы</label>
+                <select class="cs-select cs-skin-slide" aria-required="true" onchange="Selected(this)">
+                    <option value="sightseeing" data-class="icon-camera" >Работа нумеро уно</option>
+                    <option value="business" data-class="icon-money">Работа намбер ту</option>
+                    <option value="honeymoon" data-class="icon-heart">Работа намба сан</option>
+                    <option value="food" data-class="icon-food">Работа нуммер фир</option>
+                    <option value="shopping" data-class="icon-shirt">Пиллекмеш работа</option>
+                </select>
+                <div class="labels labels-3-3" id="label-31">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>100 P/KB.M</p>
+                </div>
+                <div class="labels labels-3-3" id="label-32">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>200 P/KB.M</p>
+                </div>
+                <div class="labels labels-3-3" id="label-33">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>300 P/KB.M</p>
+                </div>
+                <div class="labels labels-3-3" id="label-34">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>400 P/KB.M</p>
+                </div>
+                <div class="labels labels-3-3" id="label-35">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>500 P/KB.M</p>
+                </div>
+            </section>
         </div>
-    </section>
-    <section class="" id="plit_rab">
+    </div>
+    <div class="" id="plit_rab">
         <div class="h_plit">
             <h1>Плиточные работы</h1>
         </div>
-        <div class="">
+        <div class="container">
+            <section class="labels-4">
+                <label class="select-label">Вид работы</label>
+                <label class="descr-label">Описание работы</label>
+                <select class="cs-select cs-skin-slide" aria-required="true" onchange="Selected(this)">
+                    <option value="sightseeing" data-class="icon-camera" >Работа нумеро уно</option>
+                    <option value="business" data-class="icon-money">Работа намбер ту</option>
+                    <option value="honeymoon" data-class="icon-heart">Работа намба сан</option>
+                    <option value="food" data-class="icon-food">Работа нуммер фир</option>
+                    <option value="shopping" data-class="icon-shirt">Пиллекмеш работа</option>
+                </select>
+                <div class="labels labels-4-4" id="label-41">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>100 P/KB.M</p>
+                </div>
+                <div class="labels labels-4-4" id="label-42">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>200 P/KB.M</p>
+                </div>
+                <div class="labels labels-4-4" id="label-43">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>300 P/KB.M</p>
+                </div>
+                <div class="labels labels-4-4" id="label-44">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>400 P/KB.M</p>
+                </div>
+                <div class="labels labels-4-4" id="label-45">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>500 P/KB.M</p>
+                </div>
+            </section>
         </div>
-    </section>
-    <section class="" id="santeh_rab">
+    </div>
+    <div class="" id="santeh_rab">
         <div class="h_santeh">
             <h1>Сантехнические работы</h1>
         </div>
-        <div class="">
+        <div class="container">
+            <section class="labels-5">
+                <label class="select-label">Вид работы</label>
+                <label class="descr-label">Описание работы</label>
+                <select class="cs-select cs-skin-slide" aria-required="true" onchange="Selected(this)">
+                    <option value="sightseeing" data-class="icon-camera" >Работа нумеро уно</option>
+                    <option value="business" data-class="icon-money">Работа намбер ту</option>
+                    <option value="honeymoon" data-class="icon-heart">Работа намба сан</option>
+                    <option value="food" data-class="icon-food">Работа нуммер фир</option>
+                    <option value="shopping" data-class="icon-shirt">Пиллекмеш работа</option>
+                </select>
+                <div class="labels labels-5-5" id="label-51">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>100 P/KB.M</p>
+                </div>
+                <div class="labels labels-5-5" id="label-52">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>200 P/KB.M</p>
+                </div>
+                <div class="labels labels-5-5" id="label-53">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>300 P/KB.M</p>
+                </div>
+                <div class="labels labels-5-5" id="label-54">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>400 P/KB.M</p>
+                </div>
+                <div class="labels labels-5-5" id="label-55">
+                    <p>Это тестовая запись. Здесь Вы сможете найти более подробную информацию о каждом конкретном виде работ.
+                        Также ниже расположена цена за условную единицу работы.</p>
+                    <p>500 P/KB.M</p>
+                </div>
+            </section>
         </div>
-    </section>
+    </div>
+    <footer>
+        <p>KvartStroi, &copy;все права сохранены, 2017 <br> Made by TanDS, Redhper, Reo, Familka </p>
+        <p class="secret">upd: заказчик всегда мудак</p>
+    </footer>
+    <script src="vendors/js/classie.js"></script>
+    <script src="vendors/js/selectFx.js"></script>
+    <script>
+        (function () {
+            [].slice.call(document.querySelectorAll('select.cs-select')).forEach(function (el) {
+                new SelectFx(el);
+            });
+        })();
+
+        function init() {
+            //alert(window.navigator.userAgent);
+            if (window.navigator.userAgent.indexOf("Edge") > -1) {
+                $(".h_otbel").css('background-attachment', 'local');
+                $(".h_elec").css('background-attachment', 'local');
+                $(".h_mal").css('background-attachment', 'local');
+                $(".h_plit").css('background-attachment', 'local');
+                $(".h_santeh").css('background-attachment', 'local');
+                /*  alert($(".h_otbel").css('background-attachment'));
+                }else{
+                  //  alert($(".h_otbel").css('background-attachment'));
+                }*/
+            };
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.0.0.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.0.0.js"></script>
+    <script src="resourses/js/br_typ.js"></script>
+    <script src="resourses/js/selector.js"></script>
+    <script src="resourses/js/mobile_nav.js"></script>
+
 </body>
+
+
 
 </html>
