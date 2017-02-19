@@ -34,9 +34,14 @@
     .menu li ul {
       left: -90px;
     }
-
-      .main_nig_h {
+    .main_nig_h {
       width: 700px;
+    }
+    .types_of_works h3 {
+      font-size: 100%;
+    }
+    .types_of_works .row .box {
+      font-size: 85%;
     }
   }
   
@@ -50,42 +55,42 @@
     .logo_name {
       display: none;
     }
-      .col p { font-size: 70%; }
-
-      .content{
-        display: none;
-      }
-
-      .dop_content{
-        display: block;
-      }
-  }
-
-  @media only screen and (min-width: 764px){
-     .tree_nav ul {
-    display: block !important;
+    .col p {
+      font-size: 70%;
+    }
+    .content {
+      display: none;
+    }
+    .dop_content {
+      display: block;
+    }
+    .main_info h3 {
+      font-size: 90%;
     }
   }
-
+  
+  @media only screen and (min-width: 764px) {
+    .tree_nav ul {
+      display: block !important;
+    }
+  }
+  
   @media only screen and (max-width: 764px) {
     .mobile_nav_icon {
       display: block;
       float: left;
     }
-
     .tree_nav ul {
-    display: none;
-    margin-right: 25vw;
+      display: none;
+      margin-right: 25vw;
     }
     .tree_nav ul li {
       text-align: center;
       display: block;
     }
-
-    .tree_nav ul li:last-child{
+    .tree_nav ul li:last-child {
       margin-bottom: 10px;
     }
-
     .tree_nav ul li a:link,
     .tree_nav ul li a:visited {
       display: block;
@@ -96,58 +101,66 @@
     .tree_nav .center_ul {
       display: none !important;
     }
-      .col {
-          width: 100%;
-          font-size: 140%;
-      }
-
-      .works_photo { height: 250px; }
-
-      .works_photo img {
-          width: 100%;
-          height: 170%;
-      }
-      .Tyian { height: 200px; }
-
-      .Tyian img { height: 200px; }
-
-        .main_nig_h {
+    .col {
+      width: 100%;
+      font-size: 140%;
+    }
+    .works_photo {
+      height: 250px;
+    }
+    .works_photo img {
+      width: 100%;
+      height: 170%;
+    }
+    .Tyian {
+      height: 200px;
+    }
+    .Tyian img {
+      height: 200px;
+    }
+    .main_nig_h {
       font-size: 60%;
       width: 500px;
     }
-
+    .line .box {
+      margin-left: 50px;
+      padding-right: 100px;
+    }
+    .line .box h3 {
+      text-align: center;
+    }
+    .types_of_works .row .box {
+      margin: 30px 10%;
+      width: 80%;
+    }
   }
-
-
-  @media only screen and (max-width: 620px) {
-
-      .tree_nav ul{
-        float: right;
   
-        margin-right: 0;
-      }
-
-      .tree_nav ul li {
-        text-align: right;
-      }
-
-      .col {
-        font-size: 130%;
-      }
-
-      .works_photo { height: 200px; }
-
-      .works_photo img {
-          width: 100%;
-          height: 150%;
-      }
-      .Tyian { height: 150px; }
-
-      .Tyian img { height: 150px; }
-      
-      .main_nig_h{
-  font-size: 50%;
-  width: 450px;
-}
-
+  @media only screen and (max-width: 620px) {
+    .tree_nav ul {
+      float: right;
+      margin-right: 0;
+    }
+    .tree_nav ul li {
+      text-align: right;
+    }
+    .col {
+      font-size: 130%;
+    }
+    .works_photo {
+      height: 200px;
+    }
+    .works_photo img {
+      width: 100%;
+      height: 150%;
+    }
+    .Tyian {
+      height: 150px;
+    }
+    .Tyian img {
+      height: 150px;
+    }
+    .main_nig_h {
+      font-size: 50%;
+      width: 450px;
+    }
   }
