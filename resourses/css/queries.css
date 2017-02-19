@@ -51,6 +51,14 @@
       display: none;
     }
       .col p { font-size: 70%; }
+
+      .content{
+        display: none;
+      }
+
+      .dop_content{
+        display: block;
+      }
   }
 
   @media only screen and (min-width: 764px){

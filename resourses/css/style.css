@@ -1188,6 +1188,12 @@ background-color: #f2f2f2;
   background-color: #f8f8f8;
 }
 
+.dop_content{
+  display: none;
+  margin-left: 15%;
+  padding-bottom: 25px;
+}
+
 .content {
     height: 300px;
     margin-bottom: 50px;
