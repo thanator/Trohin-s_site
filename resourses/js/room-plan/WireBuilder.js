@@ -30,3 +30,23 @@ WireBuilder.prototype.tryRemoveWire = function (x, y) {
     d.wallView.renderWall();
     return true;
 };
+
+WireBuilder.prototype.tryMoveWireStart = function (x, y) {
+    var d = this.wallsCollection.findCellAndWall(x, y);
+    if (d.cell == null || !d.cell.contents.has("wire")) {
+        return false;
+    }
+    for (var i = 0; i < this.wallsCollection.walls.length; i++) {
+        var wall = this.wallsCollection.walls[i];
+        for (var j = 0; j < wall.cells.length; j++) {
+            var cell = wall.cells[j];
+            if (cell.contents.delete("wire-start")) {
+                this.wallsCollection.wallViews.get(wall).renderWall();
+                break;
+            }
+        }
+    }
+    d.cell.contents.add("wire-start");
+    d.wallView.renderWall();
+    return true;
+};

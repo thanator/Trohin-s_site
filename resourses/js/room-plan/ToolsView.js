@@ -12,6 +12,7 @@ function ToolsView(toolState) {
 
     this.intIdsToStyleDomId = [];
     this.intIdsToStyleDomId[0] = "#room-plan-style-wall";
+    this.intIdsToStyleDomId[1] = "#room-plan-style-wire";
     this.intIdsToStyleDomId[2] = "#room-plan-style-door";
     this.intIdsToStyleDomId[3] = "#room-plan-style-window";
     this.intIdsToStyleDomId[4] = "#room-plan-style-floor";
@@ -57,6 +58,17 @@ ToolsView.prototype._initStyleInputButtons = function () {
     this.styleInputDomIds.forEach(function (domId) {
         this._registerStyleInputEvent(domId);
     }.bind(this));
+
+    var self = this;
+    $("#room-plan-wire-start").click(function () {
+        self.toolState.currentTool.isMovingWireStart = !self.toolState.currentTool.isMovingWireStart;
+        self.toolState.currentTool.eventFnIsMovingWireStartChange = function (value) {
+            $(this).toggleClass("app-tools-style__toggle--active", value);
+            $(this).toggleClass("app-tools-style__toggle--inactive", !value);
+        }.bind(this);
+        $(this).toggleClass("app-tools-style__toggle--active");
+        $(this).toggleClass("app-tools-style__toggle--inactive");
+    });
 };
 
 ToolsView.prototype._registerToolEvent = function (domId, intId) {

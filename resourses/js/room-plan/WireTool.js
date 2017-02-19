@@ -5,6 +5,8 @@ var WallView = require("./WallView.js");
 function WireTool(appState) {
     this.appState = appState;
     this.wireBuilder = new WireBuilder(this.appState.wallsCollection);
+    this.isMovingWireStart = false;
+    this.eventFnIsMovingWireStartChange = function () { };
     this.isMouseDown = false;
 }
 module.exports = WireTool;
@@ -14,7 +16,7 @@ WireTool.prototype.onMouseDown = function () {
 };
 
 WireTool.prototype.onMouseMove = function (x, y) {
-    if (this.isMouseDown) {
+    if (this.isMouseDown && !this.isMovingWireStart) {
         var cellX = Math.floor(x / WallView.cellWidth);
         var cellY = Math.floor(y / WallView.cellHeight);
         switch (this.appState.toolState.toolMode) {
@@ -28,6 +30,14 @@ WireTool.prototype.onMouseMove = function (x, y) {
     }
 };
 
-WireTool.prototype.onMouseUp = function () {
+WireTool.prototype.onMouseUp = function (x, y) {
     this.isMouseDown = false;
+    if (this.isMovingWireStart) {
+        var cellX = Math.floor(x / WallView.cellWidth);
+        var cellY = Math.floor(y / WallView.cellHeight);
+        if (this.wireBuilder.tryMoveWireStart(cellX, cellY)) {
+            this.isMovingWireStart = false;
+            this.eventFnIsMovingWireStartChange(false);
+        }
+    }
 };

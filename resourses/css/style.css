@@ -659,6 +659,26 @@ footer p {
   border: 1px solid #bbb;
 }
 
+.app-tools-style__toggle {
+  font-size: 15px;
+  display: inline-block;
+  padding: 4px 16px;
+  cursor: pointer;
+  border: 1px solid #fff;
+  border-radius: 27px;
+}
+
+.app-tools-style__toggle--active {
+  border: 1px solid #7ddde6;
+}
+
+.app-tools-style__toggle--inactive {
+}
+
+.app-tools-style__toggle--inactive:hover {
+  border: 1px solid #bbb;
+}
+
 .app-tools-style__input-label {
   font-size: 15px;
 }

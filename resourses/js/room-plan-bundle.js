@@ -38076,6 +38076,7 @@ AppState.prototype.createStartEnvironment = function () {
     wall.getCell(7, 16).contents.add("window");
     wall.getCell(7, 16).contentsData.set("window-size", 3);
 
+    wall.getCell(20, 4).contents.add("wire-start");
     for (var x = 16; x <= 20; x++) {
         wall.getCell(x, 4).contents.add("wire");
     }
@@ -38751,6 +38752,7 @@ function ToolsView(toolState) {
 
     this.intIdsToStyleDomId = [];
     this.intIdsToStyleDomId[0] = "#room-plan-style-wall";
+    this.intIdsToStyleDomId[1] = "#room-plan-style-wire";
     this.intIdsToStyleDomId[2] = "#room-plan-style-door";
     this.intIdsToStyleDomId[3] = "#room-plan-style-window";
     this.intIdsToStyleDomId[4] = "#room-plan-style-floor";
@@ -38796,6 +38798,17 @@ ToolsView.prototype._initStyleInputButtons = function () {
     this.styleInputDomIds.forEach(function (domId) {
         this._registerStyleInputEvent(domId);
     }.bind(this));
+
+    var self = this;
+    $("#room-plan-wire-start").click(function () {
+        self.toolState.currentTool.isMovingWireStart = !self.toolState.currentTool.isMovingWireStart;
+        self.toolState.currentTool.eventFnIsMovingWireStartChange = function (value) {
+            $(this).toggleClass("app-tools-style__toggle--active", value);
+            $(this).toggleClass("app-tools-style__toggle--inactive", !value);
+        }.bind(this);
+        $(this).toggleClass("app-tools-style__toggle--active");
+        $(this).toggleClass("app-tools-style__toggle--inactive");
+    });
 };
 
 ToolsView.prototype._registerToolEvent = function (domId, intId) {
@@ -39285,6 +39298,9 @@ WallView.prototype._renderCellContent = function (cell, x, y, w, h, wallSize, co
         case "wire":
             this._renderWire(x, y, w, h, wallSize, neighborhood);
             break;
+        case "wire-start":
+            this._renderWireStart(x, y, w, h);
+            break;
         case "door":
             this._renderDoor(x, y, w, h, cell.contentsData.get("door-size"), wallSize, neighborhood);
             break;
@@ -39313,6 +39329,16 @@ WallView.prototype._renderWire = function (x, y, w, h, wallSize, neighborhood) {
     if (wireNeighborhood.down) {
         this.drawRect(centerX - s / 2, y + h / 2, s, h / 2);
     }
+    this.endFill();
+};
+
+WallView.prototype._renderWireStart = function (x, y, w, h) {
+    this.beginFill(0xff0000);
+    var s = 4;
+    this.drawRect(x, y, s, h);
+    this.drawRect(x, y + h - s, w, s);
+    this.drawRect(x + w - s, y, s, h);
+    this.drawRect(x, y, w, s);
     this.endFill();
 };
 
@@ -39580,6 +39606,26 @@ WireBuilder.prototype.tryRemoveWire = function (x, y) {
     return true;
 };
 
+WireBuilder.prototype.tryMoveWireStart = function (x, y) {
+    var d = this.wallsCollection.findCellAndWall(x, y);
+    if (d.cell == null || !d.cell.contents.has("wire")) {
+        return false;
+    }
+    for (var i = 0; i < this.wallsCollection.walls.length; i++) {
+        var wall = this.wallsCollection.walls[i];
+        for (var j = 0; j < wall.cells.length; j++) {
+            var cell = wall.cells[j];
+            if (cell.contents.delete("wire-start")) {
+                this.wallsCollection.wallViews.get(wall).renderWall();
+                break;
+            }
+        }
+    }
+    d.cell.contents.add("wire-start");
+    d.wallView.renderWall();
+    return true;
+};
+
 },{}],280:[function(require,module,exports){
 var WireBuilder = require("./WireBuilder.js");
 var WallView = require("./WallView.js");
@@ -39588,6 +39634,8 @@ var WallView = require("./WallView.js");
 function WireTool(appState) {
     this.appState = appState;
     this.wireBuilder = new WireBuilder(this.appState.wallsCollection);
+    this.isMovingWireStart = false;
+    this.eventFnIsMovingWireStartChange = function () { };
     this.isMouseDown = false;
 }
 module.exports = WireTool;
@@ -39597,7 +39645,7 @@ WireTool.prototype.onMouseDown = function () {
 };
 
 WireTool.prototype.onMouseMove = function (x, y) {
-    if (this.isMouseDown) {
+    if (this.isMouseDown && !this.isMovingWireStart) {
         var cellX = Math.floor(x / WallView.cellWidth);
         var cellY = Math.floor(y / WallView.cellHeight);
         switch (this.appState.toolState.toolMode) {
@@ -39611,8 +39659,16 @@ WireTool.prototype.onMouseMove = function (x, y) {
     }
 };
 
-WireTool.prototype.onMouseUp = function () {
+WireTool.prototype.onMouseUp = function (x, y) {
     this.isMouseDown = false;
+    if (this.isMovingWireStart) {
+        var cellX = Math.floor(x / WallView.cellWidth);
+        var cellY = Math.floor(y / WallView.cellHeight);
+        if (this.wireBuilder.tryMoveWireStart(cellX, cellY)) {
+            this.isMovingWireStart = false;
+            this.eventFnIsMovingWireStartChange(false);
+        }
+    }
 };
 
 },{"./WallView.js":275,"./WireBuilder.js":279}],281:[function(require,module,exports){

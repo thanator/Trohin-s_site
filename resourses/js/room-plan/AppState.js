@@ -52,6 +52,7 @@ AppState.prototype.createStartEnvironment = function () {
     wall.getCell(7, 16).contents.add("window");
     wall.getCell(7, 16).contentsData.set("window-size", 3);
 
+    wall.getCell(20, 4).contents.add("wire-start");
     for (var x = 16; x <= 20; x++) {
         wall.getCell(x, 4).contents.add("wire");
     }

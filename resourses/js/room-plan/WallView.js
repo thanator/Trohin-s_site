@@ -89,6 +89,9 @@ WallView.prototype._renderCellContent = function (cell, x, y, w, h, wallSize, co
         case "wire":
             this._renderWire(x, y, w, h, wallSize, neighborhood);
             break;
+        case "wire-start":
+            this._renderWireStart(x, y, w, h);
+            break;
         case "door":
             this._renderDoor(x, y, w, h, cell.contentsData.get("door-size"), wallSize, neighborhood);
             break;
@@ -117,6 +120,16 @@ WallView.prototype._renderWire = function (x, y, w, h, wallSize, neighborhood) {
     if (wireNeighborhood.down) {
         this.drawRect(centerX - s / 2, y + h / 2, s, h / 2);
     }
+    this.endFill();
+};
+
+WallView.prototype._renderWireStart = function (x, y, w, h) {
+    this.beginFill(0xff0000);
+    var s = 4;
+    this.drawRect(x, y, s, h);
+    this.drawRect(x, y + h - s, w, s);
+    this.drawRect(x + w - s, y, s, h);
+    this.drawRect(x, y, w, s);
     this.endFill();
 };
 
