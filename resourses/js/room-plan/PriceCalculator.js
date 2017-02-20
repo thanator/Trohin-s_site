@@ -1,7 +1,8 @@
-function PriceCalculator(appState, wallsCollection, worldObjectsCollection) {
+function PriceCalculator(appState, wallsCollection, worldObjectsCollection, floorCollection) {
     this.appState = appState;
     this.wallsCollection = wallsCollection;
     this.worldObjectsCollection = worldObjectsCollection;
+    this.floorCollection = floorCollection;
 }
 module.exports = PriceCalculator;
 
@@ -28,11 +29,9 @@ PriceCalculator.prototype.calculate = function () {
                     case "wire":
                         price += PriceCalculator.wirePrice;
                         break;
-
                     case "door":
                         price += PriceCalculator.doorPrice * cell.contentsData.get("door-size");
                         break;
-
                     case "window":
                         price += PriceCalculator.windowPrice * cell.contentsData.get("window-size");
                         break;
@@ -49,7 +48,15 @@ PriceCalculator.prototype.calculate = function () {
                 case "sink":
                     price += PriceCalculator.sinkPrice;
                     break;
+            }
+        });
+    }
 
+    for (var i = 0; i < this.floorCollection.cells.length; i++) {
+        var cell = this.floorCollection.cells[i];
+
+        cell.contents.forEach(function (content) {
+            switch (content) {
                 case "floor":
                     price += PriceCalculator.floorPrice;
                     break;

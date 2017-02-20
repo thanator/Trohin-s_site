@@ -4,7 +4,7 @@ var WallView = require("./WallView.js");
 
 function WallTool(appState) {
     this.appState = appState;
-    this.wallBuilder = new WallBuilder(this.appState.wallsCollection, this.appState.worldObjectsCollection);
+    this.wallBuilder = new WallBuilder(this.appState.wallsCollection, this.appState.worldObjectsCollection, this.appState.floorCollection);
     this.style = 0;
     this.isMouseDown = false;
 }

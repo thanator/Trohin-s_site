@@ -3,9 +3,10 @@ var WallView = require("./WallView.js");
 var CellModel = require("./CellModel.js");
 
 
-function WallBuilder(wallsCollection, worldObjectsCollection) {
+function WallBuilder(wallsCollection, worldObjectsCollection, floorCollection) {
     this.wallsCollection = wallsCollection;
     this.worldObjectsCollection = worldObjectsCollection;
+    this.floorCollection = floorCollection;
 }
 module.exports = WallBuilder;
 
@@ -61,7 +62,7 @@ WallBuilder.prototype.tryRemoveCell = function (x, y) {
 };
 
 WallBuilder.prototype._isCellOkWithOther = function (x, y) {
-    return !this.wallsCollection.hasCellWithCoords(x, y) && !this.worldObjectsCollection.hasCellWithCoords(x, y);
+    return !this.wallsCollection.hasCellWithCoords(x, y) && !this.worldObjectsCollection.hasCellWithCoords(x, y) && !this.floorCollection.hasCellWithCoords(x, y);
 };
 
 WallBuilder.prototype._isCellOkWithThisWall = function (x, y) {

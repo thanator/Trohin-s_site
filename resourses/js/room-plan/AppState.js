@@ -12,7 +12,8 @@ function AppState(app) {
     this.app = app;
     this.wallsCollection = new WallsCollection();
     this.worldObjectsCollection = new WorldObjectsCollection();
-    this.priceCalculator = new PriceCalculator(this, this.wallsCollection, this.worldObjectsCollection);
+    this.floorCollection = new WorldObjectsCollection();
+    this.priceCalculator = new PriceCalculator(this, this.wallsCollection, this.worldObjectsCollection, this.floorCollection);
     this.toolState = new ToolsModel(this);
     this.wallHeight = 3;
 }
@@ -83,7 +84,7 @@ AppState.prototype.createStartEnvironment = function () {
                 cell.contents.add("floor");
                 cell.contentsData.set("floor-style", 0);
                 var view = new FloorView(cell, this.wallsCollection);
-                this.worldObjectsCollection.addCell(cell, view);
+                this.floorCollection.addCell(cell, view);
             }
         }
     }

@@ -14,6 +14,8 @@ MainStageController.prototype.init = function () {
     this.appState.wallsCollection.on("removeWallView", this._onRemoveWallView.bind(this));
     this.appState.worldObjectsCollection.on("addCellView", this._onAddCellView.bind(this));
     this.appState.worldObjectsCollection.on("removeCellView", this._onRemoveCellView.bind(this));
+    this.appState.floorCollection.on("addCellView", this._onAddCellView.bind(this));
+    this.appState.floorCollection.on("removeCellView", this._onRemoveCellView.bind(this));
 };
 
 MainStageController.prototype._onMouseDown = function (event) {

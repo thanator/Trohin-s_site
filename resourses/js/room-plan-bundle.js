@@ -38036,7 +38036,8 @@ function AppState(app) {
     this.app = app;
     this.wallsCollection = new WallsCollection();
     this.worldObjectsCollection = new WorldObjectsCollection();
-    this.priceCalculator = new PriceCalculator(this, this.wallsCollection, this.worldObjectsCollection);
+    this.floorCollection = new WorldObjectsCollection();
+    this.priceCalculator = new PriceCalculator(this, this.wallsCollection, this.worldObjectsCollection, this.floorCollection);
     this.toolState = new ToolsModel(this);
     this.wallHeight = 3;
 }
@@ -38107,7 +38108,7 @@ AppState.prototype.createStartEnvironment = function () {
                 cell.contents.add("floor");
                 cell.contentsData.set("floor-style", 0);
                 var view = new FloorView(cell, this.wallsCollection);
-                this.worldObjectsCollection.addCell(cell, view);
+                this.floorCollection.addCell(cell, view);
             }
         }
     }
@@ -38336,7 +38337,7 @@ var WallView = require("./WallView.js");
 
 function FloorTool(appState) {
     this.appState = appState;
-    this.floorBuilder = new FloorBuilder(this.appState.wallsCollection, this.appState.worldObjectsCollection);
+    this.floorBuilder = new FloorBuilder(this.appState.wallsCollection, this.appState.floorCollection);
     this.style = 0;
     this.isMouseDown = false;
 }
@@ -38484,6 +38485,8 @@ MainStageController.prototype.init = function () {
     this.appState.wallsCollection.on("removeWallView", this._onRemoveWallView.bind(this));
     this.appState.worldObjectsCollection.on("addCellView", this._onAddCellView.bind(this));
     this.appState.worldObjectsCollection.on("removeCellView", this._onRemoveCellView.bind(this));
+    this.appState.floorCollection.on("addCellView", this._onAddCellView.bind(this));
+    this.appState.floorCollection.on("removeCellView", this._onRemoveCellView.bind(this));
 };
 
 MainStageController.prototype._onMouseDown = function (event) {
@@ -38535,10 +38538,11 @@ MainStageController.prototype._isMousePosOk = function (pos) {
 };
 
 },{}],265:[function(require,module,exports){
-function PriceCalculator(appState, wallsCollection, worldObjectsCollection) {
+function PriceCalculator(appState, wallsCollection, worldObjectsCollection, floorCollection) {
     this.appState = appState;
     this.wallsCollection = wallsCollection;
     this.worldObjectsCollection = worldObjectsCollection;
+    this.floorCollection = floorCollection;
 }
 module.exports = PriceCalculator;
 
@@ -38565,11 +38569,9 @@ PriceCalculator.prototype.calculate = function () {
                     case "wire":
                         price += PriceCalculator.wirePrice;
                         break;
-
                     case "door":
                         price += PriceCalculator.doorPrice * cell.contentsData.get("door-size");
                         break;
-
                     case "window":
                         price += PriceCalculator.windowPrice * cell.contentsData.get("window-size");
                         break;
@@ -38586,7 +38588,15 @@ PriceCalculator.prototype.calculate = function () {
                 case "sink":
                     price += PriceCalculator.sinkPrice;
                     break;
+            }
+        });
+    }
 
+    for (var i = 0; i < this.floorCollection.cells.length; i++) {
+        var cell = this.floorCollection.cells[i];
+
+        cell.contents.forEach(function (content) {
+            switch (content) {
                 case "floor":
                     price += PriceCalculator.floorPrice;
                     break;
@@ -38882,9 +38892,10 @@ var WallView = require("./WallView.js");
 var CellModel = require("./CellModel.js");
 
 
-function WallBuilder(wallsCollection, worldObjectsCollection) {
+function WallBuilder(wallsCollection, worldObjectsCollection, floorCollection) {
     this.wallsCollection = wallsCollection;
     this.worldObjectsCollection = worldObjectsCollection;
+    this.floorCollection = floorCollection;
 }
 module.exports = WallBuilder;
 
@@ -38940,7 +38951,7 @@ WallBuilder.prototype.tryRemoveCell = function (x, y) {
 };
 
 WallBuilder.prototype._isCellOkWithOther = function (x, y) {
-    return !this.wallsCollection.hasCellWithCoords(x, y) && !this.worldObjectsCollection.hasCellWithCoords(x, y);
+    return !this.wallsCollection.hasCellWithCoords(x, y) && !this.worldObjectsCollection.hasCellWithCoords(x, y) && !this.floorCollection.hasCellWithCoords(x, y);
 };
 
 WallBuilder.prototype._isCellOkWithThisWall = function (x, y) {
@@ -39173,7 +39184,7 @@ var WallView = require("./WallView.js");
 
 function WallTool(appState) {
     this.appState = appState;
-    this.wallBuilder = new WallBuilder(this.appState.wallsCollection, this.appState.worldObjectsCollection);
+    this.wallBuilder = new WallBuilder(this.appState.wallsCollection, this.appState.worldObjectsCollection, this.appState.floorCollection);
     this.style = 0;
     this.isMouseDown = false;
 }
